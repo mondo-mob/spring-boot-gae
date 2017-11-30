@@ -9,8 +9,8 @@ apply plugin: 'signing'
 apply plugin: 'maven'
 
 
-description 'Spring Boot Google App Engine Plugin'
-group 'com.github.n15g'
+description 'Spring Boot Google App Engine'
+group 'com.threewks.spring'
 
 sourceCompatibility = 1.8
 
@@ -76,12 +76,12 @@ if (project.hasProperty('release')) {
                     name project.name
                     description project.description
                     packaging 'jar'
-                    url 'https://github.com/n15g/spring-boot-gae'
+                    url 'https://github.com/3wks/spring-boot-gae'
 
                     scm {
-                        connection 'https://github.com/n15g/spring-boot-gae.git'
-                        developerConnection 'https://github.com/n15g/spring-boot-gae.git'
-                        url 'https://github.com/n15g/spring-boot-gae.git'
+                        connection 'https://github.com/3wks/spring-boot-gae.git'
+                        developerConnection 'https://github.com/3wks/spring-boot-gae.git'
+                        url 'https://github.com/3wks/spring-boot-gae.git'
                     }
 
                     licenses {
@@ -97,6 +97,11 @@ if (project.hasProperty('release')) {
                             id = 'nicholas-armstrong'
                             name = 'Nicholas Armstrong'
                             email = 'nick@nicks-mail.com'
+                        }
+                        developer {
+                            id = 'mbyrne00'
+                            name = 'Matt Byrne'
+                            email = 'matt@3wks.com.au'
                         }
                     }
                 }

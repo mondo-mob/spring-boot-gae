@@ -2,43 +2,24 @@
 
 Spring Boot support for Google App Engine Datastore via Objectify and the full-text search API.
 
-#### Note: There are some minor breaking API changes coming in `1.1`
-* `LoadRepository.findAll()` will now return a `List<E>` instead of a `Map<Key<E>, Optional<E>>`. 
+**Please note that this library is in an early stage and we cannot guarantee non-breaking changes just yet between releases.**
 
-### Latest Stable
+### Latest
+*This will be on maven cenral very soon*
 
 Maven
 ```
 <dependency>
-  <groupId>com.github.n15g</groupId>
+  <groupId>com.threewks.spring</groupId>
   <artifactId>spring-boot-gae</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.0-beta-1</version>
 </dependency>
 ```
 
 Gradle
 ```
-compile 'com.github.n15g:spring-boot-gae:1.0.0'
+compile 'com.threewks.spring:spring-boot-gae:1.1.0-beta-1'
 ```
-
-### Latest Unstable
-
-Maven
-```
-<dependency>
-  <groupId>com.github.n15g</groupId>
-  <artifactId>spring-boot-gae</artifactId>
-  <version>1.1.0-beta-1</version>
-</dependency>
-```
-
-Gradle
-```
-compile 'com.github.n15g:spring-boot-gae:1.1.0-beta-1'
-```
-
-## Trello
-https://trello.com/b/lgwbSi6o/spring-boot-gae
 
 ## Requirements
 
@@ -46,7 +27,7 @@ https://trello.com/b/lgwbSi6o/spring-boot-gae
 * Appengine Standard Java 8+
 * Gradle 4+ (if you don't want to use the wrapper)
 
-This library has been designed to work with the new Java8 Appengine Standard Environment. It will not work
+This library has been designed to work with the new Java 8 App Engine Standard Environment. It will not work
 when deployed to the Java 7 standard environment.
 
 ## Getting Started
@@ -67,6 +48,19 @@ by the `SearchService`:
 
 Not all of the limitations of the Search API are enforced by the framework, if in doubt see the
 [Search API documentation](https://cloud.google.com/appengine/docs/standard/java/search/) for specifics.
+
+## Background
+This library has evolved from a custom framework developed by [3wks](https://3wks.com.au/) and used in over 200 Google App Engine standard projects.
+A custom framework, Thundr, was required in Java 7 App Engine Standard because of the JDK class whitelist and issus with Spring not loading in time
+for App Engine Standard, due to its classpath scanning. These issues have been resolved in the Java 8 App Engine environment, so we are embracing the
+power of [Spring Boot](https://projects.spring.io/spring-boot/)!
+
+A huge thank you goes to [Nicholas Armstrong](https://github.com/n15g) who put in many hours to port most of the initial codebase to a Spring-friendly
+library. Through collaboration and discussion, we have moved his repository back into 3wks so we can take on the burden of maintenance, while also embracing
+community collaboration.
+
+We are deliberately not naming this library "Spring Data" or anything specific just yet, because it will initially contain more than that. Once the library
+matures we can look at splitting this out into more specific components.
 
 
 ## Misc
