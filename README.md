@@ -5,8 +5,6 @@ Spring Boot support for Google App Engine Datastore via Objectify and the full-t
 **Please note that this library is in an early stage and we cannot guarantee non-breaking changes just yet between releases.**
 
 ### Latest
-*This will be on maven cenral very soon*
-
 Maven
 ```
 <dependency>
