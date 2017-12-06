@@ -16,7 +16,7 @@ Maven
 
 Gradle
 ```
-compile 'com.threewks.spring:spring-boot-gae:1.1.0-beta-1'
+compile 'com.threewks.spring:spring-boot-gae:1.0.0-beta-1'
 ```
 
 ## Requirements
