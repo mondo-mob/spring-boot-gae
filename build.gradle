@@ -30,6 +30,8 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter:${springBootVersion}"
     compile 'org.springframework.data:spring-data-commons:1.13.6.RELEASE'
     compile 'org.springframework:spring-tx:4.3.11.RELEASE'
+    compile 'org.springframework.security:spring-security-core:4.2.3.RELEASE'
+    compile 'org.springframework.security:spring-security-web:4.2.3.RELEASE'
 
     compileOnly "org.springframework.boot:spring-boot-configuration-processor:${springBootVersion}"
 
