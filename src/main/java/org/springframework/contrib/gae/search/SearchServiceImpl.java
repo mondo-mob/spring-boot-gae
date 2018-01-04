@@ -9,13 +9,13 @@ import com.google.appengine.api.search.ScoredDocument;
 import com.google.appengine.api.search.SearchServiceFactory;
 import com.google.common.util.concurrent.Runnables;
 import org.springframework.contrib.gae.search.conversion.DocumentBuilder;
+import org.springframework.contrib.gae.search.metadata.SearchMetadata;
+import org.springframework.contrib.gae.search.misc.IndexOperation;
 import org.springframework.contrib.gae.search.query.Query;
 import org.springframework.contrib.gae.search.query.QueryBuilder;
 import org.springframework.contrib.gae.search.query.QueryCompiler;
-import org.springframework.contrib.gae.search.query.Result;
-import org.springframework.contrib.gae.search.metadata.SearchMetadata;
-import org.springframework.contrib.gae.search.misc.IndexOperation;
 import org.springframework.contrib.gae.search.query.QueryImpl;
+import org.springframework.contrib.gae.search.query.Result;
 import org.springframework.contrib.gae.search.query.ResultImpl;
 import org.springframework.core.convert.ConversionService;
 

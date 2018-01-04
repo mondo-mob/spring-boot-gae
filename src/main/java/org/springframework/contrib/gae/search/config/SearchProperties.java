@@ -1,8 +1,8 @@
 package org.springframework.contrib.gae.search.config;
 
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.contrib.gae.search.metadata.IndexNamingStrategy;
 import org.springframework.contrib.gae.search.metadata.impl.DefaultIndexNamingStrategy;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 /**

@@ -1,15 +1,12 @@
-package org.springframework.contrib.gae.security.repository;
+package org.springframework.contrib.gae.security.persistence;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.QueryKeys;
-import org.springframework.contrib.gae.objectify.repository.ObjectifyRepository;
-import org.springframework.contrib.gae.security.entity.RememberMeToken;
 import org.springframework.security.web.authentication.rememberme.PersistentRememberMeToken;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
-import java.util.List;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 

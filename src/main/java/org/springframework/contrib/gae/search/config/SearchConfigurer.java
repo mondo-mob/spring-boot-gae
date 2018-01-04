@@ -1,7 +1,7 @@
 package org.springframework.contrib.gae.search.config;
 
-import org.springframework.contrib.gae.search.metadata.IndexTypeRegistry;
 import org.springframework.contrib.gae.search.SearchService;
+import org.springframework.contrib.gae.search.metadata.IndexTypeRegistry;
 import org.springframework.core.convert.ConversionService;
 
 /**

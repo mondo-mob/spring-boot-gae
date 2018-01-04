@@ -3,3 +3,7 @@ spring:
     gae:
       search:
         index-naming-strategy: org.springframework.contrib.gae.search.metadata.impl.FQIndexNamingStrategy
+
+      security:
+        remember-me:
+          key: notasecret

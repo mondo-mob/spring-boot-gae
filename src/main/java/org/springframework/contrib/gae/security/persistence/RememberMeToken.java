@@ -1,4 +1,4 @@
-package org.springframework.contrib.gae.security.entity;
+package org.springframework.contrib.gae.security.persistence;
 
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;

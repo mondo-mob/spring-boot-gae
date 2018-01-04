@@ -1,9 +1,9 @@
 package org.springframework.contrib.gae.search.metadata.impl;
 
-import org.springframework.contrib.gae.search.SearchIndex;
-import org.springframework.contrib.gae.search.metadata.SearchFieldMetadata;
-import org.springframework.contrib.gae.search.metadata.IndexTypeRegistry;
 import org.springframework.contrib.gae.search.IndexType;
+import org.springframework.contrib.gae.search.SearchIndex;
+import org.springframework.contrib.gae.search.metadata.IndexTypeRegistry;
+import org.springframework.contrib.gae.search.metadata.SearchFieldMetadata;
 import org.springframework.util.Assert;
 
 import java.lang.reflect.Field;

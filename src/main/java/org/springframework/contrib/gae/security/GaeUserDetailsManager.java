@@ -8,6 +8,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,21 +18,20 @@ import java.util.Optional;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
-public class GaeUserDetailsManager<U> implements UserDetailsManager {
-
+public class GaeUserDetailsManager<U extends GaeUser> implements UserDetailsManager {
     private static final Logger LOG = LoggerFactory.getLogger(GaeUserDetailsManager.class);
 
     private final Class<U> userClass;
-    private final UserHelper<U> userHelper;
+    private final UserAdapter<U> userAdapter;
     private final PasswordEncoder passwordEncoder;
 
     private AuthenticationManager authenticationManager;
 
     public GaeUserDetailsManager(Class<U> userClass,
-                                 UserHelper<U> userHelper,
+                                 UserAdapter<U> userAdapter,
                                  PasswordEncoder passwordEncoder) {
         this.userClass = userClass;
-        this.userHelper = userHelper;
+        this.userAdapter = userAdapter;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -42,21 +42,25 @@ public class GaeUserDetailsManager<U> implements UserDetailsManager {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return loadUser(username)
-            .map(userHelper::toUserDetails)
+            .map(userAdapter::toUserDetails)
             .orElseThrow(() -> new UsernameNotFoundException(username));
     }
 
     @Override
     public void createUser(UserDetails details) {
-        U user = userHelper.newFromUserDetails(new UserDetailsWithEncodedPassword(details, passwordEncoder));
+        LOG.info("Creating user '{}'", details.getUsername());
+
+        U user = userAdapter.newFromUserDetails(userDetailsWithEncodedPassword(details));
         ofy().save().entity(user).now();
     }
 
     @Override
     public void updateUser(UserDetails details) {
+        LOG.info("Updating user '{}'", details.getUsername());
+
         loadUser(details.getUsername())
             .map((user) -> {
-                userHelper.mergeUserDetails(user, new UserDetailsWithEncodedPassword(details, passwordEncoder));
+                userAdapter.mergeUserDetails(user, userDetailsWithEncodedPassword(details));
                 return user;
             })
             .ifPresent((user) -> ofy().save().entity(user).now());
@@ -69,8 +73,7 @@ public class GaeUserDetailsManager<U> implements UserDetailsManager {
 
     @Override
     public void changePassword(String oldPassword, String newPassword) {
-        Authentication currentUser = SecurityContextHolder.getContext()
-            .getAuthentication();
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
 
         if (currentUser == null) {
             // This would indicate bad coding somewhere
@@ -83,19 +86,18 @@ public class GaeUserDetailsManager<U> implements UserDetailsManager {
         if (authenticationManager != null) {
             LOG.debug("Reauthenticating user '{}' for password change request.", username);
 
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                username, oldPassword));
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, oldPassword));
         } else {
             LOG.debug("No authentication manager set. Password won't be re-checked.");
         }
 
-        LOG.debug("Changing password for user '{}'", username);
+        LOG.info("Changing password for user '{}'", username);
 
         U user = loadUser(username).orElseThrow(() -> new IllegalStateException("Current user doesn't exist in database."));
-        userHelper.changePassword(user, passwordEncoder.encode(newPassword));
+        userAdapter.setPassword(user, passwordEncoder.encode(newPassword));
         ofy().save().entity(user).now();
 
-        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null, userHelper.getAuthorities(user));
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null, userAdapter.getAuthorities(user));
         authentication.setDetails(user);
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
@@ -108,5 +110,17 @@ public class GaeUserDetailsManager<U> implements UserDetailsManager {
     private Optional<U> loadUser(String username) {
         U user = ofy().load().key(Key.create(userClass, username)).now();
         return Optional.ofNullable(user);
+    }
+
+    private UserDetails userDetailsWithEncodedPassword(UserDetails userDetails) {
+        return new User(
+            userDetails.getUsername(),
+            passwordEncoder.encode(userDetails.getPassword()),
+            userDetails.isEnabled(),
+            userDetails.isAccountNonExpired(),
+            userDetails.isCredentialsNonExpired(),
+            userDetails.isAccountNonLocked(),
+            userDetails.getAuthorities()
+        );
     }
 }

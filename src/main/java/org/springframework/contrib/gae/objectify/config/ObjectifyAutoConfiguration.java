@@ -4,6 +4,7 @@ import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyFilter;
 import com.googlecode.objectify.impl.translate.Translators;
 import com.googlecode.objectify.impl.translate.opt.BigDecimalLongTranslatorFactory;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.contrib.gae.objectify.ObjectifyProxy;
 import org.springframework.contrib.gae.objectify.translator.Jsr310Translators;
 import org.springframework.contrib.gae.objectify.EntityMetadata;
@@ -88,9 +89,11 @@ public class ObjectifyAutoConfiguration {
      * @return Register the {@link ObjectifyFilter}.
      */
     @Bean
-    @ConditionalOnMissingBean
-    public ObjectifyFilter objectifyFilter() {
-        return new ObjectifyFilter();
+    @ConditionalOnMissingBean(ObjectifyFilter.class)
+    public FilterRegistrationBean registerObjectifyFilter() {
+        FilterRegistrationBean reg = new FilterRegistrationBean(new ObjectifyFilter());
+        reg.setOrder(Integer.MIN_VALUE);  // must ensure loaded prior to security filter
+        return reg;
     }
 
     private void registerTranslators(Translators translators) {
