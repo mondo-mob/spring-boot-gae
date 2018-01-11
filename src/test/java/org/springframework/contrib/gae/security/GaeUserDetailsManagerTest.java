@@ -1,26 +1,34 @@
 package org.springframework.contrib.gae.security;
 
+import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.springframework.contrib.gae.objectify.ObjectifyTest;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.test.context.support.WithMockUser;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static java.util.UUID.randomUUID;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.fail;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class GaeUserDetailsManagerTest extends ObjectifyTest {
+    private static final String TEST_USERNAME = "test-username-123";
+    private static final String TEST_USER_PASSWORD = "password";
 
     @Mock
     private PasswordEncoder passwordEncoder;
@@ -47,7 +55,7 @@ public class GaeUserDetailsManagerTest extends ObjectifyTest {
         UserDetails userDetails = manager.loadUserByUsername(userEntity.getUsername());
 
         assertThat(userDetails).isNotNull();
-        assertThat(userDetails.getUsername()).isEqualTo(userEntity.getUsername());
+        assertThat(userDetails.getUsername()).isEqualTo(TEST_USERNAME);
     }
 
     @Test
@@ -87,7 +95,7 @@ public class GaeUserDetailsManagerTest extends ObjectifyTest {
                         .build()
         );
 
-        UserDetails user = manager.loadUserByUsername(userEntity.getUsername());
+        UserDetails user = manager.loadUserByUsername(TEST_USERNAME);
         assertThat(user).isNotNull();
         assertThat(user.getUsername()).isEqualTo(userEntity.getUsername());
         assertThat(user.getPassword()).isEqualTo("encoded('new')");
@@ -131,10 +139,41 @@ public class GaeUserDetailsManagerTest extends ObjectifyTest {
     }
 
     @Test
-    @Ignore
-    public void changePassword() {
-        fail();  // TODO: needs test
+    @WithMockUser(TEST_USERNAME)
+    public void changePassword_willUpdatePassword() {
+        manager.changePassword(TEST_USER_PASSWORD, "new-password");
+
+        UserDetails user = manager.loadUserByUsername(TEST_USERNAME);
+        assertThat(user).isNotNull();
+        assertThat(user.getPassword()).isEqualTo("encoded('new-password')");
     }
+
+    @Test
+    @WithMockUser(TEST_USERNAME)
+    public void changePassword_willReauthenticate_andUpdatePassword_whenAuthenticationManagerSet() {
+        AuthenticationManager authenticationManager = mock(AuthenticationManager.class);
+        manager.setAuthenticationManager(authenticationManager);
+
+        manager.changePassword(TEST_USER_PASSWORD, "new-password");
+
+        UserDetails user = manager.loadUserByUsername(TEST_USERNAME);
+        assertThat(user).isNotNull();
+        assertThat(user.getPassword()).isEqualTo("encoded('new-password')");
+
+        ArgumentCaptor<UsernamePasswordAuthenticationToken> tokenCaptor = ArgumentCaptor.forClass(UsernamePasswordAuthenticationToken.class);
+        verify(authenticationManager).authenticate(tokenCaptor.capture());
+        Assert.assertThat(tokenCaptor.getValue().getPrincipal(), is(TEST_USERNAME));
+        Assert.assertThat(tokenCaptor.getValue().getCredentials(), is(TEST_USER_PASSWORD));
+    }
+
+    @Test
+    public void changePassword_willThrowAccessDenied_whenUserNotAuthenticated() {
+        thrown.expect(AccessDeniedException.class);
+        thrown.expectMessage("Can't change password as no Authentication object found in context for current user.");
+
+        manager.changePassword(TEST_USER_PASSWORD, "new-password");
+    }
+
 
     @Test
     public void userExists_willReturnTrue_whenUserExists() {
@@ -149,7 +188,7 @@ public class GaeUserDetailsManagerTest extends ObjectifyTest {
     }
 
     private TestUserEntity testUser() {
-        TestUserEntity entity = new TestUserEntity(randomUUID().toString(), "password");
+        TestUserEntity entity = new TestUserEntity(TEST_USERNAME, TEST_USER_PASSWORD);
         ofy().save().entity(entity).now();
         return entity;
     }

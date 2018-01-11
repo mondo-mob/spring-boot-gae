@@ -1,6 +1,6 @@
 plugins {
-    id "io.codearte.nexus-staging" version "0.11.0"
-    id 'org.springframework.boot' version "1.5.9.RELEASE"
+    id 'io.codearte.nexus-staging' version '0.11.0'
+    id 'org.springframework.boot' version '1.5.9.RELEASE'
 }
 
 apply plugin: 'io.codearte.nexus-staging'
@@ -34,7 +34,7 @@ dependencies {
     compile 'com.google.guava:guava:23.0'
 
     compile 'javax.servlet:javax.servlet-api'
-    compile "org.springframework.boot:spring-boot-starter"
+    compile 'org.springframework.boot:spring-boot-starter'
     compile 'org.springframework.data:spring-data-commons'
     compile 'org.springframework:spring-tx'
     compile 'org.springframework.security:spring-security-core'
@@ -44,7 +44,8 @@ dependencies {
 
     testCompile "com.google.appengine:appengine-testing:${appengineVersion}"
     testCompile "com.google.appengine:appengine-api-stubs:${appengineVersion}"
-    testCompile "org.springframework.boot:spring-boot-starter-test"
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+    testCompile 'org.springframework.security:spring-security-test'
     testCompile 'com.openpojo:openpojo:0.8.6'
 }
 
