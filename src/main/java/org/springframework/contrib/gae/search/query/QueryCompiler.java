@@ -1,9 +1,9 @@
 package org.springframework.contrib.gae.search.query;
 
 import com.google.appengine.api.search.QueryOptions;
-import org.springframework.contrib.gae.search.metadata.SearchMetadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.contrib.gae.search.metadata.SearchMetadata;
 import org.springframework.core.convert.ConversionService;
 
 import java.util.function.Function;

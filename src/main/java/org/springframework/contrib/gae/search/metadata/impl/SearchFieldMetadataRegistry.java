@@ -1,8 +1,8 @@
 package org.springframework.contrib.gae.search.metadata.impl;
 
+import org.springframework.contrib.gae.search.SearchId;
 import org.springframework.contrib.gae.search.SearchIndex;
 import org.springframework.contrib.gae.search.metadata.SearchFieldMetadata;
-import org.springframework.contrib.gae.search.SearchId;
 
 import java.util.Map;
 

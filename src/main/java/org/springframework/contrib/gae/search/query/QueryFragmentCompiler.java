@@ -1,10 +1,10 @@
 package org.springframework.contrib.gae.search.query;
 
 import com.google.common.collect.Lists;
-import org.springframework.contrib.gae.search.Operator;
-import org.springframework.contrib.gae.search.metadata.impl.MetadataUtils;
-import org.springframework.contrib.gae.search.metadata.SearchMetadata;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.contrib.gae.search.Operator;
+import org.springframework.contrib.gae.search.metadata.SearchMetadata;
+import org.springframework.contrib.gae.search.metadata.impl.MetadataUtils;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.TypeDescriptor;
 

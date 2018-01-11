@@ -1,17 +1,17 @@
 package org.springframework.contrib.gae.search.config;
 
-import org.springframework.contrib.gae.search.SearchServiceImpl;
-import org.springframework.contrib.gae.search.conversion.DefaultSearchConversionService;
-import org.springframework.contrib.gae.search.metadata.IndexNamingStrategy;
-import org.springframework.contrib.gae.search.SearchService;
-import org.springframework.contrib.gae.search.metadata.SearchMetadata;
-import org.springframework.contrib.gae.search.metadata.impl.DefaultIndexTypeRegistry;
-import org.springframework.contrib.gae.search.metadata.impl.SearchMetadataImpl;
 import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.contrib.gae.search.SearchService;
+import org.springframework.contrib.gae.search.SearchServiceImpl;
+import org.springframework.contrib.gae.search.conversion.DefaultSearchConversionService;
+import org.springframework.contrib.gae.search.metadata.IndexNamingStrategy;
+import org.springframework.contrib.gae.search.metadata.SearchMetadata;
+import org.springframework.contrib.gae.search.metadata.impl.DefaultIndexTypeRegistry;
+import org.springframework.contrib.gae.search.metadata.impl.SearchMetadataImpl;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.util.CollectionUtils;
 

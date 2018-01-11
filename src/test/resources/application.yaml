@@ -1,0 +1,6 @@
+spring:
+  contrib:
+    gae:
+      security:
+        remember-me:
+          key: notasecret
