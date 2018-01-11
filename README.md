@@ -10,13 +10,13 @@ Maven
 <dependency>
   <groupId>com.threewks.spring</groupId>
   <artifactId>spring-boot-gae</artifactId>
-  <version>1.0.0-beta-1</version>
+  <version>1.0.0-beta-2</version>
 </dependency>
 ```
 
 Gradle
 ```
-compile 'com.threewks.spring:spring-boot-gae:1.0.0-beta-1'
+compile 'com.threewks.spring:spring-boot-gae:1.0.0-beta-2'
 ```
 
 ## Requirements
@@ -64,10 +64,19 @@ matures we can look at splitting this out into more specific components.
 ## Misc
 
 ### Release to Central
+We firstly release to bintray's jecenter so that it's available immediately to those who use this (better) repository. We have also setup
+sync to maven central. Sync direct to maven central is a bit more cumbersome and there is a roughly 2-hourly job that syncs it up there.
+Jcenter also has CDN among other improvements listed here: [Why should I use jcenter over Maven Central?](https://jfrog.com/knowledge-base/why-should-i-use-jcenter-over-maven-central/) 
+
+Privileged users will have system properties for `bintray.user` and `bintray.key` defined to do this.
 
 ```
-gradle -Prelease uploadArchives closeAndReleaseRepository
+gradle bintrayUpload --info
 ```
+The above command fails silently (as of version `1.8.0` of `gradle-bintray-plugin` so just make sure it didn't skip upload due to undefined key).
+
+TODO: There are some additional steps to trigger sync to maven central. These instructions will be updated once the setup is complete and verification has been done.
+
 
 ### Installing the Library
 To install the library to your local maven repository, run the following:
