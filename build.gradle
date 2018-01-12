@@ -1,13 +1,12 @@
 plugins {
-    id 'io.codearte.nexus-staging' version '0.11.0'
     id 'org.springframework.boot' version '1.5.9.RELEASE'
+    id 'com.jfrog.bintray' version '1.8.0'
 }
 
-apply plugin: 'io.codearte.nexus-staging'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
 apply plugin: 'java'
 apply plugin: 'wrapper'
-apply plugin: 'signing'
-apply plugin: 'maven'
 
 
 description 'Spring Boot Google App Engine'
@@ -16,14 +15,19 @@ group 'com.threewks.spring'
 sourceCompatibility = 1.8
 
 repositories {
+    jcenter()
     mavenCentral()
+}
+
+wrapper {
+    gradleVersion = '4.2.2'
 }
 
 bootRepackage {
     enabled = false
 }
 
-// For depencies listed on this page use spring-defined versions (don't specify version)
+// For dependencies listed on this page use spring-defined versions (don't specify version)
 // unless there is a good reason: https://docs.spring.io/spring-boot/docs/current/reference/html/appendix-dependency-versions.html
 dependencies {
     compile "com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}"
@@ -40,7 +44,7 @@ dependencies {
     compile 'org.springframework.security:spring-security-core'
     compile 'org.springframework.security:spring-security-web'
 
-    compileOnly "org.springframework.boot:spring-boot-configuration-processor"
+    compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
 
     testCompile "com.google.appengine:appengine-testing:${appengineVersion}"
     testCompile "com.google.appengine:appengine-api-stubs:${appengineVersion}"
@@ -49,72 +53,114 @@ dependencies {
     testCompile 'com.openpojo:openpojo:0.8.6'
 }
 
-if (project.hasProperty('release')) {
-    signing {
-        sign configurations.archives
+
+
+def pomConfig = {
+    scm {
+        connection 'https://github.com/3wks/spring-boot-gae.git'
+        developerConnection 'https://github.com/3wks/spring-boot-gae.git'
+        url 'https://github.com/3wks/spring-boot-gae.git'
     }
 
-    task javadocJar(type: Jar) {
-        classifier = 'javadoc'
-        from javadoc
+    licenses {
+        license {
+            name 'The MIT License (MIT)'
+            url 'http://opensource.org/licenses/MIT'
+            distribution 'repo'
+        }
     }
 
-    task sourcesJar(type: Jar) {
-        classifier = 'sources'
-        from sourceSets.main.allSource
+    developers {
+        developer {
+            id 'nicholas-armstrong'
+            name 'Nicholas Armstrong'
+            email 'nick@nicks-mail.com'
+        }
+        developer {
+            id 'mbyrne00'
+            name 'Matt Byrne'
+            email 'matt@3wks.com.au'
+        }
+        developer {
+            id 'kuhnza'
+            name 'Dave Kuhn'
+            email 'dave@3wks.com.au'
+        }
     }
+}
 
-    task testSourcesJar(type: Jar) {
-        classifier = 'testSources'
-        from sourceSets.test.allSource
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task testSourcesJar(type: Jar) {
+    classifier = 'testSources'
+    from sourceSets.test.allSource
+}
+
+artifacts {
+    archives javadocJar, sourcesJar, testSourcesJar
+}
+
+publishing {
+    publications {
+        mavenPublication(MavenPublication) {
+            from components.java
+            artifact sourcesJar {
+                classifier 'sources'
+            }
+            artifact javadocJar {
+                classifier 'javadoc'
+            }
+            groupId project.group
+            artifactId project.name
+            version project.version
+            pom.withXml {
+                def root = asNode()
+                root.appendNode('name', project.name)
+                root.appendNode('description', project.description)
+                root.appendNode('url', 'https://github.com/3wks/spring-boot-gae')
+                root.appendNode('packaging', 'jar')
+                root.children().last() + pomConfig
+            }
+        }
     }
+}
 
-    artifacts {
-        archives javadocJar, sourcesJar, testSourcesJar
-    }
+bintray {
+    user = System.getProperty('bintray.user')
+    key = System.getProperty('bintray.key')
+    publications = ['mavenPublication']
+    publish = true
 
-    uploadArchives {
-        repositories {
-            mavenDeployer {
-                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-
-                repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                    authentication(userName: ossrhUser, password: ossrhPassword)
-                }
-
-                pom.project {
-                    name project.name
-                    description project.description
-                    packaging 'jar'
-                    url 'https://github.com/3wks/spring-boot-gae'
-
-                    scm {
-                        connection 'https://github.com/3wks/spring-boot-gae.git'
-                        developerConnection 'https://github.com/3wks/spring-boot-gae.git'
-                        url 'https://github.com/3wks/spring-boot-gae.git'
-                    }
-
-                    licenses {
-                        license {
-                            name 'The MIT License (MIT)'
-                            url 'http://opensource.org/licenses/MIT'
-                            distribution 'repo'
-                        }
-                    }
-
-                    developers {
-                        developer {
-                            id = 'nicholas-armstrong'
-                            name = 'Nicholas Armstrong'
-                            email = 'nick@nicks-mail.com'
-                        }
-                        developer {
-                            id = 'mbyrne00'
-                            name = 'Matt Byrne'
-                            email = 'matt@3wks.com.au'
-                        }
-                    }
-                }
+    pkg {
+        repo = project.name
+        name = project.name
+        desc = project.description
+        repo = 'spring-google-appengine'
+        userOrg = '3wks'
+        licenses = ['MIT']
+        labels = ['spring', 'spring-boot', 'google', 'appengine', 'gae', 'gcp']
+        vcsUrl = 'https://github.com/3wks/spring-boot-gae.git'
+        version {
+            name = project.version
+            desc = "${project.name} ${project.version}"
+            released = new Date()
+            gpg {
+                sign = true
+                passphrase = System.getProperty('signing.passphrase')
+            }
+            mavenCentralSync {
+                sync = true
+                user = System.getProperty('oss.user')
+                password = System.getProperty('oss.password')
+                close = '1'
             }
         }
     }
