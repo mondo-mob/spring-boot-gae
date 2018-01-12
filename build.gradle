@@ -138,7 +138,6 @@ bintray {
     key = System.getProperty('bintray.key')
     publications = ['mavenPublication']
     publish = true
-    override = true
 
     pkg {
         repo = project.name
