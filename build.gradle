@@ -153,6 +153,16 @@ bintray {
             name = project.version
             desc = "${project.name} ${project.version}"
             released = new Date()
+            gpg {
+                sign = true
+                passphrase = System.getProperty('signing.passphrase')
+            }
+            mavenCentralSync {
+                sync = true
+                user = System.getProperty('oss.user')
+                password = System.getProperty('oss.password')
+                close = '1'
+            }
         }
     }
 }
