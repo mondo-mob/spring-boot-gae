@@ -63,7 +63,7 @@ matures we can look at splitting this out into more specific components.
 
 ## Misc
 
-### Release to Central
+### Release to jCenter and Maven Central
 We firstly release to bintray's jecenter so that it's available immediately to those who use this (better) repository. We have also setup
 sync to maven central. Sync direct to maven central is a bit more cumbersome and there is a roughly 2-hourly job that syncs it up there.
 Jcenter also has CDN among other improvements listed here: [Why should I use jcenter over Maven Central?](https://jfrog.com/knowledge-base/why-should-i-use-jcenter-over-maven-central/) 
