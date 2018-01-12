@@ -73,9 +73,9 @@ Privileged users will have system properties for `bintray.user` and `bintray.key
 ```
 gradle bintrayUpload --info
 ```
-The above command fails silently (as of version `1.8.0` of `gradle-bintray-plugin` so just make sure it didn't skip upload due to undefined key).
+The above command fails silently (as of version `1.8.0` of `gradle-bintray-plugin` so just make sure it didn't skip upload due to undefined key). 
 
-TODO: There are some additional steps to trigger sync to maven central. These instructions will be updated once the setup is complete and verification has been done.
+If you are setup with correct privileges then that's it. No manual steps - sync to maven central also triggered.
 
 
 ### Installing the Library
