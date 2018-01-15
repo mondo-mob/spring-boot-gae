@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class LocalDateSerializationTest extends ObjectifyTest {
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp()  {
         objectify.register(LocalDateEntity.class);
     }
 

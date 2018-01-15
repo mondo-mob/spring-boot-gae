@@ -26,38 +26,38 @@ public class SearchFieldMetadataRegistryTest {
     private SearchFieldMetadataRegistry registry;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp()  {
         registry = new SearchFieldMetadataRegistryImpl(indexTypeRegistry);
     }
 
     @Test
-    public void register() throws Exception {
+    public void register()  {
         registry.register(TestEntity.class);
 
         assertThat(registry.get(TestEntity.class, "indexedField").getMemberName()).isEqualTo("indexedField");
     }
 
     @Test
-    public void get_willRegisterAutomatically_whenClassIsUnregistered() throws Exception {
+    public void get_willRegisterAutomatically_whenClassIsUnregistered()  {
         assertThat(registry.get(TestEntity.class, "indexedMethod").getMemberName()).isEqualTo("indexedMethod");
     }
 
     @Test
-    public void get_willThrowException_whenFieldIsNotIndexed() throws Exception {
+    public void get_willThrowException_whenFieldIsNotIndexed()  {
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("'unindexedField' is not an indexed member on entity class: " + TestEntity.class);
         registry.get(TestEntity.class, "unindexedField");
     }
 
     @Test
-    public void get_willThrowException_whenMethodIsNotIndexed() throws Exception {
+    public void get_willThrowException_whenMethodIsNotIndexed()  {
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("'unindexedMethod' is not an indexed member on entity class: " + TestEntity.class);
         registry.get(TestEntity.class, "unindexedMethod");
     }
 
     @Test
-    public void get_willThrowException_whenMemberDoesNotExist() throws Exception {
+    public void get_willThrowException_whenMemberDoesNotExist()  {
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("'nonexistentMember' is not an indexed member on entity class: " + TestEntity.class);
         registry.get(TestEntity.class, "nonexistentMember");
@@ -115,14 +115,14 @@ public class SearchFieldMetadataRegistryTest {
     }
 
     @Test
-    public void getByEncodedName_willThrowException_whenFieldIsNotIndexed() throws Exception {
+    public void getByEncodedName_willThrowException_whenFieldIsNotIndexed()  {
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("Encoded name 'unindexedField' is not an indexed member on entity class: " + TestEntity.class);
         registry.getByEncodedName(TestEntity.class, "unindexedField");
     }
 
     @Test
-    public void getByEncodedName_willThrowException_whenMethodIsNotIndexed() throws Exception {
+    public void getByEncodedName_willThrowException_whenMethodIsNotIndexed()  {
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("Encoded name 'unindexedMethod' is not an indexed member on entity class: " + TestEntity.class);
         registry.getByEncodedName(TestEntity.class, "unindexedMethod");
@@ -143,7 +143,7 @@ public class SearchFieldMetadataRegistryTest {
     }
 
     @Test
-    public void getAll() throws Exception {
+    public void getAll()  {
         assertThat(registry.get(TestEntity.class))
                 .containsKeys("id", "indexedField", "indexedMethod")
                 .doesNotContainKeys("unindexedField", "unindexedMethod");
@@ -155,25 +155,25 @@ public class SearchFieldMetadataRegistryTest {
     }
 
     @Test
-    public void getIdField() throws Exception {
+    public void getIdField()  {
         registry.register(TestEntity.class);
         assertThat(registry.getIdField(TestEntity.class).getMemberName()).isEqualTo("id");
     }
 
     @Test
-    public void getIdField_willRegisterAutomatically_whenClassIsUnregistered() throws Exception {
+    public void getIdField_willRegisterAutomatically_whenClassIsUnregistered()  {
         assertThat(registry.getIdField(TestEntity.class).getMemberName()).isEqualTo("id");
     }
 
     @Test
-    public void getIdField_willThrowException_whenThereIsNoId() throws Exception {
+    public void getIdField_willThrowException_whenThereIsNoId()  {
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("No @SearchId on entity class: " + TestNonEntity.class);
         assertThat(registry.getIdField(TestNonEntity.class));
     }
 
     @Test
-    public void getIdField_willWork_whenIdIsAMethod() throws Exception {
+    public void getIdField_willWork_whenIdIsAMethod()  {
         assertThat(registry.getIdField(TestIdMethodEntity.class).getMemberName()).isEqualTo("id");
     }
 

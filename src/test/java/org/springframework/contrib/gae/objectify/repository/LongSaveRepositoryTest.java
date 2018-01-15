@@ -16,7 +16,7 @@ public class LongSaveRepositoryTest extends AbstractLongRepositoryTest {
     private SaveRepository<TestLongEntity, Long> repository;
 
     @Test
-    public void save() throws Exception {
+    public void save()  {
         TestLongEntity saved = repository.save(new TestLongEntity(1L).setName("name"));
 
         TestLongEntity loaded = load(1L);
@@ -26,14 +26,14 @@ public class LongSaveRepositoryTest extends AbstractLongRepositoryTest {
     }
 
     @Test
-    public void save_willThrowException_whenInputIsNull() throws Exception {
+    public void save_willThrowException_whenInputIsNull()  {
         thrown.expect(NullPointerException.class);
 
         repository.save((TestLongEntity) null);
     }
 
     @Test
-    public void save_willGenerateLongId_whenInputHasNoId() throws Exception {
+    public void save_willGenerateLongId_whenInputHasNoId()  {
         TestLongEntity saved = repository.save(new TestLongEntity(null).setName("name"));
 
         TestLongEntity loaded = load(1L);
@@ -43,7 +43,7 @@ public class LongSaveRepositoryTest extends AbstractLongRepositoryTest {
     }
 
     @Test
-    public void saveCollection() throws Exception {
+    public void saveCollection()  {
         List<TestLongEntity> saved = repository.save(
                 Arrays.asList(fixture.get(3))
         );
@@ -53,7 +53,7 @@ public class LongSaveRepositoryTest extends AbstractLongRepositoryTest {
     }
 
     @Test
-    public void saveCollection_willGenerateLongIds_whenInputContainsEntityWithoutId() throws Exception {
+    public void saveCollection_willGenerateLongIds_whenInputContainsEntityWithoutId()  {
         List<TestLongEntity> entities = Arrays.asList(
                 new TestLongEntity(null).setName("entity1"),
                 new TestLongEntity(null).setName("entity2"),
@@ -67,7 +67,7 @@ public class LongSaveRepositoryTest extends AbstractLongRepositoryTest {
     }
 
     @Test
-    public void saveVarargs() throws Exception {
+    public void saveVarargs()  {
 
         List<TestLongEntity> saved = repository.save(
                 new TestLongEntity(1L).setName("entity1"),
@@ -80,7 +80,7 @@ public class LongSaveRepositoryTest extends AbstractLongRepositoryTest {
     }
 
     @Test
-    public void saveVarargs_willGenerateLongIds_whenInputContainsEntityWithoutId() throws Exception {
+    public void saveVarargs_willGenerateLongIds_whenInputContainsEntityWithoutId()  {
         List<TestLongEntity> saved = repository.save(
                 new TestLongEntity(null).setName("entity1"),
                 new TestLongEntity(null).setName("entity2"),

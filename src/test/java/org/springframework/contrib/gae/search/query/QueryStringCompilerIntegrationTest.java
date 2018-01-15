@@ -28,7 +28,7 @@ public class QueryStringCompilerIntegrationTest extends ObjectifyTest {
     private QueryStringCompiler compiler;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp()  {
         compiler = new QueryStringCompiler(searchMetadata, conversionService);
     }
 

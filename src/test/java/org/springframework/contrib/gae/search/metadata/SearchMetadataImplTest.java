@@ -36,7 +36,7 @@ public class SearchMetadataImplTest {
     private SearchMetadata searchMetadata;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp()  {
         searchMetadata = Mockito.spy(new SearchMetadataImpl(
                 indexTypeRegistry,
                 indexNamingStrategy));
@@ -62,7 +62,7 @@ public class SearchMetadataImplTest {
     }
 
     @Test
-    public void getSearchFieldValues() throws Exception {
+    public void getSearchFieldValues()  {
         TestSearchEntity entity = new TestSearchEntity("id")
                 .setStringField("stringValue")
                 .setStringArrayField(new String[]{"one", "two", "three"})
@@ -85,13 +85,13 @@ public class SearchMetadataImplTest {
     }
 
     @Test
-    public void encodeFieldName() throws Exception {
+    public void encodeFieldName()  {
         assertThat(searchMetadata.encodeFieldName(TestEntityWithBadFieldNames.class, "_fieldNameRequiringEncoding")).isEqualTo("fieldNameRequiringEncoding");
         assertThat(searchMetadata.encodeFieldName(TestEntityWithBadFieldNames.class, "explicitlyNamedFieldRequiringEncoding")).isEqualTo("explicitly_named_field_requiring_encoding");
     }
 
     @Test
-    public void decodeFieldName() throws Exception {
+    public void decodeFieldName()  {
         assertThat(searchMetadata.decodeFieldName(TestEntityWithBadFieldNames.class, "fieldNameRequiringEncoding")).isEqualTo("_fieldNameRequiringEncoding");
         assertThat(searchMetadata.decodeFieldName(TestEntityWithBadFieldNames.class, "explicitly_named_field_requiring_encoding")).isEqualTo("explicitlyNamedFieldRequiringEncoding");
     }
@@ -110,13 +110,13 @@ public class SearchMetadataImplTest {
     }
 
     @Test
-    public void getIndexType() throws Exception {
+    public void getIndexType()  {
         when(indexTypeRegistry.apply(String.class)).thenReturn(IndexType.GEOPOINT);
         assertThat(searchMetadata.getIndexType(TestSearchEntity.class, "stringField")).isEqualTo(IndexType.GEOPOINT);
     }
 
     @Test
-    public void hasIndexedFields() throws Exception {
+    public void hasIndexedFields()  {
         assertThat(searchMetadata.hasIndexedFields(TestSearchEntity.class)).isTrue();
         assertThat(searchMetadata.hasIndexedFields(String.class)).isFalse();
     }

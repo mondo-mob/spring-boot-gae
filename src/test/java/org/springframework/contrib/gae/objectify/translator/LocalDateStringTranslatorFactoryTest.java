@@ -14,7 +14,7 @@ public class LocalDateStringTranslatorFactoryTest {
     private Translator<LocalDate, String> translator = factory.createValueTranslator(null, null, null);
 
     @Test
-    public void testSave() throws Exception {
+    public void testSave()  {
         assertThat(
                 save(LocalDate.of(1776, 7, 4)),
                 is("1776-07-04")
@@ -22,7 +22,7 @@ public class LocalDateStringTranslatorFactoryTest {
     }
 
     @Test
-    public void testSave_willReturnNull_whenInputIsNull() throws Exception {
+    public void testSave_willReturnNull_whenInputIsNull()  {
         assertThat(
                 save(null),
                 is(nullValue())
@@ -30,7 +30,7 @@ public class LocalDateStringTranslatorFactoryTest {
     }
 
     @Test
-    public void testLoad() throws Exception {
+    public void testLoad()  {
         assertThat(
                 load("1776-07-04")
                         .isEqual(LocalDate.of(1776, 7, 4)),
@@ -39,7 +39,7 @@ public class LocalDateStringTranslatorFactoryTest {
     }
 
     @Test
-    public void testLoad_willReturnNull_whenInputIsNull() throws Exception {
+    public void testLoad_willReturnNull_whenInputIsNull()  {
         assertThat(
                 load(null),
                 is(nullValue())

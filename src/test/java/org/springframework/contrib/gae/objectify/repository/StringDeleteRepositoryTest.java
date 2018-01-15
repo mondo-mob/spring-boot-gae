@@ -17,7 +17,7 @@ public class StringDeleteRepositoryTest extends AbstractStringRepositoryTest {
     private DeleteRepository<TestStringEntity, String> repository;
 
     @Test
-    public void delete() throws Exception {
+    public void delete()  {
         TestStringEntity[] entities = fixture.get(3);
         ofy().save().entities(entities).now();
 
@@ -31,20 +31,20 @@ public class StringDeleteRepositoryTest extends AbstractStringRepositoryTest {
     }
 
     @Test
-    public void delete_willThrowException_whenInputIsNull() throws Exception {
+    public void delete_willThrowException_whenInputIsNull()  {
         thrown.expect(NullPointerException.class);
         repository.delete((TestStringEntity) null);
     }
 
     @Test
-    public void delete_willThrowException_whenInputIdIsNull() throws Exception {
+    public void delete_willThrowException_whenInputIdIsNull()  {
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("You cannot create a Key for an object with a null @Id");
         repository.delete(new TestStringEntity(null));
     }
 
     @Test
-    public void deleteCollection() throws Exception {
+    public void deleteCollection()  {
         TestStringEntity[] entities = fixture.get(3);
         ofy().save().entities(entities).now();
 
@@ -61,7 +61,7 @@ public class StringDeleteRepositoryTest extends AbstractStringRepositoryTest {
     }
 
     @Test
-    public void deleteCollection_willThrowException_whenInputContainsNull() throws Exception {
+    public void deleteCollection_willThrowException_whenInputContainsNull()  {
         thrown.expect(NullPointerException.class);
         repository.delete(
                 Arrays.asList(
@@ -73,7 +73,7 @@ public class StringDeleteRepositoryTest extends AbstractStringRepositoryTest {
     }
 
     @Test
-    public void deleteCollection_willThrowException_whenInputContainsEntityWithoutId() throws Exception {
+    public void deleteCollection_willThrowException_whenInputContainsEntityWithoutId()  {
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("You cannot create a Key for an object with a null @Id");
         repository.delete(
@@ -86,7 +86,7 @@ public class StringDeleteRepositoryTest extends AbstractStringRepositoryTest {
     }
 
     @Test
-    public void deleteVarargs() throws Exception {
+    public void deleteVarargs()  {
         TestStringEntity[] entities = fixture.get(3);
         ofy().save().entities(entities).now();
 
@@ -104,7 +104,7 @@ public class StringDeleteRepositoryTest extends AbstractStringRepositoryTest {
     }
 
     @Test
-    public void deleteVarargs_willThrowException_whenInputContainsNull() throws Exception {
+    public void deleteVarargs_willThrowException_whenInputContainsNull()  {
         thrown.expect(NullPointerException.class);
         repository.delete(
                 new TestStringEntity("id1"),
@@ -114,7 +114,7 @@ public class StringDeleteRepositoryTest extends AbstractStringRepositoryTest {
     }
 
     @Test
-    public void deleteVarargs_willThrowException_whenInputContainsEntityWithoutId() throws Exception {
+    public void deleteVarargs_willThrowException_whenInputContainsEntityWithoutId()  {
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("You cannot create a Key for an object with a null @Id");
         repository.delete(
@@ -125,7 +125,7 @@ public class StringDeleteRepositoryTest extends AbstractStringRepositoryTest {
     }
 
     @Test
-    public void deleteByKey() throws Exception {
+    public void deleteByKey()  {
         TestStringEntity[] entities = fixture.get(3);
         ofy().save().entities(entities).now();
 
@@ -139,20 +139,20 @@ public class StringDeleteRepositoryTest extends AbstractStringRepositoryTest {
     }
 
     @Test
-    public void deleteByKey_willThrowException_whenInputIsNull() throws Exception {
+    public void deleteByKey_willThrowException_whenInputIsNull()  {
         thrown.expect(NullPointerException.class);
         repository.delete((TestStringEntity) null);
     }
 
     @Test
-    public void deleteByKey_willThrowException_whenInputIdIsNull() throws Exception {
+    public void deleteByKey_willThrowException_whenInputIdIsNull()  {
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("You cannot create a Key for an object with a null @Id");
         repository.delete(new TestStringEntity(null));
     }
 
     @Test
-    public void deleteByKeyCollection() throws Exception {
+    public void deleteByKeyCollection()  {
         TestStringEntity[] entities = fixture.get(3);
         ofy().save().entities(entities).now();
 
@@ -172,7 +172,7 @@ public class StringDeleteRepositoryTest extends AbstractStringRepositoryTest {
     }
 
     @Test
-    public void deleteByKeyCollection_willThrowException_whenInputContainsNull() throws Exception {
+    public void deleteByKeyCollection_willThrowException_whenInputContainsNull()  {
         thrown.expect(NullPointerException.class);
         repository.deleteByKey(
                 Arrays.asList(
@@ -185,7 +185,7 @@ public class StringDeleteRepositoryTest extends AbstractStringRepositoryTest {
 
     @Test
     @SuppressWarnings("unchecked")
-    public void deleteByKeyVarargs() throws Exception {
+    public void deleteByKeyVarargs()  {
         TestStringEntity[] entities = fixture.get(3);
         ofy().save().entities(entities).now();
 
@@ -204,7 +204,7 @@ public class StringDeleteRepositoryTest extends AbstractStringRepositoryTest {
 
     @Test
     @SuppressWarnings("unchecked")
-    public void deleteByKeyVarargs_willThrowException_whenInputContainsNull() throws Exception {
+    public void deleteByKeyVarargs_willThrowException_whenInputContainsNull()  {
         thrown.expect(NullPointerException.class);
         repository.deleteByKey(
                 Key.create(TestStringEntity.class, "id1"),

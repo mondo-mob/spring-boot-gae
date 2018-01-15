@@ -26,12 +26,12 @@ public class RestLogoutSuccessHandlerTest {
     private RestLogoutSuccessHandler handler;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp()  {
         handler = new RestLogoutSuccessHandler();
     }
 
     @Test
-    public void onLogoutSuccess() throws Exception {
+    public void onLogoutSuccess()  {
         handler.onLogoutSuccess(request, response, authentication);
 
         verify(response).setStatus(HttpServletResponse.SC_OK);

@@ -29,44 +29,44 @@ public class EntityManagerTest extends ObjectifyTest {
     private TestEntityManager entityManager = new TestEntityManager();
 
     @Test
-    public void getIdField() throws Exception {
+    public void getIdField() throws NoSuchFieldException {
         Field expectedField = TestStringEntity.class.getDeclaredField("id");
         assertThat(entityManager.getIdField()).isEqualTo(expectedField);
     }
 
     @Test
-    public void getIdField_willThrowException_whenEntityIsNotAnEntity() throws Exception {
+    public void getIdField_willThrowException_whenEntityIsNotAnEntity()  {
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("No class 'java.lang.String' was registered");
         new TestNotAnEntityManager().getIdField();
     }
 
     @Test
-    public void getKeyClass() throws Exception {
+    public void getKeyClass()  {
         assertThat(entityManager.getKeyClass()).isEqualTo(Key.class);
     }
 
     @Test
-    public void getKey() throws Exception {
+    public void getKey()  {
         Key<TestStringEntity> key = entityManager.getKey(new TestStringEntity("id"));
         assertThat(key.getName()).isEqualTo("id");
     }
 
     @Test
-    public void getKey_willThrowException_whenInputContainsNull() throws Exception {
+    public void getKey_willThrowException_whenInputContainsNull()  {
         thrown.expect(NullPointerException.class);
         entityManager.getKey((TestStringEntity) null);
     }
 
     @Test
-    public void getKey_willThrowException_whenEntityHasNullId() throws Exception {
+    public void getKey_willThrowException_whenEntityHasNullId()  {
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("You cannot create a Key for an object with a null @Id");
         entityManager.getKey(new TestStringEntity(null));
     }
 
     @Test
-    public void getKeyCollection() throws Exception {
+    public void getKeyCollection()  {
         List<Key<TestStringEntity>> keys = entityManager.getKey(
                 Arrays.asList(new TestStringEntityFixture().get(3))
         );
@@ -78,13 +78,13 @@ public class EntityManagerTest extends ObjectifyTest {
     }
 
     @Test
-    public void getKeyCollection_willThrowException_whenInputIsNull() throws Exception {
+    public void getKeyCollection_willThrowException_whenInputIsNull()  {
         thrown.expect(NullPointerException.class);
         entityManager.getKey((Collection<TestStringEntity>) null);
     }
 
     @Test
-    public void getKeyCollection_willThrowException_whenInputContainsNull() throws Exception {
+    public void getKeyCollection_willThrowException_whenInputContainsNull()  {
         thrown.expect(NullPointerException.class);
         entityManager.getKey(
                 Arrays.asList(
@@ -96,7 +96,7 @@ public class EntityManagerTest extends ObjectifyTest {
     }
 
     @Test
-    public void getKeyCollection_willThrowException_whenEntityHasNullId() throws Exception {
+    public void getKeyCollection_willThrowException_whenEntityHasNullId()  {
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("You cannot create a Key for an object with a null @Id");
         entityManager.getKey(
@@ -109,7 +109,7 @@ public class EntityManagerTest extends ObjectifyTest {
     }
 
     @Test
-    public void getKeyVararg() throws Exception {
+    public void getKeyVararg()  {
         List<Key<TestStringEntity>> keys = entityManager.getKey(
                 new TestStringEntityFixture().get(3)
         );
@@ -121,13 +121,13 @@ public class EntityManagerTest extends ObjectifyTest {
     }
 
     @Test
-    public void getKeyVarargs_willThrowException_whenInputIsNull() throws Exception {
+    public void getKeyVarargs_willThrowException_whenInputIsNull()  {
         thrown.expect(NullPointerException.class);
         entityManager.getKey((TestStringEntity[]) null);
     }
 
     @Test
-    public void getKeyVarargs_willThrowException_whenInputContainsNull() throws Exception {
+    public void getKeyVarargs_willThrowException_whenInputContainsNull()  {
         thrown.expect(NullPointerException.class);
         entityManager.getKey(
                 new TestStringEntity("id1"),
@@ -137,7 +137,7 @@ public class EntityManagerTest extends ObjectifyTest {
     }
 
     @Test
-    public void getKeyVarargs_willThrowException_whenEntityHasNullId() throws Exception {
+    public void getKeyVarargs_willThrowException_whenEntityHasNullId()  {
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("You cannot create a Key for an object with a null @Id");
         entityManager.getKey(
@@ -148,7 +148,7 @@ public class EntityManagerTest extends ObjectifyTest {
     }
 
     @Test
-    public void toKeyMap() throws Exception {
+    public void toKeyMap()  {
         TestStringEntity a = new TestStringEntity("a");
         TestStringEntity b = new TestStringEntity("b");
         TestStringEntity c = new TestStringEntity("c");
@@ -164,21 +164,21 @@ public class EntityManagerTest extends ObjectifyTest {
     }
 
     @Test
-    public void toKeyMap_willThrowException_whenInputIsNull() throws Exception {
+    public void toKeyMap_willThrowException_whenInputIsNull()  {
         thrown.expect(NullPointerException.class);
 
         entityManager.toKeyMap(null);
     }
 
     @Test
-    public void getId() throws Exception {
+    public void getId()  {
         assertThat(entityManager.getId(new TestStringEntity("an-id"))).isEqualTo("an-id");
         assertThat(entityManager.getId(new TestStringEntity("another-id"))).isEqualTo("another-id");
         assertThat(entityManager.getId(new TestStringEntity(null))).isNull();
     }
 
     @Test
-    public void getId_willThrowException_whenInputIsNull() throws Exception {
+    public void getId_willThrowException_whenInputIsNull()  {
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("No class 'java.lang.String' was registered");
 
@@ -186,7 +186,7 @@ public class EntityManagerTest extends ObjectifyTest {
     }
 
     @Test
-    public void getId_willWrapInIllegalArgumentException_whenIllegalAccessExceptionIsThrown() throws Exception {
+    public void getId_willWrapInIllegalArgumentException_whenIllegalAccessExceptionIsThrown() throws NoSuchFieldException {
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("Cannot get id for entity type TestStringEntity");
 
@@ -200,7 +200,7 @@ public class EntityManagerTest extends ObjectifyTest {
     }
 
     @Test
-    public void getIdCollection() throws Exception {
+    public void getIdCollection()  {
         assertThat(entityManager.getId(
                 Arrays.asList(
                         new TestStringEntity("id1"),
@@ -217,7 +217,7 @@ public class EntityManagerTest extends ObjectifyTest {
     }
 
     @Test
-    public void getIdCollection_willThrowException_whenInputContainsNull() throws Exception {
+    public void getIdCollection_willThrowException_whenInputContainsNull()  {
         thrown.expect(NullPointerException.class);
 
         entityManager.getId(
@@ -229,14 +229,14 @@ public class EntityManagerTest extends ObjectifyTest {
     }
 
     @Test
-    public void getIdCollection_willThrowException_whenInputIsNull() throws Exception {
+    public void getIdCollection_willThrowException_whenInputIsNull()  {
         thrown.expect(NullPointerException.class);
         
         entityManager.getId((Collection<TestStringEntity>) null);
     }
 
     @Test
-    public void getIdVarargs() throws Exception {
+    public void getIdVarargs()  {
         assertThat(entityManager.getId(
                 new TestStringEntity("id1"),
                 new TestStringEntity("id2"),
@@ -251,7 +251,7 @@ public class EntityManagerTest extends ObjectifyTest {
     }
 
     @Test
-    public void getIdVarargs_willThrowException_whenInputContainsNull() throws Exception {
+    public void getIdVarargs_willThrowException_whenInputContainsNull()  {
         thrown.expect(NullPointerException.class);
 
         entityManager.getId(
@@ -261,7 +261,7 @@ public class EntityManagerTest extends ObjectifyTest {
     }
 
     @Test
-    public void getIdVarargs_willThrowException_whenInputIsNull() throws Exception {
+    public void getIdVarargs_willThrowException_whenInputIsNull()  {
         thrown.expect(NullPointerException.class);
 
         entityManager.getId((TestStringEntity[]) null);
@@ -269,7 +269,7 @@ public class EntityManagerTest extends ObjectifyTest {
 
 
     @Test
-    public void hasId() throws Exception {
+    public void hasId()  {
         assertThat(entityManager.hasId(new TestStringEntity("an-id"))).isTrue();
         assertThat(entityManager.hasNoId(new TestStringEntity("an-id"))).isFalse();
         assertThat(entityManager.hasId(new TestStringEntity(null))).isFalse();
@@ -278,13 +278,13 @@ public class EntityManagerTest extends ObjectifyTest {
     }
 
     @Test
-    public void hasId_willThrowException_whenInputIsNull() throws Exception {
+    public void hasId_willThrowException_whenInputIsNull()  {
         thrown.expect(NullPointerException.class);
         assertThat(entityManager.hasId(null)).isFalse();
     }
 
     @Test
-    public void hasNoId_willThrowException_whenInputIsNull() throws Exception {
+    public void hasNoId_willThrowException_whenInputIsNull()  {
         thrown.expect(NullPointerException.class);
         assertThat(entityManager.hasNoId(null)).isFalse();
     }

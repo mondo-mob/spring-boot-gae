@@ -20,7 +20,7 @@ public class ZonedDateTimeDateTranslatorFactoryTest {
     private Translator<ZonedDateTime, Date> translator = factory.createValueTranslator(null, null, null);
 
     @Test
-    public void testSave() throws Exception {
+    public void testSave()  {
         assertThat(
                 save(ZonedDateTime.of(2017, 8, 28, 7, 9, 36, 42, ZoneOffset.UTC)),
                 is(date("2017-08-28T07:09:36Z"))
@@ -28,7 +28,7 @@ public class ZonedDateTimeDateTranslatorFactoryTest {
     }
 
     @Test
-    public void testRoundTrip() throws Exception {
+    public void testRoundTrip()  {
         ZonedDateTime input = ZonedDateTime.of(2017, 8, 28, 7, 9, 36, 0, ZoneOffset.UTC);
         ZonedDateTime output = load(save(input)).withZoneSameInstant(ZoneOffset.UTC);
 
@@ -39,7 +39,7 @@ public class ZonedDateTimeDateTranslatorFactoryTest {
     }
 
     @Test
-    public void testSave_willConvertToUTC_whenInputHasAnotherZoned() throws Exception {
+    public void testSave_willConvertToUTC_whenInputHasAnotherZoned()  {
         assertThat(
                 save(ZonedDateTime.of(2017, 8, 29, 3, 9, 36, 42, ZoneOffset.ofHours(10))),
                 is(date("2017-08-28T17:09:36Z"))
@@ -47,7 +47,7 @@ public class ZonedDateTimeDateTranslatorFactoryTest {
     }
 
     @Test
-    public void testSave_willReturnNull_whenInputIsNull() throws Exception {
+    public void testSave_willReturnNull_whenInputIsNull()  {
         assertThat(
                 save(null),
                 is(nullValue())
@@ -55,7 +55,7 @@ public class ZonedDateTimeDateTranslatorFactoryTest {
     }
 
     @Test
-    public void testLoad() throws Exception {
+    public void testLoad()  {
         new ExecuteAsTimeZone(TimeZone.getTimeZone(ZoneOffset.UTC))
                 .run(() -> assertThat(
                         load(date("2017-08-28T07:09:36Z"))
@@ -65,7 +65,7 @@ public class ZonedDateTimeDateTranslatorFactoryTest {
     }
 
     @Test
-    public void testLoad_willReturnZonedDate_whenSystemDateTimeIsNotUTC() throws Exception {
+    public void testLoad_willReturnZonedDate_whenSystemDateTimeIsNotUTC()  {
         new ExecuteAsTimeZone(TimeZone.getTimeZone(ZoneOffset.ofHours(10)))
                 .run(() -> assertThat(
                         load(date("2017-08-28T07:09:36Z"))
@@ -75,7 +75,7 @@ public class ZonedDateTimeDateTranslatorFactoryTest {
     }
 
     @Test
-    public void testLoad_willReturnNull_whenInputIsNull() throws Exception {
+    public void testLoad_willReturnNull_whenInputIsNull()  {
         assertThat(
                 load(null),
                 is(nullValue())

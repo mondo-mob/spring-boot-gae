@@ -17,7 +17,7 @@ public class StringAsyncDeleteRepositoryTest extends AbstractStringRepositoryTes
     private AsyncDeleteRepository<TestStringEntity, String> repository;
 
     @Test
-    public void deleteAsync() throws Exception {
+    public void deleteAsync()  {
         TestStringEntity[] entities = fixture.get(3);
         ofy().save().entities(entities).now();
 
@@ -31,20 +31,20 @@ public class StringAsyncDeleteRepositoryTest extends AbstractStringRepositoryTes
     }
 
     @Test
-    public void deleteAsync_willThrowException_whenInputIsNull() throws Exception {
+    public void deleteAsync_willThrowException_whenInputIsNull()  {
         thrown.expect(NullPointerException.class);
         repository.deleteAsync((TestStringEntity) null).run();
     }
 
     @Test
-    public void deleteAsync_willThrowException_whenInputIdIsNull() throws Exception {
+    public void deleteAsync_willThrowException_whenInputIdIsNull()  {
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("You cannot create a Key for an object with a null @Id");
         repository.deleteAsync(new TestStringEntity(null)).run();
     }
 
     @Test
-    public void deleteAsyncCollection() throws Exception {
+    public void deleteAsyncCollection()  {
         TestStringEntity[] entities = fixture.get(3);
         ofy().save().entities(entities).now();
 
@@ -61,7 +61,7 @@ public class StringAsyncDeleteRepositoryTest extends AbstractStringRepositoryTes
     }
 
     @Test
-    public void deleteAsyncCollection_willThrowException_whenInputContainsNull() throws Exception {
+    public void deleteAsyncCollection_willThrowException_whenInputContainsNull()  {
         thrown.expect(NullPointerException.class);
         repository.deleteAsync(
                 Arrays.asList(
@@ -73,7 +73,7 @@ public class StringAsyncDeleteRepositoryTest extends AbstractStringRepositoryTes
     }
 
     @Test
-    public void deleteAsyncCollection_willThrowException_whenInputContainsEntityWithoutId() throws Exception {
+    public void deleteAsyncCollection_willThrowException_whenInputContainsEntityWithoutId()  {
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("You cannot create a Key for an object with a null @Id");
         repository.deleteAsync(
@@ -86,7 +86,7 @@ public class StringAsyncDeleteRepositoryTest extends AbstractStringRepositoryTes
     }
 
     @Test
-    public void deleteAsyncVarargs() throws Exception {
+    public void deleteAsyncVarargs()  {
         TestStringEntity[] entities = fixture.get(3);
         ofy().save().entities(entities).now();
 
@@ -104,7 +104,7 @@ public class StringAsyncDeleteRepositoryTest extends AbstractStringRepositoryTes
     }
 
     @Test
-    public void deleteAsyncVarargs_willThrowException_whenInputContainsNull() throws Exception {
+    public void deleteAsyncVarargs_willThrowException_whenInputContainsNull()  {
         thrown.expect(NullPointerException.class);
         repository.deleteAsync(
                 new TestStringEntity("id1"),
@@ -114,7 +114,7 @@ public class StringAsyncDeleteRepositoryTest extends AbstractStringRepositoryTes
     }
 
     @Test
-    public void deleteAsyncVarargs_willThrowException_whenInputContainsEntityWithoutId() throws Exception {
+    public void deleteAsyncVarargs_willThrowException_whenInputContainsEntityWithoutId()  {
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("You cannot create a Key for an object with a null @Id");
         repository.deleteAsync(
@@ -125,7 +125,7 @@ public class StringAsyncDeleteRepositoryTest extends AbstractStringRepositoryTes
     }
 
     @Test
-    public void deleteByKeyAsync() throws Exception {
+    public void deleteByKeyAsync()  {
         TestStringEntity[] entities = fixture.get(3);
         ofy().save().entities(entities).now();
 
@@ -139,20 +139,20 @@ public class StringAsyncDeleteRepositoryTest extends AbstractStringRepositoryTes
     }
 
     @Test
-    public void deleteByKeyAsync_willThrowException_whenInputIsNull() throws Exception {
+    public void deleteByKeyAsync_willThrowException_whenInputIsNull()  {
         thrown.expect(NullPointerException.class);
         repository.deleteAsync((TestStringEntity) null).run();
     }
 
     @Test
-    public void deleteByKeyAsync_willThrowException_whenInputIdIsNull() throws Exception {
+    public void deleteByKeyAsync_willThrowException_whenInputIdIsNull()  {
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("You cannot create a Key for an object with a null @Id");
         repository.deleteAsync(new TestStringEntity(null)).run();
     }
 
     @Test
-    public void deleteByKeyAsyncCollection() throws Exception {
+    public void deleteByKeyAsyncCollection()  {
         TestStringEntity[] entities = fixture.get(3);
         ofy().save().entities(entities).now();
 
@@ -172,7 +172,7 @@ public class StringAsyncDeleteRepositoryTest extends AbstractStringRepositoryTes
     }
 
     @Test
-    public void deleteByKeyAsyncCollection_willThrowException_whenInputContainsNull() throws Exception {
+    public void deleteByKeyAsyncCollection_willThrowException_whenInputContainsNull()  {
         thrown.expect(NullPointerException.class);
         repository.deleteByKeyAsync(
                 Arrays.asList(
@@ -185,7 +185,7 @@ public class StringAsyncDeleteRepositoryTest extends AbstractStringRepositoryTes
 
     @Test
     @SuppressWarnings("unchecked")
-    public void deleteByKeyAsyncVarargs() throws Exception {
+    public void deleteByKeyAsyncVarargs()  {
         TestStringEntity[] entities = fixture.get(3);
         ofy().save().entities(entities).now();
 
@@ -204,7 +204,7 @@ public class StringAsyncDeleteRepositoryTest extends AbstractStringRepositoryTes
 
     @Test
     @SuppressWarnings("unchecked")
-    public void deleteByKeyAsyncVarargs_willThrowException_whenInputContainsNull() throws Exception {
+    public void deleteByKeyAsyncVarargs_willThrowException_whenInputContainsNull()  {
         thrown.expect(NullPointerException.class);
         repository.deleteByKeyAsync(
                 Key.create(TestStringEntity.class, "id1"),

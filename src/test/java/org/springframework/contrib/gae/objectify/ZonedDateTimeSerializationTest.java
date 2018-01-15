@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ZonedDateTimeSerializationTest extends ObjectifyTest {
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp()  {
         objectify.register(ZonedDateTimeEntity.class);
     }
 

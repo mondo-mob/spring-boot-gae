@@ -18,7 +18,7 @@ public class StringSaveRepositoryTest extends AbstractStringRepositoryTest {
     private SaveRepository<TestStringEntity, String> repository;
 
     @Test
-    public void save() throws Exception {
+    public void save()  {
         TestStringEntity saved = repository.save(new TestStringEntity("my-id").setName("name"));
 
         TestStringEntity loaded = load("my-id");
@@ -28,14 +28,14 @@ public class StringSaveRepositoryTest extends AbstractStringRepositoryTest {
     }
 
     @Test
-    public void save_willThrowException_whenInputIsNull() throws Exception {
+    public void save_willThrowException_whenInputIsNull()  {
         thrown.expect(NullPointerException.class);
 
         repository.save((TestStringEntity) null);
     }
 
     @Test
-    public void save_willThrowException_whenInputHasNoId() throws Exception {
+    public void save_willThrowException_whenInputHasNoId()  {
         thrown.expect(SaveException.class);
         thrown.expectMessage("Cannot save an entity with a null String @Id");
 
@@ -43,7 +43,7 @@ public class StringSaveRepositoryTest extends AbstractStringRepositoryTest {
     }
 
     @Test
-    public void saveCollection() throws Exception {
+    public void saveCollection()  {
         List<TestStringEntity> saved = repository.save(
                 Arrays.asList(fixture.get(3))
         );
@@ -53,7 +53,7 @@ public class StringSaveRepositoryTest extends AbstractStringRepositoryTest {
     }
 
     @Test
-    public void saveCollection_willThrowException_whenInputContainsEntityWithoutId() throws Exception {
+    public void saveCollection_willThrowException_whenInputContainsEntityWithoutId()  {
         thrown.expect(SaveException.class);
         thrown.expectMessage("Cannot save an entity with a null String @Id");
 
@@ -67,7 +67,7 @@ public class StringSaveRepositoryTest extends AbstractStringRepositoryTest {
     }
 
     @Test
-    public void saveVarargs() throws Exception {
+    public void saveVarargs()  {
         List<TestStringEntity> saved = repository.save(
                 fixture.get(3)
         );
@@ -77,7 +77,7 @@ public class StringSaveRepositoryTest extends AbstractStringRepositoryTest {
     }
 
     @Test
-    public void saveVarargs_willThrowException_whenInputContainsEntityWithoutId() throws Exception {
+    public void saveVarargs_willThrowException_whenInputContainsEntityWithoutId()  {
         thrown.expect(SaveException.class);
         thrown.expectMessage("Cannot save an entity with a null String @Id");
 

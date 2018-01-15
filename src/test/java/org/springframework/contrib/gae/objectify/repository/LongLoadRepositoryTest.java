@@ -16,7 +16,7 @@ public class LongLoadRepositoryTest extends AbstractLongRepositoryTest {
     protected LoadRepository<TestLongEntity, Long> repository;
 
     @Test
-    public void findAll() throws Exception {
+    public void findAll()  {
         TestLongEntity[] entities = fixture.get(3);
         ofy().save().entities(entities).now();
 
@@ -25,13 +25,13 @@ public class LongLoadRepositoryTest extends AbstractLongRepositoryTest {
     }
 
     @Test
-    public void findAll_willReturnEmptyList_whenThereAreNoEntities() throws Exception {
+    public void findAll_willReturnEmptyList_whenThereAreNoEntities()  {
         assertThat(repository.findAll())
                 .isEmpty();
     }
 
     @Test
-    public void findAllWithCount() throws Exception {
+    public void findAllWithCount()  {
         TestLongEntity[] entities = fixture.get(3);
         ofy().save().entities(entities).now();
 
@@ -43,13 +43,13 @@ public class LongLoadRepositoryTest extends AbstractLongRepositoryTest {
     }
 
     @Test
-    public void findAllWithCount_willReturnEmptyList_whenThereAreNoEntities() throws Exception {
+    public void findAllWithCount_willReturnEmptyList_whenThereAreNoEntities()  {
         assertThat(repository.findAll(69))
                 .isEmpty();
     }
 
     @Test
-    public void findAllCollection() throws Exception {
+    public void findAllCollection()  {
         TestLongEntity[] entities = fixture.get(3);
         ofy().save().entities(entities).now();
 
@@ -68,7 +68,7 @@ public class LongLoadRepositoryTest extends AbstractLongRepositoryTest {
     }
 
     @Test
-    public void findAllCollection_willReturnEmpty_whenNoKeysArePassed() throws Exception {
+    public void findAllCollection_willReturnEmpty_whenNoKeysArePassed()  {
         List<TestLongEntity> result = repository.findAll(
                 Collections.emptyList()
         );
@@ -79,7 +79,7 @@ public class LongLoadRepositoryTest extends AbstractLongRepositoryTest {
     }
 
     @Test
-    public void findAllCollection_willNotContainMissingEntities_whenKeyDoesNotExist() throws Exception {
+    public void findAllCollection_willNotContainMissingEntities_whenKeyDoesNotExist()  {
         TestLongEntity[] entities = fixture.get(2);
         ofy().save().entities(entities).now();
 
@@ -98,13 +98,13 @@ public class LongLoadRepositoryTest extends AbstractLongRepositoryTest {
     }
 
     @Test
-    public void findAllCollection_willThrowException_whenInputIsNull() throws Exception {
+    public void findAllCollection_willThrowException_whenInputIsNull()  {
         thrown.expect(NullPointerException.class);
         repository.findAll((Collection<Key<TestLongEntity>>) null);
     }
 
     @Test
-    public void findAllCollection_willThrowException_whenInputContainsNull() throws Exception {
+    public void findAllCollection_willThrowException_whenInputContainsNull()  {
         thrown.expect(NullPointerException.class);
         repository.findAll(
                 Arrays.asList(
@@ -117,7 +117,7 @@ public class LongLoadRepositoryTest extends AbstractLongRepositoryTest {
 
     @Test
     @SuppressWarnings("unchecked")
-    public void findAllVarargs() throws Exception {
+    public void findAllVarargs()  {
         TestLongEntity[] entities = fixture.get(3);
         ofy().save().entities(entities).now();
 
@@ -135,7 +135,7 @@ public class LongLoadRepositoryTest extends AbstractLongRepositoryTest {
 
     @Test
     @SuppressWarnings("unchecked")
-    public void findAllVarargs_willReturnEmpty_whenNoKeysArePassed() throws Exception {
+    public void findAllVarargs_willReturnEmpty_whenNoKeysArePassed()  {
         List<TestLongEntity> result = repository.findAll((Key<TestLongEntity>[]) new Key[]{});
 
         assertThat(result)
@@ -145,7 +145,7 @@ public class LongLoadRepositoryTest extends AbstractLongRepositoryTest {
 
     @Test
     @SuppressWarnings("unchecked")
-    public void findAllVarargs_willNotContainMissingEntities_whenKeyDoesNotExist() throws Exception {
+    public void findAllVarargs_willNotContainMissingEntities_whenKeyDoesNotExist()  {
         TestLongEntity[] entities = fixture.get(2);
         ofy().save().entities(entities).now();
 
@@ -163,14 +163,14 @@ public class LongLoadRepositoryTest extends AbstractLongRepositoryTest {
 
     @Test
     @SuppressWarnings("unchecked")
-    public void findAllVarargs_willThrowException_whenInputIsNull() throws Exception {
+    public void findAllVarargs_willThrowException_whenInputIsNull()  {
         thrown.expect(NullPointerException.class);
         repository.findAll((Key<TestLongEntity>) null);
     }
 
     @Test
     @SuppressWarnings("unchecked")
-    public void findAllVarargs_willThrowException_whenInputContainsNull() throws Exception {
+    public void findAllVarargs_willThrowException_whenInputContainsNull()  {
         thrown.expect(NullPointerException.class);
         repository.findAll(
                 Key.create(TestLongEntity.class, 1L),
@@ -180,7 +180,7 @@ public class LongLoadRepositoryTest extends AbstractLongRepositoryTest {
     }
 
     @Test
-    public void findAllByField() throws Exception {
+    public void findAllByField()  {
         TestLongEntity[] entities = fixture.get(3);
         entities[0].setName("Bob");
         entities[1].setName("Bob");
@@ -194,7 +194,7 @@ public class LongLoadRepositoryTest extends AbstractLongRepositoryTest {
     }
 
     @Test
-    public void findAllByField_willNotReturnMatches_whenCaseIsMismatched() throws Exception {
+    public void findAllByField_willNotReturnMatches_whenCaseIsMismatched()  {
         TestLongEntity[] entities = fixture.get(3);
         entities[0].setName("Bob");
         entities[1].setName("bob");
@@ -208,14 +208,14 @@ public class LongLoadRepositoryTest extends AbstractLongRepositoryTest {
     }
 
     @Test
-    public void findAllByField_willThrowException_whenFieldIsNull() throws Exception {
+    public void findAllByField_willThrowException_whenFieldIsNull()  {
         thrown.expect(NullPointerException.class);
 
         repository.findAllByField(null, "Bob");
     }
 
     @Test
-    public void findAllByField_willHandleNullSearch() throws Exception {
+    public void findAllByField_willHandleNullSearch()  {
         TestLongEntity[] entities = fixture.get(3);
         entities[0].setName(null);
         entities[1].setName("Bob");
@@ -229,7 +229,7 @@ public class LongLoadRepositoryTest extends AbstractLongRepositoryTest {
     }
 
     @Test
-    public void findAllByField_willReturnEmptyList_whenThereAreNoMatches() throws Exception {
+    public void findAllByField_willReturnEmptyList_whenThereAreNoMatches()  {
         TestLongEntity[] entities = fixture.get(3);
         entities[0].setName("Mark");
         entities[1].setName("Bob");
@@ -242,7 +242,7 @@ public class LongLoadRepositoryTest extends AbstractLongRepositoryTest {
     }
 
     @Test
-    public void findAllByField_willNotFail_whenSearchTypeDoesNotMatchFieldType() throws Exception {
+    public void findAllByField_willNotFail_whenSearchTypeDoesNotMatchFieldType()  {
         TestLongEntity[] entities = fixture.get(3);
         entities[0].setName("Mark");
         entities[1].setName("Bob");
@@ -255,7 +255,7 @@ public class LongLoadRepositoryTest extends AbstractLongRepositoryTest {
     }
 
     @Test
-    public void findAllByFieldCollection() throws Exception {
+    public void findAllByFieldCollection()  {
         TestLongEntity[] entities = fixture.get(5);
         entities[0].setName("Bob");
         entities[1].setName("Bob");
@@ -271,7 +271,7 @@ public class LongLoadRepositoryTest extends AbstractLongRepositoryTest {
     }
 
     @Test
-    public void findAllByFieldCollection_willReturnEmptyList_whenFieldIsNull() throws Exception {
+    public void findAllByFieldCollection_willReturnEmptyList_whenFieldIsNull()  {
         TestLongEntity[] entities = fixture.get(5);
         entities[0].setName("Bob");
         entities[1].setName("Tabatha");
@@ -286,7 +286,7 @@ public class LongLoadRepositoryTest extends AbstractLongRepositoryTest {
 
 
     @Test
-    public void findAllByFieldCollection_willHandleNullSearch() throws Exception {
+    public void findAllByFieldCollection_willHandleNullSearch()  {
         TestLongEntity[] entities = fixture.get(5);
         entities[0].setName(null);
         entities[1].setName(null);
@@ -302,7 +302,7 @@ public class LongLoadRepositoryTest extends AbstractLongRepositoryTest {
     }
 
     @Test
-    public void findAllByFieldCollection_willReturnEmptyList_whenThereAreNoMatches() throws Exception {
+    public void findAllByFieldCollection_willReturnEmptyList_whenThereAreNoMatches()  {
         TestLongEntity[] entities = fixture.get(3);
         entities[0].setName("Mark");
         entities[1].setName("Bob");
@@ -315,7 +315,7 @@ public class LongLoadRepositoryTest extends AbstractLongRepositoryTest {
     }
 
     @Test
-    public void findAllByFieldCollection_willNotFail_whenSearchTypeDoesNotMatchFieldType() throws Exception {
+    public void findAllByFieldCollection_willNotFail_whenSearchTypeDoesNotMatchFieldType()  {
         TestLongEntity[] entities = fixture.get(3);
         entities[0].setName("Mark");
         entities[1].setName("Bob");
@@ -328,7 +328,7 @@ public class LongLoadRepositoryTest extends AbstractLongRepositoryTest {
     }
 
     @Test
-    public void findAllByFieldVarargs() throws Exception {
+    public void findAllByFieldVarargs()  {
         TestLongEntity[] entities = fixture.get(5);
         entities[0].setName("Bob");
         entities[1].setName("Bob");
@@ -344,7 +344,7 @@ public class LongLoadRepositoryTest extends AbstractLongRepositoryTest {
     }
 
     @Test
-    public void findAllByFieldVarargs_willReturnEmptyList_whenFieldIsNull() throws Exception {
+    public void findAllByFieldVarargs_willReturnEmptyList_whenFieldIsNull()  {
         TestLongEntity[] entities = fixture.get(5);
         entities[0].setName("Bob");
         entities[1].setName("Tabatha");
@@ -359,7 +359,7 @@ public class LongLoadRepositoryTest extends AbstractLongRepositoryTest {
 
 
     @Test
-    public void findAllByFieldVarargs_willHandleNullSearch() throws Exception {
+    public void findAllByFieldVarargs_willHandleNullSearch()  {
         TestLongEntity[] entities = fixture.get(5);
         entities[0].setName(null);
         entities[1].setName(null);
@@ -375,7 +375,7 @@ public class LongLoadRepositoryTest extends AbstractLongRepositoryTest {
     }
 
     @Test
-    public void findAllByFieldVarargs_willReturnEmptyList_whenThereAreNoMatches() throws Exception {
+    public void findAllByFieldVarargs_willReturnEmptyList_whenThereAreNoMatches()  {
         TestLongEntity[] entities = fixture.get(3);
         entities[0].setName("Mark");
         entities[1].setName("Bob");
@@ -388,7 +388,7 @@ public class LongLoadRepositoryTest extends AbstractLongRepositoryTest {
     }
 
     @Test
-    public void findAllByFieldVarargs_willNotFail_whenSearchTypeDoesNotMatchFieldType() throws Exception {
+    public void findAllByFieldVarargs_willNotFail_whenSearchTypeDoesNotMatchFieldType()  {
         TestLongEntity[] entities = fixture.get(3);
         entities[0].setName("Mark");
         entities[1].setName("Bob");
@@ -401,7 +401,7 @@ public class LongLoadRepositoryTest extends AbstractLongRepositoryTest {
     }
 
     @Test
-    public void findOne() throws Exception {
+    public void findOne()  {
         TestLongEntity entity = new TestLongEntity(1L).setName("the name");
         ofy().save().entity(entity).now();
 
@@ -413,7 +413,7 @@ public class LongLoadRepositoryTest extends AbstractLongRepositoryTest {
     }
 
     @Test
-    public void findOne_willReturnEmptyOptional_whenKeyDoesNotExist() throws Exception {
+    public void findOne_willReturnEmptyOptional_whenKeyDoesNotExist()  {
         Optional<TestLongEntity> result = repository.findOne(Key.create(TestLongEntity.class, 999L));
 
         assertThat(result.isPresent()).isEqualTo(false);
@@ -421,7 +421,7 @@ public class LongLoadRepositoryTest extends AbstractLongRepositoryTest {
 
 
     @Test
-    public void findOne_willThrowException_whenInputIsNull() throws Exception {
+    public void findOne_willThrowException_whenInputIsNull()  {
         thrown.expect(NullPointerException.class);
         repository.findOne(null);
     }

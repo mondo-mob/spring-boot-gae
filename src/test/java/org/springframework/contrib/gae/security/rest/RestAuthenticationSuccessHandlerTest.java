@@ -26,12 +26,12 @@ public class RestAuthenticationSuccessHandlerTest {
     private RestAuthenticationSuccessHandler handler;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp()  {
         handler = new RestAuthenticationSuccessHandler();
     }
 
     @Test
-    public void onAuthenticationSuccess() throws Exception {
+    public void onAuthenticationSuccess()  {
         handler.onAuthenticationSuccess(request, response, authentication);
 
         verify(response).setStatus(HttpServletResponse.SC_OK);

@@ -34,7 +34,7 @@ public class QueryFragmentCompilerTest {
     private QueryFragmentCompiler compiler;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp()  {
         compiler = new QueryFragmentCompiler(TestSearchEntity.class, searchMetadata, conversionService);
 
         when(searchMetadata.encodeFieldName(TestSearchEntity.class, "field")).thenReturn("field");
