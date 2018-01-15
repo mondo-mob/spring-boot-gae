@@ -3,15 +3,15 @@ package org.springframework.contrib.gae.search;
 import com.google.appengine.api.search.Index;
 import com.google.appengine.api.search.IndexSpec;
 import com.google.appengine.api.search.SearchServiceFactory;
-import org.springframework.contrib.gae.SetupAppengine;
-import org.springframework.contrib.gae.objectify.ObjectifyRollbackRule;
-import org.springframework.contrib.gae.search.config.SearchTestConfiguration;
-import org.springframework.contrib.gae.search.metadata.SearchMetadata;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.contrib.gae.SetupAppengine;
+import org.springframework.contrib.gae.objectify.ObjectifyRollbackRule;
+import org.springframework.contrib.gae.search.config.SearchTestConfiguration;
+import org.springframework.contrib.gae.search.metadata.SearchMetadata;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)

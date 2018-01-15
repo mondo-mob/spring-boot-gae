@@ -1,14 +1,14 @@
 package org.springframework.contrib.gae.search.query;
 
-import org.springframework.contrib.gae.search.Operator;
-import org.springframework.contrib.gae.search.TestSearchEntity;
-import org.springframework.contrib.gae.search.metadata.SearchMetadata;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
+import org.springframework.contrib.gae.search.Operator;
+import org.springframework.contrib.gae.search.TestSearchEntity;
+import org.springframework.contrib.gae.search.metadata.SearchMetadata;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.TypeDescriptor;
 

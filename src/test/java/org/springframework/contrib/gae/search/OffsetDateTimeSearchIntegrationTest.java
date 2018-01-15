@@ -1,16 +1,16 @@
 package org.springframework.contrib.gae.search;
 
-import org.springframework.contrib.gae.search.query.Query;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.contrib.gae.search.query.Query;
 
 import java.time.OffsetDateTime;
 import java.util.Arrays;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.contrib.gae.search.Operator.EQUAL;
 import static org.springframework.contrib.gae.search.Operator.GREATER_THAN;
 import static org.springframework.contrib.gae.search.Operator.GREATER_THAN_OR_EQUAL;
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class OffsetDateTimeSearchIntegrationTest extends SearchTest {
 

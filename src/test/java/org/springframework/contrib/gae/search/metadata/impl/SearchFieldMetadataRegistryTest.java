@@ -1,8 +1,5 @@
 package org.springframework.contrib.gae.search.metadata.impl;
 
-import org.springframework.contrib.gae.search.SearchId;
-import org.springframework.contrib.gae.search.SearchIndex;
-import org.springframework.contrib.gae.search.metadata.IndexTypeRegistry;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -10,6 +7,9 @@ import org.junit.rules.ExpectedException;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
+import org.springframework.contrib.gae.search.SearchId;
+import org.springframework.contrib.gae.search.SearchIndex;
+import org.springframework.contrib.gae.search.metadata.IndexTypeRegistry;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

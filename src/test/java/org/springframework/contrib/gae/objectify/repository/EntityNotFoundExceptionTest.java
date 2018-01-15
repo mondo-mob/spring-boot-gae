@@ -1,9 +1,9 @@
 package org.springframework.contrib.gae.objectify.repository;
 
 import com.googlecode.objectify.Key;
+import org.junit.Test;
 import org.springframework.contrib.gae.objectify.ObjectifyTest;
 import org.springframework.contrib.gae.objectify.TestStringEntity;
-import org.junit.Test;
 
 public class EntityNotFoundExceptionTest extends ObjectifyTest {
 

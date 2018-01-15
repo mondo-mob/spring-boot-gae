@@ -1,7 +1,7 @@
 package org.springframework.contrib.gae.objectify.support;
 
-import org.springframework.contrib.gae.objectify.ObjectifyProxy;
 import org.apache.commons.lang3.reflect.FieldUtils;
+import org.springframework.contrib.gae.objectify.ObjectifyProxy;
 import org.springframework.data.repository.core.EntityInformation;
 
 import java.io.Serializable;

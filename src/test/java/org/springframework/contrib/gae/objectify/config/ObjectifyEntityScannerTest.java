@@ -1,8 +1,8 @@
 package org.springframework.contrib.gae.objectify.config;
 
+import org.junit.Test;
 import org.springframework.contrib.gae.objectify.config.sample.TestEntity1;
 import org.springframework.contrib.gae.objectify.config.sample.subpackage.TestEntity2;
-import org.junit.Test;
 
 import java.util.Set;
 

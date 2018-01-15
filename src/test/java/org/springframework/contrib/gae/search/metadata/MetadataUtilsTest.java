@@ -1,10 +1,10 @@
 package org.springframework.contrib.gae.search.metadata;
 
-import org.springframework.contrib.gae.search.metadata.impl.MetadataUtils;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.springframework.contrib.gae.search.metadata.impl.MetadataUtils;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;

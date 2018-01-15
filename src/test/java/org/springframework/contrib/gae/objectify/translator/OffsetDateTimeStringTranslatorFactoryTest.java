@@ -1,8 +1,8 @@
 package org.springframework.contrib.gae.objectify.translator;
 
 import com.googlecode.objectify.impl.translate.Translator;
-import org.springframework.contrib.gae.objectify.ExecuteAsTimeZone;
 import org.junit.Test;
+import org.springframework.contrib.gae.objectify.ExecuteAsTimeZone;
 
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;

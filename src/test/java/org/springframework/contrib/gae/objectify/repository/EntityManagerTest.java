@@ -3,12 +3,12 @@ package org.springframework.contrib.gae.objectify.repository;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyService;
-import org.springframework.contrib.gae.objectify.ObjectifyTest;
-import org.springframework.contrib.gae.objectify.TestStringEntity;
-import org.springframework.contrib.gae.objectify.TestStringEntityFixture;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.springframework.contrib.gae.objectify.ObjectifyTest;
+import org.springframework.contrib.gae.objectify.TestStringEntity;
+import org.springframework.contrib.gae.objectify.TestStringEntityFixture;
 
 import javax.annotation.Nonnull;
 import java.lang.reflect.Field;

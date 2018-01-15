@@ -1,10 +1,6 @@
 package org.springframework.contrib.gae.search.metadata;
 
 import com.google.appengine.api.search.GeoPoint;
-import org.springframework.contrib.gae.search.IndexType;
-import org.springframework.contrib.gae.search.SearchIndex;
-import org.springframework.contrib.gae.search.TestSearchEntity;
-import org.springframework.contrib.gae.search.metadata.impl.SearchMetadataImpl;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -13,6 +9,10 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
+import org.springframework.contrib.gae.search.IndexType;
+import org.springframework.contrib.gae.search.SearchIndex;
+import org.springframework.contrib.gae.search.TestSearchEntity;
+import org.springframework.contrib.gae.search.metadata.impl.SearchMetadataImpl;
 
 import java.util.Arrays;
 import java.util.Map;
