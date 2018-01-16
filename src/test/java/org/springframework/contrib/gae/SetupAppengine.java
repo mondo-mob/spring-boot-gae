@@ -16,7 +16,7 @@ public class SetupAppengine extends ExternalResource {
     private LocalServiceTestHelper helper;
 
     @Override
-    protected void before() throws Throwable {
+    protected void before() {
         List<LocalServiceTestConfig> testConfigs = createTestConfigs();
         helper = new LocalServiceTestHelper(testConfigs.toArray(new LocalServiceTestConfig[0]));
         helper.setTimeZone(TimeZone.getDefault());

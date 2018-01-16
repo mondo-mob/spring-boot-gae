@@ -1,10 +1,10 @@
 package org.springframework.contrib.gae.objectify.repository;
 
 import com.googlecode.objectify.SaveException;
-import org.springframework.contrib.gae.objectify.TestStringEntity;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.contrib.gae.objectify.TestStringEntity;
 
 import java.util.Arrays;
 import java.util.List;
@@ -18,7 +18,7 @@ public abstract class StringAsyncSaveRepositoryTest extends AbstractStringReposi
     private AsyncSaveRepository<TestStringEntity, String> repository;
 
     @Test
-    public void saveAsync() throws Exception {
+    public void saveAsync()  {
         TestStringEntity saved = repository.saveAsync(new TestStringEntity("my-id").setName("name")).get();
 
         TestStringEntity loaded = load("my-id");
@@ -28,14 +28,14 @@ public abstract class StringAsyncSaveRepositoryTest extends AbstractStringReposi
     }
 
     @Test
-    public void saveAsync_willThrowException_whenInputIsNull() throws Exception {
+    public void saveAsync_willThrowException_whenInputIsNull()  {
         thrown.expect(NullPointerException.class);
 
         repository.saveAsync((TestStringEntity) null).get();
     }
 
     @Test
-    public void saveAsync_willThrowException_whenInputHasNoId() throws Exception {
+    public void saveAsync_willThrowException_whenInputHasNoId()  {
         thrown.expect(SaveException.class);
         thrown.expectMessage("Cannot save an entity with a null String @Id");
 
@@ -43,7 +43,7 @@ public abstract class StringAsyncSaveRepositoryTest extends AbstractStringReposi
     }
 
     @Test
-    public void saveAsyncCollection() throws Exception {
+    public void saveAsyncCollection()  {
         List<TestStringEntity> saved = repository.saveAsync(
                 Arrays.asList(fixture.get(3))
         ).get();
@@ -53,7 +53,7 @@ public abstract class StringAsyncSaveRepositoryTest extends AbstractStringReposi
     }
 
     @Test
-    public void saveAsyncCollection_willThrowException_whenInputContainsNull() throws Exception {
+    public void saveAsyncCollection_willThrowException_whenInputContainsNull()  {
         thrown.expect(NullPointerException.class);
         thrown.expectMessage("Attempted to save a null entity");
         repository.saveAsync(
@@ -66,7 +66,7 @@ public abstract class StringAsyncSaveRepositoryTest extends AbstractStringReposi
     }
 
     @Test
-    public void saveAsyncCollection_willThrowException_whenInputContainsEntityWithoutId() throws Exception {
+    public void saveAsyncCollection_willThrowException_whenInputContainsEntityWithoutId()  {
         thrown.expect(SaveException.class);
         thrown.expectMessage("Cannot save an entity with a null String @Id");
 
@@ -80,7 +80,7 @@ public abstract class StringAsyncSaveRepositoryTest extends AbstractStringReposi
     }
 
     @Test
-    public void saveAsyncVarargs() throws Exception {
+    public void saveAsyncVarargs()  {
         List<TestStringEntity> saved = repository.saveAsync(
                 fixture.get(3)
         ).get();
@@ -90,7 +90,7 @@ public abstract class StringAsyncSaveRepositoryTest extends AbstractStringReposi
     }
 
     @Test
-    public void saveAsyncVarargs_willThrowException_whenInputContainsNull() throws Exception {
+    public void saveAsyncVarargs_willThrowException_whenInputContainsNull()  {
         thrown.expect(NullPointerException.class);
         thrown.expectMessage("Attempted to save a null entity");
 
@@ -102,7 +102,7 @@ public abstract class StringAsyncSaveRepositoryTest extends AbstractStringReposi
     }
 
     @Test
-    public void saveAsyncVarargs_willThrowException_whenInputContainsEntityWithoutId() throws Exception {
+    public void saveAsyncVarargs_willThrowException_whenInputContainsEntityWithoutId()  {
         thrown.expect(SaveException.class);
         thrown.expectMessage("Cannot save an entity with a null String @Id");
 

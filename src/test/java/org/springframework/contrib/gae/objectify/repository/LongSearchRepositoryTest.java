@@ -1,11 +1,11 @@
 package org.springframework.contrib.gae.objectify.repository;
 
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.contrib.gae.objectify.TestLongEntity;
 import org.springframework.contrib.gae.search.Operator;
 import org.springframework.contrib.gae.search.query.Query;
 import org.springframework.contrib.gae.search.query.Result;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

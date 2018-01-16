@@ -1,7 +1,7 @@
 package org.springframework.contrib.gae.search.metadata.impl;
 
-import org.springframework.contrib.gae.search.SearchIndex;
 import org.junit.Test;
+import org.springframework.contrib.gae.search.SearchIndex;
 
 import java.lang.reflect.Field;
 import java.util.function.Function;

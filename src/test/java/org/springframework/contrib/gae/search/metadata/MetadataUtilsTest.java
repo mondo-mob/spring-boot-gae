@@ -1,10 +1,10 @@
 package org.springframework.contrib.gae.search.metadata;
 
-import org.springframework.contrib.gae.search.metadata.impl.MetadataUtils;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.springframework.contrib.gae.search.metadata.impl.MetadataUtils;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ public class MetadataUtilsTest {
 
     @Test
     @SuppressWarnings("InstantiatingObjectToGetClassObject")
-    public void getRawType() throws Exception {
+    public void getRawType()  {
         softly.assertThat(MetadataUtils.getRawType(String.class)).isEqualTo(String.class);
         softly.assertThat(MetadataUtils.getRawType(List.class)).isEqualTo(List.class);
         softly.assertThat(MetadataUtils.getRawType(Map.Entry.class)).isEqualTo(Map.Entry.class);
@@ -38,7 +38,7 @@ public class MetadataUtilsTest {
 
     @Test
     @SuppressWarnings("InstantiatingObjectToGetClassObject")
-    public void isCollectionType() throws Exception {
+    public void isCollectionType()  {
         softly.assertThat(MetadataUtils.isCollectionType(String[].class)).isTrue();
         softly.assertThat(MetadataUtils.isCollectionType(Integer[].class)).isTrue();
         softly.assertThat(MetadataUtils.isCollectionType(int[].class)).isTrue();
@@ -63,7 +63,7 @@ public class MetadataUtilsTest {
 
     @Test
     @SuppressWarnings({"InstantiatingObjectToGetClassObject", "MismatchedQueryAndUpdateOfCollection"})
-    public void getCollectionType() throws Exception {
+    public void getCollectionType()  {
         softly.assertThat(MetadataUtils.getCollectionType(String[].class)).isEqualTo(String.class);
         softly.assertThat(MetadataUtils.getCollectionType(Integer[].class)).isEqualTo(Integer.class);
         softly.assertThat(MetadataUtils.getCollectionType(int[].class)).isEqualTo(int.class);
@@ -100,14 +100,14 @@ public class MetadataUtilsTest {
     }
 
     @Test
-    public void getCollectionType_willThrownException_whenNonParameterized() throws Exception {
+    public void getCollectionType_willThrownException_whenNonParameterized()  {
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("Cannot infer index type for non-parameterized type: interface java.util.List");
         assertThat(MetadataUtils.getCollectionType(List.class)).isEqualTo(String.class);
     }
 
     @Test
-    public void getCollectionType_willThrownException_whenNonCollectionType() throws Exception {
+    public void getCollectionType_willThrownException_whenNonCollectionType()  {
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("Unsupported type: class java.lang.String");
         assertThat(MetadataUtils.getCollectionType(String.class)).isEqualTo(String.class);

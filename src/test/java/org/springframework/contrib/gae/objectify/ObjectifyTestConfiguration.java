@@ -1,8 +1,8 @@
 package org.springframework.contrib.gae.objectify;
 
-import org.springframework.contrib.gae.objectify.config.ObjectifyConfigurer;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.contrib.gae.objectify.config.ObjectifyConfigurer;
 
 import java.util.Arrays;
 import java.util.List;

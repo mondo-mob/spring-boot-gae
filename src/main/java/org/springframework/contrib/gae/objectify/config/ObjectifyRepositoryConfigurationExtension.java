@@ -2,11 +2,9 @@ package org.springframework.contrib.gae.objectify.config;
 
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Subclass;
-import org.springframework.contrib.gae.objectify.support.ObjectifyRepositoryFactoryBean;
 import org.springframework.contrib.gae.objectify.repository.ObjectifyRepository;
-import org.springframework.beans.factory.support.BeanDefinitionBuilder;
+import org.springframework.contrib.gae.objectify.support.ObjectifyRepositoryFactoryBean;
 import org.springframework.data.repository.config.RepositoryConfigurationExtensionSupport;
-import org.springframework.data.repository.config.RepositoryConfigurationSource;
 
 import java.lang.annotation.Annotation;
 import java.util.Arrays;
@@ -43,8 +41,4 @@ public class ObjectifyRepositoryConfigurationExtension extends RepositoryConfigu
         return Collections.singleton(ObjectifyRepository.class);
     }
 
-    @Override
-    public void postProcess(BeanDefinitionBuilder builder, RepositoryConfigurationSource source) {
-        super.postProcess(builder, source);
-    }
 }

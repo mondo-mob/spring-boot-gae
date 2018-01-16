@@ -108,8 +108,8 @@ public class GaeUserDetailsManager<U extends GaeUser> implements UserDetailsMana
     }
 
     private Optional<U> loadUser(String username) {
-        U user = ofy().load().key(Key.create(userClass, username)).now();
-        return Optional.ofNullable(user);
+        return userAdapter.getUserKey(username, userClass)
+                .map(key -> ofy().load().key(key).now());
     }
 
     private UserDetails userDetailsWithEncodedPassword(UserDetails userDetails) {

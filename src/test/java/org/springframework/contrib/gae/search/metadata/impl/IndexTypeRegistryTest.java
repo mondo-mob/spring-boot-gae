@@ -3,12 +3,12 @@ package org.springframework.contrib.gae.search.metadata.impl;
 import com.google.appengine.api.search.GeoPoint;
 import com.openpojo.random.util.SomeEnum;
 import org.assertj.core.api.Assertions;
-import org.springframework.contrib.gae.search.IndexType;
-import org.springframework.contrib.gae.search.metadata.IndexTypeRegistry;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.springframework.contrib.gae.search.IndexType;
+import org.springframework.contrib.gae.search.metadata.IndexTypeRegistry;
 
 import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
@@ -16,8 +16,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class IndexTypeRegistryTest {
 
@@ -27,7 +25,7 @@ public class IndexTypeRegistryTest {
     private IndexTypeRegistry lookup = new DefaultIndexTypeRegistry();
 
     @Test
-    public void addDefaultMappings() throws Exception {
+    public void addDefaultMappings()  {
         SoftAssertions softly = new SoftAssertions();
 
         softly.assertThat(lookup.apply(boolean.class)).isEqualTo(IndexType.IDENTIFIER);
@@ -56,7 +54,7 @@ public class IndexTypeRegistryTest {
     }
 
     @Test
-    public void apply_willReturnCorrectType_whenPassedASubclassOfAKnownType() throws Exception {
+    public void apply_willReturnCorrectType_whenPassedASubclassOfAKnownType()  {
         SoftAssertions softly = new SoftAssertions();
 
         softly.assertThat(lookup.apply(String.class)).isEqualTo(IndexType.TEXT);
@@ -89,14 +87,14 @@ public class IndexTypeRegistryTest {
     }
 
     @Test
-    public void addMapping() throws Exception {
+    public void addMapping()  {
         lookup.addMapping(IndexTypeRegistryTest.class, IndexType.GEOPOINT);
 
         Assertions.assertThat(lookup.apply(IndexTypeRegistryTest.class)).isEqualTo(IndexType.GEOPOINT);
     }
 
     @Test
-    public void apply_willThrowException_whenTypeIsUnknown() throws Exception {
+    public void apply_willThrowException_whenTypeIsUnknown()  {
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("Unknown type:");
         lookup.apply(IndexTypeRegistryTest.class);

@@ -1,8 +1,8 @@
 package org.springframework.contrib.gae.objectify.support;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.contrib.gae.objectify.ObjectifyProxy;
 import org.springframework.contrib.gae.search.SearchService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mapping.context.MappingContext;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.core.support.RepositoryFactoryBeanSupport;

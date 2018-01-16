@@ -1,9 +1,9 @@
 package org.springframework.contrib.gae.search.conversion.converter;
 
 import com.google.appengine.api.search.GeoPoint;
+import org.junit.Test;
 import org.springframework.contrib.gae.search.IndexType;
 import org.springframework.contrib.gae.search.conversion.DefaultSearchConversionService;
-import org.junit.Test;
 import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.convert.support.GenericConversionService;

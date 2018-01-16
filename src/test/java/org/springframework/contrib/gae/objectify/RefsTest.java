@@ -10,20 +10,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class RefsTest extends ObjectifyTest {
     @Test
-    public void ref() throws Exception {
+    public void ref()  {
         TestStringEntity entity = new TestStringEntity("id");
 
         assertThat(Refs.ref(entity)).isEqualTo(Ref.create(entity));
     }
 
     @Test
-    public void ref_willReturnNull_whenEntityIsNull() throws Exception {
+    public void ref_willReturnNull_whenEntityIsNull()  {
         assertThat(Refs.ref((TestStringEntity) null))
                 .isNull();
     }
 
     @Test
-    public void refCollection() throws Exception {
+    public void refCollection()  {
         TestStringEntity a = new TestStringEntity("a");
         TestStringEntity b = new TestStringEntity("b");
         TestStringEntity c = new TestStringEntity("c");
@@ -41,7 +41,7 @@ public class RefsTest extends ObjectifyTest {
     }
 
     @Test
-    public void refVarargs() throws Exception {
+    public void refVarargs()  {
         TestStringEntity a = new TestStringEntity("a");
         TestStringEntity b = new TestStringEntity("b");
         TestStringEntity c = new TestStringEntity("c");
@@ -57,7 +57,7 @@ public class RefsTest extends ObjectifyTest {
     }
 
     @Test
-    public void refKey() throws Exception {
+    public void refKey()  {
         TestStringEntity entity = new TestStringEntity("id");
 
         assertThat(Refs.ref(Key.create(entity)))
@@ -65,13 +65,13 @@ public class RefsTest extends ObjectifyTest {
     }
 
     @Test
-    public void refKey_willReturnNull_whenKeyIsNull() throws Exception {
+    public void refKey_willReturnNull_whenKeyIsNull()  {
         assertThat(Refs.ref((Key<?>) null))
                 .isNull();
     }
 
     @Test
-    public void refKeysCollection() throws Exception {
+    public void refKeysCollection()  {
         TestStringEntity a = new TestStringEntity("a");
         TestStringEntity b = new TestStringEntity("b");
         TestStringEntity c = new TestStringEntity("c");
@@ -92,7 +92,7 @@ public class RefsTest extends ObjectifyTest {
     }
 
     @Test
-    public void refKeysVarargs() throws Exception {
+    public void refKeysVarargs()  {
         TestStringEntity a = new TestStringEntity("a");
         TestStringEntity b = new TestStringEntity("b");
         TestStringEntity c = new TestStringEntity("c");
@@ -111,7 +111,7 @@ public class RefsTest extends ObjectifyTest {
     }
 
     @Test
-    public void key() throws Exception {
+    public void key()  {
         TestStringEntity entity = new TestStringEntity("id");
 
         assertThat(Refs.key(entity))
@@ -119,13 +119,13 @@ public class RefsTest extends ObjectifyTest {
     }
 
     @Test
-    public void key_willReturnNull_whenKeyIsNull() throws Exception {
+    public void key_willReturnNull_whenKeyIsNull()  {
         assertThat(Refs.key((TestStringEntity) null))
                 .isNull();
     }
 
     @Test
-    public void keyCollection() throws Exception {
+    public void keyCollection()  {
         TestStringEntity a = new TestStringEntity("a");
         TestStringEntity b = new TestStringEntity("b");
         TestStringEntity c = new TestStringEntity("c");
@@ -141,7 +141,7 @@ public class RefsTest extends ObjectifyTest {
     }
 
     @Test
-    public void keyVarargs() throws Exception {
+    public void keyVarargs()  {
         TestStringEntity a = new TestStringEntity("a");
         TestStringEntity b = new TestStringEntity("b");
         TestStringEntity c = new TestStringEntity("c");
@@ -157,7 +157,7 @@ public class RefsTest extends ObjectifyTest {
     }
 
     @Test
-    public void deref() throws Exception {
+    public void deref()  {
         TestStringEntity entity = new TestStringEntity("id");
         save(entity);
 
@@ -169,7 +169,7 @@ public class RefsTest extends ObjectifyTest {
     }
 
     @Test
-    public void derefCollection() throws Exception {
+    public void derefCollection()  {
         TestStringEntity a = new TestStringEntity("a");
         TestStringEntity b = new TestStringEntity("b");
         TestStringEntity c = new TestStringEntity("c");
@@ -188,7 +188,7 @@ public class RefsTest extends ObjectifyTest {
     }
 
     @Test
-    public void derefVarargs() throws Exception {
+    public void derefVarargs()  {
         TestStringEntity a = new TestStringEntity("a");
         TestStringEntity b = new TestStringEntity("b");
         TestStringEntity c = new TestStringEntity("c");
@@ -205,7 +205,7 @@ public class RefsTest extends ObjectifyTest {
     }
 
     @Test
-    public void load() throws Exception {
+    public void load()  {
         TestStringEntity entity = new TestStringEntity("id");
         save(entity);
 
@@ -217,14 +217,14 @@ public class RefsTest extends ObjectifyTest {
     }
 
     @Test
-    public void load_willReturnNull_whenKeyIsNull() throws Exception {
+    public void load_willReturnNull_whenKeyIsNull()  {
         assertThat(
                 Refs.load((Key<?>) null)
         ).isNull();
     }
 
     @Test
-    public void loadCollection() throws Exception {
+    public void loadCollection()  {
         TestStringEntity a = new TestStringEntity("a");
         TestStringEntity b = new TestStringEntity("b");
         TestStringEntity c = new TestStringEntity("c");
@@ -243,7 +243,7 @@ public class RefsTest extends ObjectifyTest {
     }
 
     @Test
-    public void loadVarargs() throws Exception {
+    public void loadVarargs()  {
         TestStringEntity a = new TestStringEntity("a");
         TestStringEntity b = new TestStringEntity("b");
         TestStringEntity c = new TestStringEntity("c");

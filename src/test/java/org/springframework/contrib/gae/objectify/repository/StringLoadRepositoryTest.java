@@ -1,11 +1,15 @@
 package org.springframework.contrib.gae.objectify.repository;
 
 import com.googlecode.objectify.Key;
-import org.springframework.contrib.gae.objectify.TestStringEntity;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.contrib.gae.objectify.TestStringEntity;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -16,7 +20,7 @@ public class StringLoadRepositoryTest extends AbstractStringRepositoryTest {
     private LoadRepository<TestStringEntity, String> repository;
 
     @Test
-    public void findAll() throws Exception {
+    public void findAll()  {
         TestStringEntity[] entities = fixture.get(3);
         ofy().save().entities(entities).now();
 
@@ -25,13 +29,13 @@ public class StringLoadRepositoryTest extends AbstractStringRepositoryTest {
     }
 
     @Test
-    public void findAll_willReturnEmptyList_whenThereAreNoEntities() throws Exception {
+    public void findAll_willReturnEmptyList_whenThereAreNoEntities()  {
         assertThat(repository.findAll())
                 .isEmpty();
     }
 
     @Test
-    public void findAllWithCount() throws Exception {
+    public void findAllWithCount()  {
         TestStringEntity[] entities = fixture.get(3);
         ofy().save().entities(entities).now();
 
@@ -43,13 +47,13 @@ public class StringLoadRepositoryTest extends AbstractStringRepositoryTest {
     }
 
     @Test
-    public void findAllWithCount_willReturnEmptyList_whenThereAreNoEntities() throws Exception {
+    public void findAllWithCount_willReturnEmptyList_whenThereAreNoEntities()  {
         assertThat(repository.findAll(69))
                 .isEmpty();
     }
 
     @Test
-    public void findAllCollection() throws Exception {
+    public void findAllCollection()  {
         TestStringEntity[] entities = fixture.get(3);
         ofy().save().entities(entities).now();
 
@@ -68,7 +72,7 @@ public class StringLoadRepositoryTest extends AbstractStringRepositoryTest {
     }
 
     @Test
-    public void findAllCollection_willReturnEmpty_whenNoKeysArePassed() throws Exception {
+    public void findAllCollection_willReturnEmpty_whenNoKeysArePassed()  {
         List<TestStringEntity> result = repository.findAll(
                 Collections.emptyList()
         );
@@ -79,7 +83,7 @@ public class StringLoadRepositoryTest extends AbstractStringRepositoryTest {
     }
 
     @Test
-    public void findAllCollection_willNotContainMissingEntities_whenKeyDoesNotExist() throws Exception {
+    public void findAllCollection_willNotContainMissingEntities_whenKeyDoesNotExist()  {
         TestStringEntity[] entities = fixture.get(2);
         ofy().save().entities(entities).now();
 
@@ -98,13 +102,13 @@ public class StringLoadRepositoryTest extends AbstractStringRepositoryTest {
     }
 
     @Test
-    public void findAllCollection_willThrowException_whenInputIsNull() throws Exception {
+    public void findAllCollection_willThrowException_whenInputIsNull()  {
         thrown.expect(NullPointerException.class);
         repository.findAll((Collection<Key<TestStringEntity>>) null);
     }
 
     @Test
-    public void findAllCollection_willThrowException_whenInputContainsNull() throws Exception {
+    public void findAllCollection_willThrowException_whenInputContainsNull()  {
         thrown.expect(NullPointerException.class);
         repository.findAll(
                 Arrays.asList(
@@ -117,7 +121,7 @@ public class StringLoadRepositoryTest extends AbstractStringRepositoryTest {
 
     @Test
     @SuppressWarnings("unchecked")
-    public void findAllVarargs() throws Exception {
+    public void findAllVarargs()  {
         TestStringEntity[] entities = fixture.get(3);
         ofy().save().entities(entities).now();
 
@@ -135,7 +139,7 @@ public class StringLoadRepositoryTest extends AbstractStringRepositoryTest {
 
     @Test
     @SuppressWarnings("unchecked")
-    public void findAllVarargs_willReturnEmpty_whenNoKeysArePassed() throws Exception {
+    public void findAllVarargs_willReturnEmpty_whenNoKeysArePassed()  {
         List<TestStringEntity> result = repository.findAll((Key<TestStringEntity>[]) new Key[]{});
 
         assertThat(result)
@@ -145,7 +149,7 @@ public class StringLoadRepositoryTest extends AbstractStringRepositoryTest {
 
     @Test
     @SuppressWarnings("unchecked")
-    public void findAllVarargs_willNotContainMissingEntities_whenKeyDoesNotExist() throws Exception {
+    public void findAllVarargs_willNotContainMissingEntities_whenKeyDoesNotExist()  {
         TestStringEntity[] entities = fixture.get(2);
         ofy().save().entities(entities).now();
 
@@ -163,14 +167,14 @@ public class StringLoadRepositoryTest extends AbstractStringRepositoryTest {
 
     @Test
     @SuppressWarnings("unchecked")
-    public void findAllVarargs_willThrowException_whenInputIsNull() throws Exception {
+    public void findAllVarargs_willThrowException_whenInputIsNull()  {
         thrown.expect(NullPointerException.class);
         repository.findAll((Key<TestStringEntity>) null);
     }
 
     @Test
     @SuppressWarnings("unchecked")
-    public void findAllVarargs_willThrowException_whenInputContainsNull() throws Exception {
+    public void findAllVarargs_willThrowException_whenInputContainsNull()  {
         thrown.expect(NullPointerException.class);
         repository.findAll(
                 Key.create(TestStringEntity.class, "id1"),
@@ -180,7 +184,7 @@ public class StringLoadRepositoryTest extends AbstractStringRepositoryTest {
     }
 
     @Test
-    public void findAllByField() throws Exception {
+    public void findAllByField()  {
         TestStringEntity[] entities = fixture.get(3);
         entities[0].setName("Bob");
         entities[1].setName("Bob");
@@ -194,7 +198,7 @@ public class StringLoadRepositoryTest extends AbstractStringRepositoryTest {
     }
 
     @Test
-    public void findAllByField_willNotReturnMatches_whenCaseIsMismatched() throws Exception {
+    public void findAllByField_willNotReturnMatches_whenCaseIsMismatched()  {
         TestStringEntity[] entities = fixture.get(3);
         entities[0].setName("Bob");
         entities[1].setName("bob");
@@ -208,14 +212,14 @@ public class StringLoadRepositoryTest extends AbstractStringRepositoryTest {
     }
 
     @Test
-    public void findAllByField_willThrowException_whenFieldIsNull() throws Exception {
+    public void findAllByField_willThrowException_whenFieldIsNull()  {
         thrown.expect(NullPointerException.class);
 
         repository.findAllByField(null, "Bob");
     }
 
     @Test
-    public void findAllByField_willHandleNullSearch() throws Exception {
+    public void findAllByField_willHandleNullSearch()  {
         TestStringEntity[] entities = fixture.get(3);
         entities[0].setName(null);
         entities[1].setName("Bob");
@@ -229,7 +233,7 @@ public class StringLoadRepositoryTest extends AbstractStringRepositoryTest {
     }
 
     @Test
-    public void findAllByField_willReturnEmptyList_whenThereAreNoMatches() throws Exception {
+    public void findAllByField_willReturnEmptyList_whenThereAreNoMatches()  {
         TestStringEntity[] entities = fixture.get(3);
         entities[0].setName("Mark");
         entities[1].setName("Bob");
@@ -242,7 +246,7 @@ public class StringLoadRepositoryTest extends AbstractStringRepositoryTest {
     }
 
     @Test
-    public void findAllByField_willNotFail_whenSearchTypeDoesNotMatchFieldType() throws Exception {
+    public void findAllByField_willNotFail_whenSearchTypeDoesNotMatchFieldType()  {
         TestStringEntity[] entities = fixture.get(3);
         entities[0].setName("Mark");
         entities[1].setName("Bob");
@@ -255,7 +259,7 @@ public class StringLoadRepositoryTest extends AbstractStringRepositoryTest {
     }
 
     @Test
-    public void findAllByFieldCollection() throws Exception {
+    public void findAllByFieldCollection()  {
         TestStringEntity[] entities = fixture.get(5);
         entities[0].setName("Bob");
         entities[1].setName("Bob");
@@ -271,7 +275,7 @@ public class StringLoadRepositoryTest extends AbstractStringRepositoryTest {
     }
 
     @Test
-    public void findAllByFieldCollection_willReturnEmptyList_whenFieldIsNull() throws Exception {
+    public void findAllByFieldCollection_willReturnEmptyList_whenFieldIsNull()  {
         TestStringEntity[] entities = fixture.get(5);
         entities[0].setName("Bob");
         entities[1].setName("Tabatha");
@@ -286,7 +290,7 @@ public class StringLoadRepositoryTest extends AbstractStringRepositoryTest {
     }
 
     @Test
-    public void findAllByFieldCollection_willHandleNullSearch() throws Exception {
+    public void findAllByFieldCollection_willHandleNullSearch()  {
         TestStringEntity[] entities = fixture.get(5);
         entities[0].setName(null);
         entities[1].setName(null);
@@ -302,7 +306,7 @@ public class StringLoadRepositoryTest extends AbstractStringRepositoryTest {
     }
 
     @Test
-    public void findAllByFieldCollection_willReturnEmptyList_whenThereAreNoMatches() throws Exception {
+    public void findAllByFieldCollection_willReturnEmptyList_whenThereAreNoMatches()  {
         TestStringEntity[] entities = fixture.get(3);
         entities[0].setName("Mark");
         entities[1].setName("Bob");
@@ -315,7 +319,7 @@ public class StringLoadRepositoryTest extends AbstractStringRepositoryTest {
     }
 
     @Test
-    public void findAllByFieldCollection_willNotFail_whenSearchTypeDoesNotMatchFieldType() throws Exception {
+    public void findAllByFieldCollection_willNotFail_whenSearchTypeDoesNotMatchFieldType()  {
         TestStringEntity[] entities = fixture.get(3);
         entities[0].setName("Mark");
         entities[1].setName("Bob");
@@ -328,7 +332,7 @@ public class StringLoadRepositoryTest extends AbstractStringRepositoryTest {
     }
 
     @Test
-    public void findAllByFieldVarargs() throws Exception {
+    public void findAllByFieldVarargs()  {
         TestStringEntity[] entities = fixture.get(5);
         entities[0].setName("Bob");
         entities[1].setName("Bob");
@@ -344,7 +348,7 @@ public class StringLoadRepositoryTest extends AbstractStringRepositoryTest {
     }
 
     @Test
-    public void findAllByFieldVarargs_willReturnEmptyList_whenFieldIsNull() throws Exception {
+    public void findAllByFieldVarargs_willReturnEmptyList_whenFieldIsNull()  {
         TestStringEntity[] entities = fixture.get(5);
         entities[0].setName("Bob");
         entities[1].setName("Tabatha");
@@ -359,7 +363,7 @@ public class StringLoadRepositoryTest extends AbstractStringRepositoryTest {
     }
 
     @Test
-    public void findAllByFieldVarargs_willHandleNullSearch() throws Exception {
+    public void findAllByFieldVarargs_willHandleNullSearch()  {
         TestStringEntity[] entities = fixture.get(5);
         entities[0].setName(null);
         entities[1].setName(null);
@@ -375,7 +379,7 @@ public class StringLoadRepositoryTest extends AbstractStringRepositoryTest {
     }
 
     @Test
-    public void findAllByFieldVarargs_willReturnEmptyList_whenThereAreNoMatches() throws Exception {
+    public void findAllByFieldVarargs_willReturnEmptyList_whenThereAreNoMatches()  {
         TestStringEntity[] entities = fixture.get(3);
         entities[0].setName("Mark");
         entities[1].setName("Bob");
@@ -388,7 +392,7 @@ public class StringLoadRepositoryTest extends AbstractStringRepositoryTest {
     }
 
     @Test
-    public void findAllByFieldVarargs_willNotFail_whenSearchTypeDoesNotMatchFieldType() throws Exception {
+    public void findAllByFieldVarargs_willNotFail_whenSearchTypeDoesNotMatchFieldType()  {
         TestStringEntity[] entities = fixture.get(3);
         entities[0].setName("Mark");
         entities[1].setName("Bob");
@@ -401,11 +405,11 @@ public class StringLoadRepositoryTest extends AbstractStringRepositoryTest {
     }
 
     @Test
-    public void findOne() throws Exception {
+    public void findByWebSafeKey()  {
         TestStringEntity entity = new TestStringEntity("id").setName("the name");
         ofy().save().entity(entity).now();
 
-        Optional<TestStringEntity> result = repository.findOne(Key.create(TestStringEntity.class, "id"));
+        Optional<TestStringEntity> result = repository.findByWebSafeKey(Key.create(TestStringEntity.class, "id").toWebSafeString());
         assertThat(result.get())
                 .isNotNull()
                 .hasFieldOrPropertyWithValue("id", "id")
@@ -413,15 +417,55 @@ public class StringLoadRepositoryTest extends AbstractStringRepositoryTest {
     }
 
     @Test
-    public void findOne_willReturnEmptyOptional_whenKeyDoesNotExist() throws Exception {
-        Optional<TestStringEntity> result = repository.findOne(Key.create(TestStringEntity.class, "bad-id"));
+    public void findByWebSafeKey_willReturnEmptyOptional_whenKeyDoesNotExist()  {
+        Optional<TestStringEntity> result = repository.findByWebSafeKey(Key.create(TestStringEntity.class, "bad-id").toWebSafeString());
+
+        assertThat(result.isPresent()).isEqualTo(false);
+    }    
+
+    @Test
+    public void findByKey()  {
+        TestStringEntity entity = new TestStringEntity("id").setName("the name");
+        ofy().save().entity(entity).now();
+
+        Optional<TestStringEntity> result = repository.findByKey(Key.create(TestStringEntity.class, "id"));
+        assertThat(result.get())
+                .isNotNull()
+                .hasFieldOrPropertyWithValue("id", "id")
+                .hasFieldOrPropertyWithValue("name", "the name");
+    }
+
+    @Test
+    public void findByKey_willReturnEmptyOptional_whenKeyDoesNotExist()  {
+        Optional<TestStringEntity> result = repository.findByKey(Key.create(TestStringEntity.class, "bad-id"));
 
         assertThat(result.isPresent()).isEqualTo(false);
     }
 
     @Test
-    public void findOne_willThrowException_whenInputIsNull() throws Exception {
+    public void findByKey_willThrowException_whenInputIsNull()  {
         thrown.expect(NullPointerException.class);
-        repository.findOne(null);
+        repository.findByKey(null);
     }
+
+    @Test
+    public void getByKey()  {
+        TestStringEntity entity = new TestStringEntity("id").setName("the name");
+        ofy().save().entity(entity).now();
+
+        TestStringEntity result = repository.getByKey(Key.create(TestStringEntity.class, "id"));
+        assertThat(result)
+                .isNotNull()
+                .hasFieldOrPropertyWithValue("id", "id")
+                .hasFieldOrPropertyWithValue("name", "the name");
+    }
+
+    @Test
+    public void getByKey_willThrowException_whenEntityNotFound()  {
+        thrown.expect(EntityNotFoundException.class);
+        thrown.expectMessage("No entity was found matching the key: Key<?>(TestStringEntity(\"bad-id\")");
+
+        repository.getByKey(Key.create(TestStringEntity.class, "bad-id"));
+    }
+
 }
