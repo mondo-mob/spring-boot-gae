@@ -4,6 +4,7 @@ import com.googlecode.objectify.Key;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.contrib.gae.objectify.TestLongEntity;
+import org.springframework.contrib.gae.objectify.TestStringEntity;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -405,11 +406,11 @@ public class LongLoadRepositoryTest extends AbstractLongRepositoryTest {
     }
 
     @Test
-    public void findOne()  {
+    public void findByWebSafeKey()  {
         TestLongEntity entity = new TestLongEntity(1L).setName("the name");
         ofy().save().entity(entity).now();
 
-        Optional<TestLongEntity> result = repository.findOne(Key.create(TestLongEntity.class, 1L));
+        Optional<TestLongEntity> result = repository.findByWebSafeKey(Key.create(TestLongEntity.class, 1L).toWebSafeString());
         assertThat(result.get())
                 .isNotNull()
                 .hasFieldOrPropertyWithValue("id", 1L)
@@ -417,16 +418,56 @@ public class LongLoadRepositoryTest extends AbstractLongRepositoryTest {
     }
 
     @Test
-    public void findOne_willReturnEmptyOptional_whenKeyDoesNotExist()  {
-        Optional<TestLongEntity> result = repository.findOne(Key.create(TestLongEntity.class, 999L));
+    public void findByWebSafeKey_willReturnEmptyOptional_whenKeyDoesNotExist()  {
+        Optional<TestLongEntity> result = repository.findByWebSafeKey(Key.create(TestLongEntity.class, 999L).toWebSafeString());
+
+        assertThat(result.isPresent()).isEqualTo(false);
+    }
+
+    @Test
+    public void findByKey()  {
+        TestLongEntity entity = new TestLongEntity(1L).setName("the name");
+        ofy().save().entity(entity).now();
+
+        Optional<TestLongEntity> result = repository.findByKey(Key.create(TestLongEntity.class, 1L));
+        assertThat(result.get())
+                .isNotNull()
+                .hasFieldOrPropertyWithValue("id", 1L)
+                .hasFieldOrPropertyWithValue("name", "the name");
+    }
+
+    @Test
+    public void findByKey_willReturnEmptyOptional_whenKeyDoesNotExist()  {
+        Optional<TestLongEntity> result = repository.findByKey(Key.create(TestLongEntity.class, 999L));
 
         assertThat(result.isPresent()).isEqualTo(false);
     }
 
 
     @Test
-    public void findOne_willThrowException_whenInputIsNull()  {
+    public void findByKey_willThrowException_whenInputIsNull()  {
         thrown.expect(NullPointerException.class);
-        repository.findOne(null);
+        repository.findByKey(null);
     }
+
+    @Test
+    public void getByKey()  {
+        TestLongEntity entity = new TestLongEntity(1L).setName("the name");
+        ofy().save().entity(entity).now();
+
+        TestLongEntity result = repository.getByKey(Key.create(TestLongEntity.class, 1L));
+        assertThat(result)
+                .isNotNull()
+                .hasFieldOrPropertyWithValue("id", 1L)
+                .hasFieldOrPropertyWithValue("name", "the name");
+    }
+
+    @Test
+    public void getByKey_willThrowException_whenEntityNotFound()  {
+        thrown.expect(EntityNotFoundException.class);
+        thrown.expectMessage("No entity was found matching the key: Key<?>(TestLongEntity(999)");
+
+        repository.getByKey(Key.create(TestLongEntity.class, 999L));
+    }    
+    
 }

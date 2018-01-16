@@ -405,11 +405,11 @@ public class StringLoadRepositoryTest extends AbstractStringRepositoryTest {
     }
 
     @Test
-    public void findOne()  {
+    public void findByWebSafeKey()  {
         TestStringEntity entity = new TestStringEntity("id").setName("the name");
         ofy().save().entity(entity).now();
 
-        Optional<TestStringEntity> result = repository.findOne(Key.create(TestStringEntity.class, "id"));
+        Optional<TestStringEntity> result = repository.findByWebSafeKey(Key.create(TestStringEntity.class, "id").toWebSafeString());
         assertThat(result.get())
                 .isNotNull()
                 .hasFieldOrPropertyWithValue("id", "id")
@@ -417,15 +417,55 @@ public class StringLoadRepositoryTest extends AbstractStringRepositoryTest {
     }
 
     @Test
-    public void findOne_willReturnEmptyOptional_whenKeyDoesNotExist()  {
-        Optional<TestStringEntity> result = repository.findOne(Key.create(TestStringEntity.class, "bad-id"));
+    public void findByWebSafeKey_willReturnEmptyOptional_whenKeyDoesNotExist()  {
+        Optional<TestStringEntity> result = repository.findByWebSafeKey(Key.create(TestStringEntity.class, "bad-id").toWebSafeString());
+
+        assertThat(result.isPresent()).isEqualTo(false);
+    }    
+
+    @Test
+    public void findByKey()  {
+        TestStringEntity entity = new TestStringEntity("id").setName("the name");
+        ofy().save().entity(entity).now();
+
+        Optional<TestStringEntity> result = repository.findByKey(Key.create(TestStringEntity.class, "id"));
+        assertThat(result.get())
+                .isNotNull()
+                .hasFieldOrPropertyWithValue("id", "id")
+                .hasFieldOrPropertyWithValue("name", "the name");
+    }
+
+    @Test
+    public void findByKey_willReturnEmptyOptional_whenKeyDoesNotExist()  {
+        Optional<TestStringEntity> result = repository.findByKey(Key.create(TestStringEntity.class, "bad-id"));
 
         assertThat(result.isPresent()).isEqualTo(false);
     }
 
     @Test
-    public void findOne_willThrowException_whenInputIsNull()  {
+    public void findByKey_willThrowException_whenInputIsNull()  {
         thrown.expect(NullPointerException.class);
-        repository.findOne(null);
+        repository.findByKey(null);
     }
+
+    @Test
+    public void getByKey()  {
+        TestStringEntity entity = new TestStringEntity("id").setName("the name");
+        ofy().save().entity(entity).now();
+
+        TestStringEntity result = repository.getByKey(Key.create(TestStringEntity.class, "id"));
+        assertThat(result)
+                .isNotNull()
+                .hasFieldOrPropertyWithValue("id", "id")
+                .hasFieldOrPropertyWithValue("name", "the name");
+    }
+
+    @Test
+    public void getByKey_willThrowException_whenEntityNotFound()  {
+        thrown.expect(EntityNotFoundException.class);
+        thrown.expectMessage("No entity was found matching the key: Key<?>(TestStringEntity(\"bad-id\")");
+
+        repository.getByKey(Key.create(TestStringEntity.class, "bad-id"));
+    }
+
 }
