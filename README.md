@@ -60,6 +60,49 @@ community collaboration.
 We are deliberately not naming this library "Spring Data" or anything specific just yet, because it will initially contain more than that. Once the library
 matures we can look at splitting this out into more specific components.
 
+## Usage tips
+
+### Activating profiles for property/yaml and configuration
+The `org.springframework.contrib.gae.config.helper.ProfileResolver` class detects the GCP `applicationId` and activates profiles accordingly. In its simplest
+form it will activate a profile with the exact `applicationId` if it exists and otherwise activate `local` (most likely local development).
+
+To enable this, create a servlet initializer. A more complete example with some further customisations is shown below. This assumes different environments have 
+a suffix in their `applicationId` in the form of `-<env>`. Examples: `my-application-dev`, `my-application-test`, etc (it will not error if there are no dashes).
+
+In Spring, the last profile wins. This means if you define `application-gae.yaml` and `application-my-application-dev.yaml` the properties defined in that last 
+one will win, because `ProfileResolver` defines the more specific ones last.
+
+```
+package foo.bar;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.support.SpringBootServletInitializer;
+import org.springframework.contrib.gae.config.helper.ProfileExtractors;
+import org.springframework.contrib.gae.config.helper.ProfileResolver;
+
+import java.util.List;
+
+public class ServletInitializer extends SpringBootServletInitializer {
+    private static final Logger LOG = LoggerFactory.getLogger(ServletInitializer.class);
+
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        List<String> profiles = new ProfileResolver()
+            // Set a profile that allows us to identify all gae environments
+            .setAdditionalProfileExtractor(ProfileExtractors.staticValue("gae"))
+            // Allow us to reference "dev", "uat" without full app id
+            .setAdditionalProfileExtractor(ProfileExtractors.AFTER_LAST_DASH)
+            .getProfiles();
+        LOG.info("Setting profiles: {}", profiles);
+
+        return application.sources(Application.class)
+            .profiles(profiles.toArray(new String[profiles.size()]));
+    }
+
+}
+```
 
 ## Misc
 
