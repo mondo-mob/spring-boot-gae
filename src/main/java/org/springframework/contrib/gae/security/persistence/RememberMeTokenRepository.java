@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Date;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
+import static org.springframework.contrib.gae.util.Nulls.ifNotNull;
 
 @Repository
 public class RememberMeTokenRepository implements PersistentTokenRepository {
@@ -23,19 +24,23 @@ public class RememberMeTokenRepository implements PersistentTokenRepository {
     public void updateToken(String series, String tokenValue, Date lastUsed) {
         RememberMeToken entity = ofy().load().key(Key.create(RememberMeToken.class, series)).now();
         if (entity != null) {
-            ofy().save().entity(entity).now();
+            ofy().save().entity(
+                    entity
+                            .setToken(tokenValue)
+                            .setLastUsed(lastUsed)
+            ).now();
         }
     }
 
     @Override
     public PersistentRememberMeToken getTokenForSeries(String series) {
         RememberMeToken entity = ofy().load().key(Key.create(RememberMeToken.class, series)).now();
-        return new PersistentRememberMeToken(entity.getUsername(), entity.getSeries(), entity.getToken(), entity.getLastUsed());
+        return ifNotNull(entity, e -> new PersistentRememberMeToken(e.getUsername(), e.getSeries(), e.getToken(), e.getLastUsed()));
     }
 
     @Override
     public void removeUserTokens(String username) {
         QueryKeys<RememberMeToken> keys = ofy().load().type(RememberMeToken.class).filter("username", username).keys();
-        ofy().delete().keys(keys);
+        ofy().delete().keys(keys).now();
     }
 }
