@@ -2,6 +2,7 @@ package org.springframework.contrib.gae.search.conversion;
 
 import com.google.appengine.api.search.Field;
 import com.google.appengine.api.search.GeoPoint;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.contrib.gae.search.IndexType;
 import org.springframework.contrib.gae.search.metadata.SearchFieldMetadata;
 import org.springframework.contrib.gae.search.metadata.impl.MetadataUtils;
@@ -39,7 +40,7 @@ public class FieldBuilder implements BiFunction<SearchFieldMetadata, Object, Lis
     public List<Field> apply(SearchFieldMetadata searchFieldMetadata, @Nullable Object fieldValue) {
         assertSupportedMultiplicity(searchFieldMetadata, fieldValue);
 
-        Collection<?> values = toValueList(fieldValue);
+        Collection<?> values = toValueCollection(fieldValue);
         BiConsumer<Field.Builder, Object> mutator = getMutator(searchFieldMetadata.getIndexType());
 
         return values.stream()
@@ -72,7 +73,7 @@ public class FieldBuilder implements BiFunction<SearchFieldMetadata, Object, Lis
     }
 
     @Nonnull
-    private Collection toValueList(@Nullable Object value) {
+    private Collection toValueCollection(@Nullable Object value) {
         if (value == null) {
             return Collections.singletonList(null);
         }
@@ -120,7 +121,7 @@ public class FieldBuilder implements BiFunction<SearchFieldMetadata, Object, Lis
     }
 
     private void setNumber(Field.Builder field, Object value) {
-        Double normalized = conversionService.convert(value, Double.class);
+        double normalized = ObjectUtils.defaultIfNull(conversionService.convert(value, Double.class), 0d);
         field.setNumber(normalized);
     }
 
