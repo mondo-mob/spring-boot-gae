@@ -10,13 +10,13 @@ Maven
 <dependency>
   <groupId>com.threewks.spring</groupId>
   <artifactId>spring-boot-gae</artifactId>
-  <version>1.0.0-beta-4</version>
+  <version>1.0.0-beta-5</version>
 </dependency>
 ```
 
 Gradle
 ```
-compile 'com.threewks.spring:spring-boot-gae:1.0.0-beta-4'
+compile 'com.threewks.spring:spring-boot-gae:1.0.0-beta-5'
 ```
 
 ## Requirements
@@ -120,6 +120,7 @@ The above command fails silently (as of version `1.8.0` of `gradle-bintray-plugi
 
 If you are setup with correct privileges then that's it. No manual steps - sync to maven central also triggered.
 
+**Note:** Be sure to update the README to reference the latest version in all places.
 
 ### Installing the Library
 To install the library to your local maven repository, run the following:

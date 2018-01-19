@@ -1,8 +1,8 @@
 package org.springframework.contrib.gae.search;
 
-import org.springframework.contrib.gae.search.query.Query;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.contrib.gae.search.query.Query;
 
 import java.util.Arrays;
 

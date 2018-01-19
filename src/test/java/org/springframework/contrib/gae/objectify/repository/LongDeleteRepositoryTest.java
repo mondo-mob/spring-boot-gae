@@ -1,10 +1,10 @@
 package org.springframework.contrib.gae.objectify.repository;
 
 import com.googlecode.objectify.Key;
-import org.springframework.contrib.gae.objectify.TestLongEntity;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.contrib.gae.objectify.TestLongEntity;
 
 import java.util.Arrays;
 import java.util.List;
@@ -18,7 +18,7 @@ public class LongDeleteRepositoryTest extends AbstractLongRepositoryTest {
     private DeleteRepository<TestLongEntity, Long> repository;
 
     @Test
-    public void delete() throws Exception {
+    public void delete()  {
         TestLongEntity[] entities = fixture.get(3);
         ofy().save().entities(entities).now();
 
@@ -32,20 +32,20 @@ public class LongDeleteRepositoryTest extends AbstractLongRepositoryTest {
     }
 
     @Test
-    public void delete_willThrowException_whenInputIsNull() throws Exception {
+    public void delete_willThrowException_whenInputIsNull()  {
         thrown.expect(NullPointerException.class);
         repository.delete((TestLongEntity) null);
     }
 
     @Test
-    public void delete_willThrowException_whenInputIdIsNull() throws Exception {
+    public void delete_willThrowException_whenInputIdIsNull()  {
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("You cannot create a Key for an object with a null @Id");
         repository.delete(new TestLongEntity(null));
     }
 
     @Test
-    public void deleteCollection() throws Exception {
+    public void deleteCollection()  {
         TestLongEntity[] entities = fixture.get(3);
         ofy().save().entities(entities).now();
 
@@ -62,7 +62,7 @@ public class LongDeleteRepositoryTest extends AbstractLongRepositoryTest {
     }
 
     @Test
-    public void deleteCollection_willThrowException_whenInputContainsNull() throws Exception {
+    public void deleteCollection_willThrowException_whenInputContainsNull()  {
         thrown.expect(NullPointerException.class);
         repository.delete(
                 Arrays.asList(
@@ -74,7 +74,7 @@ public class LongDeleteRepositoryTest extends AbstractLongRepositoryTest {
     }
 
     @Test
-    public void deleteCollection_willThrowException_whenInputContainsEntityWithoutId() throws Exception {
+    public void deleteCollection_willThrowException_whenInputContainsEntityWithoutId()  {
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("You cannot create a Key for an object with a null @Id");
         repository.delete(
@@ -87,7 +87,7 @@ public class LongDeleteRepositoryTest extends AbstractLongRepositoryTest {
     }
 
     @Test
-    public void deleteVarargs() throws Exception {
+    public void deleteVarargs()  {
         TestLongEntity[] entities = fixture.get(3);
         ofy().save().entities(entities).now();
 
@@ -105,7 +105,7 @@ public class LongDeleteRepositoryTest extends AbstractLongRepositoryTest {
     }
 
     @Test
-    public void deleteVarargs_willThrowException_whenInputContainsNull() throws Exception {
+    public void deleteVarargs_willThrowException_whenInputContainsNull()  {
         thrown.expect(NullPointerException.class);
         repository.delete(
                 new TestLongEntity(1L),
@@ -115,7 +115,7 @@ public class LongDeleteRepositoryTest extends AbstractLongRepositoryTest {
     }
 
     @Test
-    public void deleteVarargs_willThrowException_whenInputContainsEntityWithoutId() throws Exception {
+    public void deleteVarargs_willThrowException_whenInputContainsEntityWithoutId()  {
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("You cannot create a Key for an object with a null @Id");
         repository.delete(
@@ -126,7 +126,7 @@ public class LongDeleteRepositoryTest extends AbstractLongRepositoryTest {
     }
 
     @Test
-    public void deleteByKey() throws Exception {
+    public void deleteByKey()  {
         TestLongEntity[] entities = fixture.get(3);
         ofy().save().entities(entities).now();
 
@@ -140,20 +140,20 @@ public class LongDeleteRepositoryTest extends AbstractLongRepositoryTest {
     }
 
     @Test
-    public void deleteByKey_willThrowException_whenInputIsNull() throws Exception {
+    public void deleteByKey_willThrowException_whenInputIsNull()  {
         thrown.expect(NullPointerException.class);
         repository.delete((TestLongEntity) null);
     }
 
     @Test
-    public void deleteByKey_willThrowException_whenInputIdIsNull() throws Exception {
+    public void deleteByKey_willThrowException_whenInputIdIsNull()  {
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("You cannot create a Key for an object with a null @Id");
         repository.delete(new TestLongEntity(null));
     }
 
     @Test
-    public void deleteByKeyCollection() throws Exception {
+    public void deleteByKeyCollection()  {
         TestLongEntity[] entities = fixture.get(3);
         ofy().save().entities(entities).now();
 
@@ -173,7 +173,7 @@ public class LongDeleteRepositoryTest extends AbstractLongRepositoryTest {
     }
 
     @Test
-    public void deleteByKeyCollection_willThrowException_whenInputContainsNull() throws Exception {
+    public void deleteByKeyCollection_willThrowException_whenInputContainsNull()  {
         thrown.expect(NullPointerException.class);
         repository.deleteByKey(
                 Arrays.asList(
@@ -186,7 +186,7 @@ public class LongDeleteRepositoryTest extends AbstractLongRepositoryTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void deleteByKeyVarargs() throws Exception {
+    public void deleteByKeyVarargs()  {
         TestLongEntity[] entities = fixture.get(3);
         ofy().save().entities(entities).now();
 
@@ -205,7 +205,7 @@ public class LongDeleteRepositoryTest extends AbstractLongRepositoryTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void deleteByKeyVarargs_willThrowException_whenInputContainsNull() throws Exception {
+    public void deleteByKeyVarargs_willThrowException_whenInputContainsNull()  {
         thrown.expect(NullPointerException.class);
         repository.deleteByKey(
                 Key.create(TestLongEntity.class, 1L),

@@ -2,15 +2,20 @@ package org.springframework.contrib.gae.objectify.repository;
 
 import com.googlecode.objectify.Key;
 import org.springframework.contrib.gae.search.SearchIndex;
+import org.springframework.contrib.gae.search.SearchService;
 import org.springframework.contrib.gae.search.query.Query;
 import org.springframework.contrib.gae.search.query.QueryBuilder;
 import org.springframework.contrib.gae.search.query.Result;
-import org.springframework.contrib.gae.search.SearchService;
 import org.springframework.data.repository.NoRepositoryBean;
 
 import javax.annotation.Nonnull;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 
 /**

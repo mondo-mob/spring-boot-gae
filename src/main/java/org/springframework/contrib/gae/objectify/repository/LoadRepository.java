@@ -8,7 +8,11 @@ import org.springframework.data.repository.Repository;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -167,7 +171,7 @@ public interface LoadRepository<E, I extends Serializable> extends ObjectifyAwar
      * @return The entity or an empty {@link Optional} if none exists.
      */
     @Nonnull
-    default Optional<E> findOne(Key<E> key) {
+    default Optional<E> findByKey(Key<E> key) {
         return Optional.ofNullable(
                 ofy()
                         .load()
@@ -177,13 +181,26 @@ public interface LoadRepository<E, I extends Serializable> extends ObjectifyAwar
     }
 
     /**
+     * Get the entity with the given key or throw an exception if not found.
+     *
+     * @param key The key.
+     * @return The entity.
+     * @throws EntityNotFoundException if entity not found by key.
+     */
+    @Nonnull
+    default E getByKey(Key<E> key) throws EntityNotFoundException {
+        return findByKey(key)
+                .orElseThrow(() -> new EntityNotFoundException(key));
+    }
+
+    /**
      * Find an entity by its web-safe key string.
      *
      * @param webSafeString Entity string.
      * @return The entity or an empty {@link Optional} if none exists.
      */
     @SuppressWarnings("unchecked")
-    default Optional<E> findOneByWebSafeKey(String webSafeString) {
+    default Optional<E> findByWebSafeKey(String webSafeString) {
         return Optional.ofNullable(
                 ofy()
                         .load()

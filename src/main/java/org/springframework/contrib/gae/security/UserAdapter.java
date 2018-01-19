@@ -1,9 +1,11 @@
 package org.springframework.contrib.gae.security;
 
+import com.googlecode.objectify.Key;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Optional;
 
 /**
  * Interface for adapting between an arbitrary application user and Spring Security's {@link UserDetails} type.
@@ -53,4 +55,21 @@ public interface UserAdapter<U extends GaeUser> {
      * @return the converted user details
      */
     UserDetails toUserDetails(U user);
+
+    /**
+     * By default, the simplest lookup of a user is by the Objectify key. To use
+     * other means of identifying a user (e.g. login by email) you may not want to
+     * bind this to the key, allowing for updates. If that is the case you can
+     * customise how to lookup a user.
+     *
+     * @param username Spring's {@link UserDetails} username. You could map this to email
+     *                 address for example.
+     * @param userClass The application user type.
+     *
+     * @return Key for user if the use can be identified/found.
+     */
+    default Optional<Key<U>> getUserKey(String username, Class<U> userClass) {
+        return Optional.of(Key.create(userClass, username));
+    }
+
 }

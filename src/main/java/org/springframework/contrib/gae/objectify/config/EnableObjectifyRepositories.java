@@ -1,13 +1,18 @@
 package org.springframework.contrib.gae.objectify.config;
 
-import org.springframework.contrib.gae.objectify.support.AbstractObjectifyRepository;
-import org.springframework.contrib.gae.objectify.support.ObjectifyRepositoryFactoryBean;
 import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Import;
+import org.springframework.contrib.gae.objectify.support.AbstractObjectifyRepository;
+import org.springframework.contrib.gae.objectify.support.ObjectifyRepositoryFactoryBean;
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.data.repository.query.QueryLookupStrategy.Key;
 
-import java.lang.annotation.*;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * Annotation to enable JPA repositories. Will scan the package of the annotated configuration class for Spring Data

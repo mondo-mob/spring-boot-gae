@@ -1,13 +1,13 @@
 package org.springframework.contrib.gae.config.helper;
 
 import com.google.appengine.api.utils.SystemProperty;
-import org.springframework.contrib.gae.SystemPropertyReset;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.contrib.gae.SystemPropertyReset;
 
 import java.util.List;
 import java.util.function.Function;

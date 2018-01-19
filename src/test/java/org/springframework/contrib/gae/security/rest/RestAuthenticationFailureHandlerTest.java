@@ -27,7 +27,7 @@ public class RestAuthenticationFailureHandlerTest {
     private RestAuthenticationFailureHandler handler;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp()  {
         handler = new RestAuthenticationFailureHandler();
     }
 

@@ -1,13 +1,13 @@
 package org.springframework.contrib.gae.search;
 
-import org.springframework.contrib.gae.search.query.Query;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.contrib.gae.search.query.Query;
 
 import java.util.Arrays;
 
-import static org.springframework.contrib.gae.search.Operator.EQUAL;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.contrib.gae.search.Operator.EQUAL;
 
 public class StringSearchIntegrationTest extends SearchTest {
 

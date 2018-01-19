@@ -1,7 +1,7 @@
 package org.springframework.contrib.gae.search.metadata.impl;
 
-import org.springframework.contrib.gae.search.metadata.IndexNamingStrategy;
 import org.junit.Test;
+import org.springframework.contrib.gae.search.metadata.IndexNamingStrategy;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

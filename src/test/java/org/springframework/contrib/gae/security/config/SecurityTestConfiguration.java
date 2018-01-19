@@ -10,7 +10,6 @@ import org.springframework.contrib.gae.security.UserAdapter;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 
 @Configuration

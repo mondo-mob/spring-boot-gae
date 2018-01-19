@@ -3,6 +3,7 @@ package org.springframework.contrib.gae.objectify;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Ref;
 import org.springframework.contrib.gae.objectify.config.StaticObjectifyProxy;
+import org.springframework.contrib.gae.util.Nulls;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -10,6 +11,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static org.springframework.contrib.gae.util.Nulls.ifNotNull;
 
 /**
  * Utility methods for handling Objectify {@link Key}s and {@link Ref}s.
@@ -25,9 +28,7 @@ public class Refs {
      */
     @Nullable
     public static <E> Ref<E> ref(@Nullable E entity) {
-        return entity == null
-                ? null
-                : Ref.create(entity);
+        return Nulls.ifNotNull(entity, Ref::create);
     }
 
     /**
@@ -67,9 +68,7 @@ public class Refs {
      */
     @Nullable
     public static <E> Ref<E> ref(@Nullable Key<E> key) {
-        return key == null
-                ? null
-                : Ref.create(key);
+        return ifNotNull(key, Ref::create);
     }
 
     /**
@@ -102,6 +101,18 @@ public class Refs {
     }
 
     /**
+     * Get the key for the given Ref.
+     *
+     * @param ref The ref.
+     * @param <E> Entity type.
+     * @return Entity key.
+     */
+    @Nullable
+    public static <E> Key<E> key(@Nullable Ref<E> ref) {
+        return ifNotNull(ref, Ref::getKey);
+    }
+
+    /**
      * Create a key for the given entity.
      *
      * @param entity The entity.
@@ -110,9 +121,7 @@ public class Refs {
      */
     @Nullable
     public static <E> Key<E> key(@Nullable E entity) {
-        return entity != null
-                ? Key.create(entity)
-                : null;
+        return ifNotNull(entity, Key::create);
     }
 
     /**
@@ -151,9 +160,7 @@ public class Refs {
      */
     @Nullable
     public static <E> E deref(@Nullable Ref<E> ref) {
-        return ref != null
-                ? ref.get()
-                : null;
+        return ifNotNull(ref, Ref::get);
     }
 
     /**
@@ -192,13 +199,12 @@ public class Refs {
      */
     @Nullable
     public static <E> E load(@Nullable Key<E> key) {
-        return key == null
-                ? null
-                : StaticObjectifyProxy.get()
-                .ofy()
-                .load()
-                .key(key)
-                .now();
+        return ifNotNull(key,
+                k -> StaticObjectifyProxy.get()
+                        .ofy()
+                        .load()
+                        .key(k)
+                        .now());
     }
 
     /**

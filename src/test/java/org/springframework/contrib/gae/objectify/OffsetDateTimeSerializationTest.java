@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class OffsetDateTimeSerializationTest extends ObjectifyTest {
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp()  {
         objectify.register(OffsetDateTimeEntity.class);
     }
 

@@ -11,7 +11,6 @@ import org.mockito.junit.MockitoRule;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
@@ -27,7 +26,7 @@ public class EntityMetadataImplTest {
     private EntityMetadataImpl entityMetadata;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp()  {
         entityMetadata = Mockito.spy(new EntityMetadataImpl(objectify));
     }
 
@@ -50,14 +49,14 @@ public class EntityMetadataImplTest {
     }
 
     @Test
-    public void getIdType() throws Exception {
+    public void getIdType()  {
         Mockito.<Class<?>>when(objectify.ofy().factory().getMetadata(TestStringEntity.class).getKeyMetadata().getIdFieldType()).thenReturn(String.class);
 
         assertThat(entityMetadata.getIdType(TestStringEntity.class)).isEqualTo(String.class);
     }
 
     @Test
-    public void getIdType_willReturnCachedResult_whenCalledMultipleTimes() throws Exception {
+    public void getIdType_willReturnCachedResult_whenCalledMultipleTimes()  {
         doReturn(String.class).when(entityMetadata).getIdTypeFromObjectify(TestStringEntity.class);
 
         entityMetadata.getIdType(TestStringEntity.class);

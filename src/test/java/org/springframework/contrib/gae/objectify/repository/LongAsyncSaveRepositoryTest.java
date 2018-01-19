@@ -1,11 +1,11 @@
 package org.springframework.contrib.gae.objectify.repository;
 
 import com.googlecode.objectify.Key;
-import org.springframework.contrib.gae.objectify.TestLongEntity;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.contrib.gae.objectify.TestLongEntity;
 
 import java.util.Arrays;
 import java.util.List;
@@ -17,7 +17,7 @@ public class LongAsyncSaveRepositoryTest extends AbstractLongRepositoryTest {
     private AsyncSaveRepository<TestLongEntity, Long> repository;
 
     @Test
-    public void saveAsync() throws Exception {
+    public void saveAsync()  {
         TestLongEntity saved = repository.saveAsync(new TestLongEntity(1L).setName("name")).get();
 
         TestLongEntity loaded = load(1L);
@@ -27,14 +27,14 @@ public class LongAsyncSaveRepositoryTest extends AbstractLongRepositoryTest {
     }
 
     @Test
-    public void saveAsync_willThrowException_whenInputIsNull() throws Exception {
+    public void saveAsync_willThrowException_whenInputIsNull()  {
         thrown.expect(NullPointerException.class);
 
         repository.saveAsync((TestLongEntity) null).get();
     }
 
     @Test
-    public void saveAsync_willGenerateLongId_whenInputHasNoId() throws Exception {
+    public void saveAsync_willGenerateLongId_whenInputHasNoId()  {
         TestLongEntity saved = repository.saveAsync(new TestLongEntity(null).setName("name")).get();
 
         TestLongEntity loaded = load(1L);
@@ -44,7 +44,7 @@ public class LongAsyncSaveRepositoryTest extends AbstractLongRepositoryTest {
     }
 
     @Test
-    public void saveAsyncCollection() throws Exception {
+    public void saveAsyncCollection()  {
         List<TestLongEntity> saved = repository.saveAsync(
                 Arrays.asList(fixture.get(3))
         ).get();
@@ -54,7 +54,7 @@ public class LongAsyncSaveRepositoryTest extends AbstractLongRepositoryTest {
     }
 
     @Test
-    public void saveAsyncCollection_willGenerateLongIds_whenInputContainsEntityWithoutId() throws Exception {
+    public void saveAsyncCollection_willGenerateLongIds_whenInputContainsEntityWithoutId()  {
         List<TestLongEntity> entities = Arrays.asList(
                 new TestLongEntity(null).setName("entity1"),
                 new TestLongEntity(null).setName("entity2"),
@@ -68,7 +68,7 @@ public class LongAsyncSaveRepositoryTest extends AbstractLongRepositoryTest {
     }
 
     @Test
-    public void saveAsyncVarargs() throws Exception {
+    public void saveAsyncVarargs()  {
 
         List<TestLongEntity> saved = repository.saveAsync(
                 new TestLongEntity(1L).setName("entity1"),
@@ -81,7 +81,7 @@ public class LongAsyncSaveRepositoryTest extends AbstractLongRepositoryTest {
     }
 
     @Test
-    public void saveAsyncVarargs_willGenerateLongIds_whenInputContainsEntityWithoutId() throws Exception {
+    public void saveAsyncVarargs_willGenerateLongIds_whenInputContainsEntityWithoutId()  {
         List<TestLongEntity> saved = repository.saveAsync(
                 new TestLongEntity(null).setName("entity1"),
                 new TestLongEntity(null).setName("entity2"),
