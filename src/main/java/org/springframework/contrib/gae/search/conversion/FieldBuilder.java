@@ -2,7 +2,6 @@ package org.springframework.contrib.gae.search.conversion;
 
 import com.google.appengine.api.search.Field;
 import com.google.appengine.api.search.GeoPoint;
-import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.contrib.gae.search.IndexType;
 import org.springframework.contrib.gae.search.metadata.SearchFieldMetadata;
 import org.springframework.contrib.gae.search.metadata.impl.MetadataUtils;
@@ -121,8 +120,10 @@ public class FieldBuilder implements BiFunction<SearchFieldMetadata, Object, Lis
     }
 
     private void setNumber(Field.Builder field, Object value) {
-        double normalized = ObjectUtils.defaultIfNull(conversionService.convert(value, Double.class), 0d);
-        field.setNumber(normalized);
+        Double normalized = conversionService.convert(value, Double.class);
+        if (normalized != null) {
+            field.setNumber(normalized);
+        }
     }
 
     private void setDate(Field.Builder field, Object value) {
