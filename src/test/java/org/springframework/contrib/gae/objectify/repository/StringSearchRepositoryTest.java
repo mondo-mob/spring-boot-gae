@@ -1,6 +1,5 @@
 package org.springframework.contrib.gae.objectify.repository;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.contrib.gae.objectify.TestStringEntity;
@@ -32,7 +31,6 @@ public class StringSearchRepositoryTest extends AbstractStringRepositoryTest {
                 .containsExactly(target);
     }
 
-    @Ignore("https://github.com/3wks/spring-boot-gae/issues/4")
     @Test
     public void save_willUpdateIndex_whenSavedTwice() {
         TestStringEntity target = new TestStringEntity("id2").setName("name2");
@@ -41,10 +39,10 @@ public class StringSearchRepositoryTest extends AbstractStringRepositoryTest {
         assertThat(searchByName("name2"))
                 .containsExactly(target);
 
-        target.setName("name2 updated");
+        target.setName("name2-updated");
         repository.save(target);
 
-        assertThat(searchByName("name2 updated"))
+        assertThat(searchByName("name2-updated"))
                 .containsExactly(target);
         assertThat(searchByName("name2"))
                 .isEmpty();
@@ -120,19 +118,18 @@ public class StringSearchRepositoryTest extends AbstractStringRepositoryTest {
 
         repository.reindex((vals) ->
                 vals.stream()
-                        .peek(v -> v.setName(v.getName() + " updated"))
+                        .peek(v -> v.setName(v.getName() + "-updated"))
                         .collect(Collectors.toList()));
 
-        assertThat(searchByName("name1 updated"))
+        assertThat(searchByName("name1-updated"))
                 .isNotEmpty();
-        assertThat(searchByName("name2 updated"))
+        assertThat(searchByName("name2-updated"))
                 .isNotEmpty();
 
-        //TODO: Uncomment below when issue fixed: https://github.com/3wks/spring-boot-gae/issues/4
-//        assertThat(searchByName("name1"))
-//                .isEmpty();
-//        assertThat(searchByName("name2"))
-//                .isEmpty();
+        assertThat(searchByName("name1"))
+                .isEmpty();
+        assertThat(searchByName("name2"))
+                .isEmpty();
     }
 
     private Result<TestStringEntity> searchByName(String name) {

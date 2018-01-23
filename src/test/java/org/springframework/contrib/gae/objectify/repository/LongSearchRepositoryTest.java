@@ -1,10 +1,8 @@
 package org.springframework.contrib.gae.objectify.repository;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.contrib.gae.objectify.TestLongEntity;
-import org.springframework.contrib.gae.objectify.TestStringEntity;
 import org.springframework.contrib.gae.search.Operator;
 import org.springframework.contrib.gae.search.query.Query;
 import org.springframework.contrib.gae.search.query.Result;
@@ -29,7 +27,6 @@ public class LongSearchRepositoryTest extends AbstractLongRepositoryTest {
         assertThat(searchByName("name2")).containsExactly(target);
     }
 
-    @Ignore("https://github.com/3wks/spring-boot-gae/issues/4")
     @Test
     public void save_willUpdateIndex_whenSavedTwice() {
         TestLongEntity target = new TestLongEntity(2L).setName("name2");
@@ -38,10 +35,10 @@ public class LongSearchRepositoryTest extends AbstractLongRepositoryTest {
         assertThat(searchByName("name2"))
                 .containsExactly(target);
 
-        target.setName("name2 updated");
+        target.setName("name2-updated");
         repository.save(target);
 
-        assertThat(searchByName("name2 updated"))
+        assertThat(searchByName("name2-updated"))
                 .containsExactly(target);
         assertThat(searchByName("name2"))
                 .isEmpty();
