@@ -1,8 +1,10 @@
 package org.springframework.contrib.gae.objectify.repository;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.contrib.gae.objectify.TestLongEntity;
+import org.springframework.contrib.gae.objectify.TestStringEntity;
 import org.springframework.contrib.gae.search.Operator;
 import org.springframework.contrib.gae.search.query.Query;
 import org.springframework.contrib.gae.search.query.Result;
@@ -24,12 +26,25 @@ public class LongSearchRepositoryTest extends AbstractLongRepositoryTest {
                 new TestLongEntity(3L).setName("name3")
         );
 
-        Query<TestLongEntity> query = repository.search()
-                .filter("name", Operator.EQ, "name2")
-                .build();
-        Result<TestLongEntity> result = repository.execute(query);
+        assertThat(searchByName("name2")).containsExactly(target);
+    }
 
-        assertThat(result).containsExactly(target);
+    @Ignore("https://github.com/3wks/spring-boot-gae/issues/4")
+    @Test
+    public void save_willUpdateIndex_whenSavedTwice() {
+        TestLongEntity target = new TestLongEntity(2L).setName("name2");
+        repository.save(target);
+
+        assertThat(searchByName("name2"))
+                .containsExactly(target);
+
+        target.setName("name2 updated");
+        repository.save(target);
+
+        assertThat(searchByName("name2 updated"))
+                .containsExactly(target);
+        assertThat(searchByName("name2"))
+                .isEmpty();
     }
 
     @Test
@@ -42,17 +57,17 @@ public class LongSearchRepositoryTest extends AbstractLongRepositoryTest {
                 target
         );
 
-        Query<TestLongEntity> preDeleteQuery = repository.search()
-                .filter("name", Operator.EQ, target.getName())
-                .build();
-        Result<TestLongEntity> preDeleteResult = repository.execute(preDeleteQuery);
-        assertThat(preDeleteResult).containsExactly(target);
+        assertThat(searchByName(target.getName())).containsExactly(target);
 
         repository.delete(target);
-        Query<TestLongEntity> postDeleteQuery = repository.search()
-                .filter("name", Operator.EQ, target.getName())
-                .build();
-        Result<TestLongEntity> postDeleteResult = repository.execute(postDeleteQuery);
-        assertThat(postDeleteResult).isEmpty();
+        assertThat(searchByName(target.getName())).isEmpty();
     }
+
+    private Result<TestLongEntity> searchByName(String name) {
+        Query<TestLongEntity> query = repository.search()
+                .filter("name", Operator.EQ, name)
+                .build();
+        return repository.execute(query);
+    }
+
 }
