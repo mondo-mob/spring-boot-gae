@@ -1,6 +1,9 @@
 package org.springframework.contrib.gae.objectify.repository;
 
+import com.google.common.collect.Lists;
 import com.googlecode.objectify.Key;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.contrib.gae.search.SearchIndex;
 import org.springframework.contrib.gae.search.SearchService;
 import org.springframework.contrib.gae.search.query.Query;
@@ -16,6 +19,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
@@ -28,6 +32,8 @@ import java.util.function.Supplier;
  */
 @NoRepositoryBean
 public interface SearchRepository<E, I extends Serializable> extends LoadRepository<E, I>, SaveRepository<E, I>, DeleteRepository<E, I> {
+    Logger LOG = LoggerFactory.getLogger(SearchRepository.class);
+    int BATCH_SIZE = 200;
 
     /**
      * @return Search service.
@@ -45,6 +51,81 @@ public interface SearchRepository<E, I extends Serializable> extends LoadReposit
         return getSearchService()
                 .createQuery(getEntityType())
                 .retrieveIdsOnly(); //Only ids are needed by default, we load the entities from these ids. 
+    }
+
+    /**
+     * Clear all records in the search index.
+     * @return Number of entries removed.
+     */
+    default int clearSearchIndex() {
+        return getSearchService().clear(getEntityType());
+    }
+
+    /**
+     *
+     * Reindex data and search without performing any transformations.
+     *
+     * @return the number of entities reindexed.
+     */
+    default int reindexDataAndSearch() {
+        return reindex(b -> b);
+    }
+
+    /**
+     * Find all entities and reindex their associated docs in the Search Index. If
+     * a non-null ReindexOperation is supplied then entities will have that operation
+     * applied to them prior to being saved in DataStore and saved in the Search Index.
+     * <p>
+     * A null reindexOperation will result in no DataStore updates, but only Search Index updates.
+     * <p>
+     * Use with care i.e. if there are heaps of
+     * entities then consider triggering this from a queue or a backend (so that the request
+     * has more time to complete). Otherwise, craft your own mechanism to reindex a batch
+     * then create a queue task to continue on (from a cursor).
+     *
+     * @param reindexOperation If provided, the entities will be updated. Allows caller to perform transformations.
+     *
+     * @return number of entities reindexed
+     */
+    default int reindex(Function<List<E>, List<E>> reindexOperation) {
+        List<Key<E>> keys = ofy()
+                .load()
+                .type(getEntityType())
+                .keys()
+                .list();
+        return reindex(keys, BATCH_SIZE, reindexOperation);
+    }
+
+    /**
+     * Reindexes all the entities matching the given list of keys. The given reindexOperation, if present will
+     * be applied to each batch of entities.
+     *
+     * @param keys  Keys of the entities to reindex
+     * @param batchSize Size of batches to perform operations in.
+     * @param reindexOperation If provided, the entities will be updated. Allows caller to perform transformations.
+     * @return the overall count of re-indexed entities.
+     */
+    default int reindex(List<Key<E>> keys, int batchSize, Function<List<E>, List<E>> reindexOperation) {
+        int count = 0;
+        List<List<Key<E>>> batches = Lists.partition(keys, batchSize);
+        for (List<Key<E>> batchKeys : batches) {
+            List<E> batch = findAll(batchKeys);
+
+            batch = reindexOperation == null ? batch : reindexOperation.apply(batch);
+
+            if (reindexOperation != null) {
+                // we only re-save the batch when a re-index op is supplied, otherwise the data can't have changed.
+                save(batch);
+            } else {
+                index(batch).run();
+            }
+
+            count += batch.size();
+            ofy().clear(); // Clear the Objectify cache to free memory for next batch
+            LOG.info("Reindexed {} entities of type {}, {} of {}", batch.size(), getEntityType().getSimpleName(), count, keys.size());
+        }
+
+        return count;
     }
 
     /**

@@ -56,11 +56,11 @@ public interface LoadRepository<E, I extends Serializable> extends ObjectifyAwar
     /**
      * Get the entities with the given keys, if they exist.
      *
-     * @param keys List of keys to load.
+     * @param keys keys to load.
      * @return A list of loaded entities keyed by the entity key.
      */
     @Nonnull
-    default List<E> findAll(Collection<Key<E>> keys) {
+    default List<E> findAll(Iterable<Key<E>> keys) {
         return new ArrayList<>(
                 ofy()
                     .load()

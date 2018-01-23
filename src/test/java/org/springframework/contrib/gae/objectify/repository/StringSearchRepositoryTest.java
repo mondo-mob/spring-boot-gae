@@ -8,6 +8,8 @@ import org.springframework.contrib.gae.search.Operator;
 import org.springframework.contrib.gae.search.query.Query;
 import org.springframework.contrib.gae.search.query.Result;
 
+import java.util.stream.Collectors;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SuppressWarnings("ConstantConditions")
@@ -19,6 +21,7 @@ public class StringSearchRepositoryTest extends AbstractStringRepositoryTest {
     @Test
     public void save_willIndexInSearchService() {
         TestStringEntity target = new TestStringEntity("id2").setName("name2");
+
         repository.save(
                 new TestStringEntity("id1").setName("name1"),
                 target,
@@ -64,6 +67,72 @@ public class StringSearchRepositoryTest extends AbstractStringRepositoryTest {
 
         assertThat(searchByName(target.getName()))
                 .isEmpty();
+    }
+
+    @Test
+    public void clearSearchIndex_willRemoveAllSearchEntries() {
+        TestStringEntity target = new TestStringEntity("id3").setName("target");
+
+        repository.save(
+                new TestStringEntity("id1").setName("name1"),
+                new TestStringEntity("id2").setName("name2"),
+                target
+        );
+
+        assertThat(searchByName(target.getName()))
+                .containsExactly(target);
+
+        repository.clearSearchIndex();
+
+        assertThat(searchByName(target.getName()))
+                .isEmpty();
+        assertThat(searchByName("name1"))
+                .isEmpty();
+        assertThat(searchByName("name2"))
+                .isEmpty();
+    }
+
+    @Test
+    public void reindexDataAndSearch_willReindex() {
+        repository.save(
+                new TestStringEntity("id1").setName("name1"),
+                new TestStringEntity("id2").setName("name2")
+        );
+        repository.clearSearchIndex();
+
+        assertThat(searchByName("name1"))
+                .isEmpty();
+
+        repository.reindexDataAndSearch();
+
+        assertThat(searchByName("name1"))
+                .isNotEmpty();
+        assertThat(searchByName("name2"))
+                .isNotEmpty();
+    }
+
+    @Test
+    public void reindex_willUpdateEntities_whenReindexOpertionChangesValues() {
+        repository.save(
+                new TestStringEntity("id1").setName("name1"),
+                new TestStringEntity("id2").setName("name2")
+        );
+
+        repository.reindex((vals) ->
+                vals.stream()
+                        .peek(v -> v.setName(v.getName() + " updated"))
+                        .collect(Collectors.toList()));
+
+        assertThat(searchByName("name1 updated"))
+                .isNotEmpty();
+        assertThat(searchByName("name2 updated"))
+                .isNotEmpty();
+
+        //TODO: Uncomment below when issue fixed: https://github.com/3wks/spring-boot-gae/issues/4
+//        assertThat(searchByName("name1"))
+//                .isEmpty();
+//        assertThat(searchByName("name2"))
+//                .isEmpty();
     }
 
     private Result<TestStringEntity> searchByName(String name) {
