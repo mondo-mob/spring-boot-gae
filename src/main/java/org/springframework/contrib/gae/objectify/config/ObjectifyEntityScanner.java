@@ -1,12 +1,16 @@
 package org.springframework.contrib.gae.objectify.config;
 
 import com.googlecode.objectify.annotation.Entity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
+import org.springframework.util.StopWatch;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -15,6 +19,7 @@ import java.util.stream.Stream;
  * configuring additional classes manually that may fall outside of this package (e.g. from external libraries).
  */
 public class ObjectifyEntityScanner {
+    private static final Logger LOG = LoggerFactory.getLogger(ObjectifyEntityScanner.class);
 
     private final String basePackage;
     private final Set<Class<?>> additionalClasses = new HashSet<>();
@@ -35,10 +40,26 @@ public class ObjectifyEntityScanner {
     }
 
     private Stream<Class<?>> getAnnotatedClasses() {
-        final ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false);
-        scanner.addIncludeFilter(new AnnotationTypeFilter(Entity.class, false, false));
-        return scanner.findCandidateComponents(basePackage).stream()
-                .map(this::beanClass);
+        return loggedAction("scan entity classes", () -> {
+            final ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false);
+            scanner.addIncludeFilter(new AnnotationTypeFilter(Entity.class, false, false));
+            return scanner.findCandidateComponents(basePackage).stream()
+                    .map(this::beanClass);
+        });
+    }
+
+    private <T> T loggedAction(String name, Supplier<T> action) {
+        StopWatch stopWatch = new StopWatch();
+        if (LOG.isDebugEnabled()) {
+            stopWatch.start(name);
+        }
+        T result = action.get();
+        if (LOG.isDebugEnabled()) {
+            stopWatch.stop();
+            LOG.debug("{} took {} milliseconds", name, stopWatch.getTotalTimeMillis());
+        }
+
+        return result;
     }
 
     @SuppressWarnings("unchecked")
