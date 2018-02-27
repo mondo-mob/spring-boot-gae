@@ -10,13 +10,13 @@ Maven
 <dependency>
   <groupId>com.threewks.spring</groupId>
   <artifactId>spring-boot-gae</artifactId>
-  <version>1.0.0-beta-9</version>
+  <version>1.0.0-beta-10</version>
 </dependency>
 ```
 
 Gradle
 ```
-compile 'com.threewks.spring:spring-boot-gae:1.0.0-beta-9'
+compile 'com.threewks.spring:spring-boot-gae:1.0.0-beta-10'
 ```
 
 ## Requirements
