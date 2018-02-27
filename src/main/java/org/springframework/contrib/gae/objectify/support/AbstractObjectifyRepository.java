@@ -1,5 +1,6 @@
 package org.springframework.contrib.gae.objectify.support;
 
+import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Objectify;
 import org.springframework.contrib.gae.objectify.ObjectifyProxy;
 import org.springframework.contrib.gae.objectify.repository.ObjectifyRepository;
@@ -9,6 +10,7 @@ import org.springframework.contrib.gae.search.SearchService;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.Serializable;
+import java.util.Optional;
 
 /**
  * Basic Objectify repository implementation used to scaffold {@link org.springframework.stereotype.Repository} annotated beans.
@@ -57,4 +59,18 @@ public class AbstractObjectifyRepository<E, I extends Serializable> implements O
     public Objectify ofy() {
         return objectify.ofy();
     }
+//
+//    @Nonnull
+//    public Optional<E> findById(String id) {
+//        return findByKey(toKey(id));
+//    }
+//
+//    @Nonnull
+//    public E getById(String id) {
+//        return getByKey(toKey(id));
+//    }
+//
+//    public Key<E> toKey(String id) {
+//        return Key.create(getEntityType(), id);
+//    }
 }

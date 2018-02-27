@@ -14,6 +14,7 @@ import java.util.TimeZone;
 
 public class SetupAppengine extends ExternalResource {
     private LocalServiceTestHelper helper;
+    private String queueXmlPath = "src/main/webapp/WEB-INF/queue.xml";
 
     @Override
     protected void before() {
@@ -31,7 +32,7 @@ public class SetupAppengine extends ExternalResource {
     protected List<LocalServiceTestConfig> createTestConfigs() {
         List<LocalServiceTestConfig> results = new ArrayList<>();
         LocalTaskQueueTestConfig queueConfig = new LocalTaskQueueTestConfig();
-        queueConfig.setQueueXmlPath("src/main/webapp/WEB-INF/queue.xml");
+        queueConfig.setQueueXmlPath(queueXmlPath);
 
         results.add(new LocalDatastoreServiceTestConfig().setApplyAllHighRepJobPolicy());
         results.add(queueConfig);
@@ -43,5 +44,10 @@ public class SetupAppengine extends ExternalResource {
     @Override
     protected void after() {
         helper.tearDown();
+    }
+
+    public SetupAppengine setQueueXmlPath(String queueXmlPath) {
+        this.queueXmlPath = queueXmlPath;
+        return this;
     }
 }

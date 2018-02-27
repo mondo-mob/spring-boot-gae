@@ -13,7 +13,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest(classes = {ObjectifyTestConfiguration.class})
 public abstract class ObjectifyTest {
     @Rule
-    public SetupAppengine setupAppengine = new SetupAppengine();
+    public SetupAppengine setupAppengine = new SetupAppengine()
+            .setQueueXmlPath("src/test/resources/queue-test.xml");
 
     @Rule
     public ObjectifyRollbackRule objectifyRollbackRule = new ObjectifyRollbackRule();

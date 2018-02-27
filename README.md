@@ -47,6 +47,12 @@ by the `SearchService`:
 Not all of the limitations of the Search API are enforced by the framework, if in doubt see the
 [Search API documentation](https://cloud.google.com/appengine/docs/standard/java/search/) for specifics.
 
+### Cloud Datastore Backups
+
+A module is included for scheduling Cloud Datastore backups.
+
+See [Google Cloud Datastore Backup](README-DATASTORE-BACKUP.md) documentation for more info.
+
 ## Background
 This library has evolved from a custom framework developed by [3wks](https://3wks.com.au/) and used in over 200 Google App Engine standard projects.
 A custom framework, Thundr, was required in Java 7 App Engine Standard because of the JDK class whitelist and issus with Spring not loading in time

@@ -44,11 +44,20 @@ dependencies {
     compile 'org.springframework.security:spring-security-core'
     compile 'org.springframework.security:spring-security-web'
 
+    compile('com.google.api-client:google-api-client-appengine:1.23.0') {
+        exclude group: 'com.google.guava', module: 'guava-jdk5'
+    }
+    compile('com.google.api-client:google-api-client-jackson2:1.23.0') {
+        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
+    }
+
     compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
 
     testCompile "com.google.appengine:appengine-testing:${appengineVersion}"
     testCompile "com.google.appengine:appengine-api-stubs:${appengineVersion}"
     testCompile 'org.springframework.boot:spring-boot-starter-test'
+    testCompile 'org.springframework:spring-webmvc'
+    testCompile 'org.springframework.security:spring-security-config'
     testCompile 'org.springframework.security:spring-security-test'
     testCompile 'com.openpojo:openpojo:0.8.6'
 }

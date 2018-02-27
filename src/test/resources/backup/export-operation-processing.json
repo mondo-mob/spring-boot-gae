@@ -1,0 +1,13 @@
+{
+	"name": "projects/my-project/operations/ASA5NDAwOTE4MjMJGnRsdWFmZWQHEmxhcnRuZWNzdS1zYm9qLW5pbWRhFAosEg",
+	"metadata": {
+		"@type": "type.googleapis.com/google.datastore.admin.v1beta1.ExportEntitiesMetadata",
+		"common": {
+			"startTime": "2018-02-08T16:00:01.944710Z",
+			"operationType": "EXPORT_ENTITIES",
+			"state": "PROCESSING"
+		},
+		"entityFilter": {},
+		"outputUrlPrefix": "gs://my-backup-bucket/FullBackup/2018/02/20180209-030001"
+	}
+}

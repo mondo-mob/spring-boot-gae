@@ -1,0 +1,7 @@
+spring:
+  contrib:
+    gae:
+      datastore:
+        backup:
+          bucket: backup-bucket
+          queue: backup-queue
