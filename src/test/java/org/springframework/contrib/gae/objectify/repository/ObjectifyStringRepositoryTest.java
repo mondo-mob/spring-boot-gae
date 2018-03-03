@@ -1,6 +1,5 @@
 package org.springframework.contrib.gae.objectify.repository;
 
-import com.googlecode.objectify.Key;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.contrib.gae.objectify.TestStringEntity;

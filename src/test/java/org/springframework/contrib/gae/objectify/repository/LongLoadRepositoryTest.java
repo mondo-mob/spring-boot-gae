@@ -4,7 +4,6 @@ import com.googlecode.objectify.Key;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.contrib.gae.objectify.TestLongEntity;
-import org.springframework.contrib.gae.objectify.TestStringEntity;
 
 import java.util.Arrays;
 import java.util.Collection;

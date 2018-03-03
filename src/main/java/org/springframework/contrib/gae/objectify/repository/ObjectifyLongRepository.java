@@ -1,35 +1,39 @@
 package org.springframework.contrib.gae.objectify.repository;
 
 import com.googlecode.objectify.Key;
-import org.springframework.data.repository.NoRepositoryBean;
+import org.springframework.contrib.gae.objectify.ObjectifyProxy;
+import org.springframework.contrib.gae.search.SearchService;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Optional;
 
 /**
- * Base repository type for {@link org.springframework.stereotype.Repository} injected objectify repositories with {@link Long} id.
- *
- * @param <E> Entity type.
+ * Concrete repository class to extend when creating repository instances with a {@link Long} key.
+ * @param <E> he type of entity this repository manages.
  */
-@NoRepositoryBean
-public interface ObjectifyLongRepository<E> extends SearchRepository<E, Long> {
+public abstract class ObjectifyLongRepository<E> extends BaseObjectifyRepository<E, Long> {
+
+    public ObjectifyLongRepository(ObjectifyProxy objectify, @Nullable SearchService searchService, Class<E> entityType) {
+        super(objectify, searchService, entityType, Long.class);
+    }
 
     @Nonnull
-    default Optional<E> findById(Long id) {
+    public Optional<E> findById(Long id) {
         return findByKey(toKey(id));
     }
 
     @Nonnull
-    default E getById(Long id) {
+    public E getById(Long id) {
         return getByKey(toKey(id));
     }
 
-    default void delete(Long id) {
+    public void delete(Long id) {
         deleteByKey(toKey(id));
     }
 
-    default Key<E> toKey(Long id) {
+    private Key<E> toKey(Long id) {
         return Key.create(getEntityType(), id);
     }
-    
+
 }

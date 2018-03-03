@@ -1,21 +1,18 @@
-package org.springframework.contrib.gae.objectify.support;
+package org.springframework.contrib.gae.objectify.repository;
 
-import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Objectify;
 import org.springframework.contrib.gae.objectify.ObjectifyProxy;
-import org.springframework.contrib.gae.objectify.repository.ObjectifyRepository;
 import org.springframework.contrib.gae.search.NoOpSearchService;
 import org.springframework.contrib.gae.search.SearchService;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.Serializable;
-import java.util.Optional;
 
 /**
- * Basic Objectify repository implementation used to scaffold {@link org.springframework.stereotype.Repository} annotated beans.
+ * Basic Objectify repository implementation, also used to scaffold {@link org.springframework.stereotype.Repository} annotated beans.
  */
-public class AbstractObjectifyRepository<E, I extends Serializable> implements ObjectifyRepository<E, I> {
+public class BaseObjectifyRepository<E, I extends Serializable> implements ObjectifyRepository<E, I> {
 
     private ObjectifyProxy objectify;
     private SearchService searchService;
@@ -30,7 +27,7 @@ public class AbstractObjectifyRepository<E, I extends Serializable> implements O
      * @param entityType    The type of entity this repository manages.
      * @param idType        The id type of the entity this repository manages.
      */
-    public AbstractObjectifyRepository(ObjectifyProxy objectify, @Nullable SearchService searchService, Class<E> entityType, Class<I> idType) {
+    public BaseObjectifyRepository(ObjectifyProxy objectify, @Nullable SearchService searchService, Class<E> entityType, Class<I> idType) {
         this.objectify = objectify;
         this.searchService = searchService != null ? searchService : new NoOpSearchService();
         this.entityType = entityType;
@@ -59,18 +56,5 @@ public class AbstractObjectifyRepository<E, I extends Serializable> implements O
     public Objectify ofy() {
         return objectify.ofy();
     }
-//
-//    @Nonnull
-//    public Optional<E> findById(String id) {
-//        return findByKey(toKey(id));
-//    }
-//
-//    @Nonnull
-//    public E getById(String id) {
-//        return getByKey(toKey(id));
-//    }
-//
-//    public Key<E> toKey(String id) {
-//        return Key.create(getEntityType(), id);
-//    }
+
 }

@@ -1,6 +1,7 @@
 package org.springframework.contrib.gae.objectify.support;
 
 import org.springframework.contrib.gae.objectify.ObjectifyProxy;
+import org.springframework.contrib.gae.objectify.repository.BaseObjectifyRepository;
 import org.springframework.contrib.gae.search.SearchService;
 import org.springframework.data.repository.core.RepositoryInformation;
 import org.springframework.data.repository.core.RepositoryMetadata;
@@ -34,12 +35,12 @@ public class ObjectifyRepositoryFactory extends RepositoryFactorySupport {
     @Override
     @SuppressWarnings("unchecked")
     protected Object getTargetRepository(RepositoryInformation information) {
-        return new AbstractObjectifyRepository(objectify, searchService, information.getDomainType(), information.getIdType());
+        return new BaseObjectifyRepository(objectify, searchService, information.getDomainType(), information.getIdType());
     }
 
     @Override
     protected Class<?> getRepositoryBaseClass(RepositoryMetadata metadata) {
-        return AbstractObjectifyRepository.class;
+        return BaseObjectifyRepository.class;
     }
 
     @Override
