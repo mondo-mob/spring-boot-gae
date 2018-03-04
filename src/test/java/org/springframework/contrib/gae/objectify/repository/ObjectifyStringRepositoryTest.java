@@ -3,6 +3,7 @@ package org.springframework.contrib.gae.objectify.repository;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.contrib.gae.objectify.TestStringEntity;
+import org.springframework.contrib.gae.objectify.repository.base.BaseObjectifyStringRepository;
 
 import java.util.Optional;
 
@@ -12,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ObjectifyStringRepositoryTest extends AbstractStringRepositoryTest {
 
     @Autowired
-    private ObjectifyStringRepository<TestStringEntity> repository;
+    private BaseObjectifyStringRepository<TestStringEntity> repository;
 
     @Test
     public void findById()  {

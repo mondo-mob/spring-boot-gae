@@ -1,7 +1,8 @@
-package org.springframework.contrib.gae.objectify.repository;
+package org.springframework.contrib.gae.objectify.repository.base;
 
 import com.googlecode.objectify.Objectify;
 import org.springframework.contrib.gae.objectify.ObjectifyProxy;
+import org.springframework.contrib.gae.objectify.repository.ObjectifyRepository;
 import org.springframework.contrib.gae.search.NoOpSearchService;
 import org.springframework.contrib.gae.search.SearchService;
 

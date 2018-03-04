@@ -1,7 +1,7 @@
 package org.springframework.contrib.gae.objectify.support;
 
 import org.springframework.contrib.gae.objectify.ObjectifyProxy;
-import org.springframework.contrib.gae.objectify.repository.BaseObjectifyRepository;
+import org.springframework.contrib.gae.objectify.repository.base.BaseObjectifyRepository;
 import org.springframework.contrib.gae.search.SearchService;
 import org.springframework.data.repository.core.RepositoryInformation;
 import org.springframework.data.repository.core.RepositoryMetadata;

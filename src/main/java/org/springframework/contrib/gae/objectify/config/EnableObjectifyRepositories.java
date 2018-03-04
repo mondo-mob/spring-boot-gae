@@ -2,7 +2,7 @@ package org.springframework.contrib.gae.objectify.config;
 
 import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Import;
-import org.springframework.contrib.gae.objectify.repository.BaseObjectifyRepository;
+import org.springframework.contrib.gae.objectify.repository.base.BaseObjectifyRepository;
 import org.springframework.contrib.gae.objectify.support.ObjectifyRepositoryFactoryBean;
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.data.repository.query.QueryLookupStrategy.Key;

@@ -3,6 +3,7 @@ package org.springframework.contrib.gae.objectify.repository;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.contrib.gae.objectify.TestLongEntity;
+import org.springframework.contrib.gae.objectify.repository.base.BaseObjectifyLongRepository;
 
 import java.util.Optional;
 
@@ -11,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ObjectifyLongRepositoryTest extends AbstractLongRepositoryTest {
 
     @Autowired
-    protected ObjectifyLongRepository<TestLongEntity> repository;
+    protected BaseObjectifyLongRepository<TestLongEntity> repository;
 
     @Test
     public void findById()  {
