@@ -1,6 +1,5 @@
 package org.springframework.contrib.gae.security;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -10,6 +9,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.is;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -157,13 +156,14 @@ public class GaeUserDetailsManagerTest extends ObjectifyTest {
         manager.changePassword(TEST_USER_PASSWORD, "new-password");
 
         UserDetails user = manager.loadUserByUsername(TEST_USERNAME);
+        assertThat(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).isEqualTo(user);
         assertThat(user).isNotNull();
         assertThat(user.getPassword()).isEqualTo("encoded('new-password')");
 
         ArgumentCaptor<UsernamePasswordAuthenticationToken> tokenCaptor = ArgumentCaptor.forClass(UsernamePasswordAuthenticationToken.class);
         verify(authenticationManager).authenticate(tokenCaptor.capture());
-        Assert.assertThat(tokenCaptor.getValue().getPrincipal(), is(TEST_USERNAME));
-        Assert.assertThat(tokenCaptor.getValue().getCredentials(), is(TEST_USER_PASSWORD));
+        assertThat(tokenCaptor.getValue().getPrincipal()).isEqualTo(TEST_USERNAME);
+        assertThat(tokenCaptor.getValue().getCredentials()).isEqualTo(TEST_USER_PASSWORD);
     }
 
     @Test

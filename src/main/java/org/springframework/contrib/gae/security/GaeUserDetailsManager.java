@@ -96,9 +96,10 @@ public class GaeUserDetailsManager<U extends GaeUser> implements UserDetailsMana
         U user = loadUser(username).orElseThrow(() -> new IllegalStateException("Current user doesn't exist in database."));
         userAdapter.setPassword(user, passwordEncoder.encode(newPassword));
         ofy().save().entity(user).now();
+        UserDetails userDetails = userAdapter.toUserDetails(user);
 
-        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null, userAdapter.getAuthorities(user));
-        authentication.setDetails(user);
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userAdapter.getAuthorities(user));
+        authentication.setDetails(userDetails);
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
