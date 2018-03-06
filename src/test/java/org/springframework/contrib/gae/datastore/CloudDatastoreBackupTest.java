@@ -72,7 +72,7 @@ public class CloudDatastoreBackupTest extends ObjectifyTest {
 
 		// Request sent to correct api endpoint
 		MockLowLevelHttpRequest httpRequest = ((EditableMockHttpTransport) httpTransport).getLastRequest();
-		assertThat(httpRequest.getUrl(), is("https://datastore.googleapis.com/v1beta1/projects/my-project:export"));
+		assertThat(httpRequest.getUrl(), is("https://datastore.googleapis.com/v1/projects/my-project:export"));
 	}
 
 	@Test

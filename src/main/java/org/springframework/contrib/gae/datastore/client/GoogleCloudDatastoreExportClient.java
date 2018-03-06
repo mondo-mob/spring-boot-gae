@@ -26,7 +26,7 @@ import java.util.List;
  * Intentionally left out import for now as that's more likely something you'd do from
  * within GCP rather than via the webapp.
  *
- * @see <a href="https://cloud.google.com/datastore/docs/reference/rest/v1beta1/projects/export">https://cloud.google.com/datastore/docs/reference/rest/v1beta1/projects/export</a>
+ * @see <a href="https://cloud.google.com/datastore/docs/reference/admin/rest/">https://cloud.google.com/datastore/docs/reference/admin/rest/</a>
  */
 public class GoogleCloudDatastoreExportClient {
 
@@ -45,7 +45,7 @@ public class GoogleCloudDatastoreExportClient {
 
     /**
      * Starts a datastore export
-     * https://cloud.google.com/datastore/docs/reference/rest/v1beta1/projects/export
+     * https://cloud.google.com/datastore/docs/reference/admin/rest/v1/projects/export
      *
      * @param exportName   name for this backup - will be included in backup folder
      * @param bucket       gcs bucket to output to
@@ -58,7 +58,7 @@ public class GoogleCloudDatastoreExportClient {
             throw new IllegalArgumentException("No datastore project configured - cannot start export");
         }
 
-        String uploadUrl = String.format("%s/v1beta1/projects/%s:export", BASE_API_URL, cloudDatastoreProject);
+        String uploadUrl = String.format("%s/v1/projects/%s:export", BASE_API_URL, cloudDatastoreProject);
         GenericUrl url = new GenericUrl(uploadUrl);
 
         String name = StringUtils.isBlank(exportName) ? "DatastoreExport" : exportName;
