@@ -13,7 +13,7 @@ import java.lang.reflect.Field;
  * @param <E> Entity type.
  * @param <I> Entity id type.
  */
-public class ObjectifyEntityInformation<E, I extends Serializable> implements EntityInformation<E, I> {
+public class ObjectifyEntityInformation<E, I> implements EntityInformation<E, I> {
     private ObjectifyProxy objectify;
 
     private Class<E> entityType;

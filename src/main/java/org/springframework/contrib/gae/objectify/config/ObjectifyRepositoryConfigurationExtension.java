@@ -27,7 +27,7 @@ public class ObjectifyRepositoryConfigurationExtension extends RepositoryConfigu
     }
 
     @Override
-    public String getRepositoryFactoryClassName() {
+    public String getRepositoryFactoryBeanClassName() {
         return ObjectifyRepositoryFactoryBean.class.getName();
     }
 

@@ -1,5 +1,13 @@
+buildscript {
+    ext {
+        springBootVersion = '2.0.1.RELEASE'
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+    }
+}
+
 plugins {
-    id 'org.springframework.boot' version '1.5.9.RELEASE'
     id 'com.jfrog.bintray' version '1.8.0'
 }
 
@@ -7,6 +15,8 @@ apply plugin: 'maven'
 apply plugin: 'maven-publish'
 apply plugin: 'java'
 apply plugin: 'wrapper'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
 
 
 description 'Spring Boot Google App Engine'
@@ -21,10 +31,6 @@ repositories {
 
 wrapper {
     gradleVersion = '4.4.1'
-}
-
-bootRepackage {
-    enabled = false
 }
 
 // For dependencies listed on this page use spring-defined versions (don't specify version)
