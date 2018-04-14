@@ -18,6 +18,13 @@ apply plugin: 'wrapper'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
 
 description 'Spring Boot Google App Engine'
 group 'com.threewks.spring'
@@ -49,6 +56,7 @@ dependencies {
     compile 'org.springframework:spring-tx'
     compile 'org.springframework.security:spring-security-core'
     compile 'org.springframework.security:spring-security-web'
+    compile 'com.fasterxml.jackson.core:jackson-databind'
 
     compile('com.google.api-client:google-api-client-appengine:1.23.0') {
         exclude group: 'com.google.guava', module: 'guava-jdk5'
