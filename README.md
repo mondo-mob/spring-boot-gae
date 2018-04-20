@@ -10,13 +10,13 @@ Maven
 <dependency>
   <groupId>com.threewks.spring</groupId>
   <artifactId>spring-boot-gae</artifactId>
-  <version>1.0.0-beta-10</version>
+  <version>1.0.0-beta-16</version>
 </dependency>
 ```
 
 Gradle
 ```
-compile 'com.threewks.spring:spring-boot-gae:1.0.0-beta-10'
+compile 'com.threewks.spring:spring-boot-gae:1.0.0-beta-16'
 ```
 
 ## Requirements
@@ -50,6 +50,16 @@ Not all of the limitations of the Search API are enforced by the framework, if i
 ### Cloud Datastore Backups
 
 A module is included for scheduling Cloud Datastore backups.
+
+### Google Cloud Storage
+- Add spring configuration to enable support for reading/write to Cloud Storage:
+```
+spring:
+  contrib:
+    gae:
+      storage:
+        bucket: my-bucket
+```
 
 See [Google Cloud Datastore Backup](README-DATASTORE-BACKUP.md) documentation for more info.
 

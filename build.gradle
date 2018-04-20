@@ -51,6 +51,8 @@ dependencies {
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
     }
 
+    compile "com.google.cloud:google-cloud-storage:1.26.0"
+
     compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
 
     testCompile "com.google.appengine:appengine-testing:${appengineVersion}"
