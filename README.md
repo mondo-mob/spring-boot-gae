@@ -51,6 +51,8 @@ Not all of the limitations of the Search API are enforced by the framework, if i
 
 A module is included for scheduling Cloud Datastore backups.
 
+See [Google Cloud Datastore Backup](README-DATASTORE-BACKUP.md) documentation for more info.
+
 ### Google Cloud Storage
 - Add spring configuration to enable support for reading/write to Cloud Storage:
 ```
@@ -60,8 +62,6 @@ spring:
       storage:
         bucket: my-bucket
 ```
-
-See [Google Cloud Datastore Backup](README-DATASTORE-BACKUP.md) documentation for more info.
 
 ## Background
 This library has evolved from a custom framework developed by [3wks](https://3wks.com.au/) and used in over 200 Google App Engine standard projects.
