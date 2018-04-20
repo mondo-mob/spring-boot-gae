@@ -54,7 +54,8 @@ A module is included for scheduling Cloud Datastore backups.
 See [Google Cloud Datastore Backup](README-DATASTORE-BACKUP.md) documentation for more info.
 
 ### Google Cloud Storage
-- Add spring configuration to enable support for reading/write to Cloud Storage:
+
+To enable support for reading/write to Cloud Storage via `CloudStorageService` add the following to your spring configuration:
 ```
 spring:
   contrib:
