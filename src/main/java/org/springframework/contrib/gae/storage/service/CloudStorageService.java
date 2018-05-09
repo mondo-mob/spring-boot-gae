@@ -67,7 +67,7 @@ public class CloudStorageService {
         return storage.get(blobId(objectName)).exists();
     }
 
-    private void deleteFile(String objectName) {
+    public void deleteFile(String objectName) {
         storage.delete(blobId(objectName));
     }
 
