@@ -5,12 +5,13 @@ import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 import com.openpojo.business.BusinessIdentity;
 import com.openpojo.business.annotation.BusinessKey;
+import org.springframework.contrib.gae.datastore.entity.IndexAware;
 import org.springframework.contrib.gae.search.SearchIndex;
 
 import javax.annotation.Nullable;
 
 @Entity
-public class TestStringEntity {
+public class TestStringEntity implements IndexAware {
     @Id
     @BusinessKey
     private String id;
@@ -18,6 +19,8 @@ public class TestStringEntity {
     @Index
     @SearchIndex
     private String name;
+
+    private boolean reindexed;
 
     private TestStringEntity() {
     }
@@ -43,6 +46,15 @@ public class TestStringEntity {
     public TestStringEntity setName(String name) {
         this.name = name;
         return this;
+    }
+
+    public boolean isReindexed() {
+        return reindexed;
+    }
+
+    @Override
+    public void onReindex() {
+        this.reindexed = true;
     }
 
     @Override
