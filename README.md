@@ -10,13 +10,13 @@ Maven
 <dependency>
   <groupId>com.threewks.spring</groupId>
   <artifactId>spring-boot-gae</artifactId>
-  <version>1.0.0-beta-10</version>
+  <version>1.0.0-beta-19</version>
 </dependency>
 ```
 
 Gradle
 ```
-compile 'com.threewks.spring:spring-boot-gae:1.0.0-beta-10'
+compile 'com.threewks.spring:spring-boot-gae:1.0.0-beta-19'
 ```
 
 ## Requirements
@@ -52,6 +52,19 @@ Not all of the limitations of the Search API are enforced by the framework, if i
 A module is included for scheduling Cloud Datastore backups.
 
 See [Google Cloud Datastore Backup](README-DATASTORE-BACKUP.md) documentation for more info.
+
+### Google Cloud Storage
+
+To enable support for reading/write to Cloud Storage via `CloudStorageService` add the following to your spring configuration:
+```
+spring:
+  contrib:
+    gae:
+      storage:
+        bucket: my-bucket
+```
+
+If running locally you will need to set your default credential - `gcloud auth application-default login`
 
 ## Background
 This library has evolved from a custom framework developed by [3wks](https://3wks.com.au/) and used in over 200 Google App Engine standard projects.

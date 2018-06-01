@@ -29,6 +29,8 @@ public class StringSearchRepositoryTest extends AbstractStringRepositoryTest {
 
         assertThat(searchByName("name2"))
                 .containsExactly(target);
+
+        repository.findAll().forEach(e -> assertThat(e.isReindexed()).isEqualTo(false));
     }
 
     @Test
@@ -46,6 +48,8 @@ public class StringSearchRepositoryTest extends AbstractStringRepositoryTest {
                 .containsExactly(target);
         assertThat(searchByName("name2"))
                 .isEmpty();
+
+        repository.findAll().forEach(e -> assertThat(e.isReindexed()).isEqualTo(false));
     }
 
     @Test
@@ -88,6 +92,8 @@ public class StringSearchRepositoryTest extends AbstractStringRepositoryTest {
                 .isEmpty();
         assertThat(searchByName("name2"))
                 .isEmpty();
+
+        repository.findAll().forEach(e -> assertThat(e.isReindexed()).isEqualTo(false));
     }
 
     @Test
@@ -107,10 +113,12 @@ public class StringSearchRepositoryTest extends AbstractStringRepositoryTest {
                 .isNotEmpty();
         assertThat(searchByName("name2"))
                 .isNotEmpty();
+
+        repository.findAll().forEach(e -> assertThat(e.isReindexed()).isEqualTo(true));
     }
 
     @Test
-    public void reindex_willUpdateEntities_whenReindexOpertionChangesValues() {
+    public void reindex_willUpdateEntities_whenReindexOperationChangesValues() {
         repository.save(
                 new TestStringEntity("id1").setName("name1"),
                 new TestStringEntity("id2").setName("name2")
@@ -130,6 +138,8 @@ public class StringSearchRepositoryTest extends AbstractStringRepositoryTest {
                 .isEmpty();
         assertThat(searchByName("name2"))
                 .isEmpty();
+
+        repository.findAll().forEach(e -> assertThat(e.isReindexed()).isEqualTo(true));
     }
 
     private Result<TestStringEntity> searchByName(String name) {

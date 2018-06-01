@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.googlecode.objectify.Key;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.contrib.gae.datastore.entity.IndexAware;
 import org.springframework.contrib.gae.search.SearchIndex;
 import org.springframework.contrib.gae.search.SearchService;
 import org.springframework.contrib.gae.search.query.Query;
@@ -19,8 +20,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 /**
  * A searchable repository.
@@ -107,9 +110,18 @@ public interface SearchRepository<E, I extends Serializable> extends LoadReposit
      */
     default int reindex(List<Key<E>> keys, int batchSize, Function<List<E>, List<E>> reindexOperation) {
         int count = 0;
+        Consumer<E> reindexNotification = IndexAware.class.isAssignableFrom(getEntityType()) ?
+                e -> ((IndexAware)e).onReindex() : e -> {};
+
         List<List<Key<E>>> batches = Lists.partition(keys, batchSize);
         for (List<Key<E>> batchKeys : batches) {
-            List<E> batch = findAll(batchKeys);
+            List<E> batch = ofy()
+                    .load()
+                    .keys(batchKeys)
+                    .values()
+                    .stream()
+                    .peek(reindexNotification)
+                    .collect(Collectors.toList());
 
             batch = reindexOperation == null ? batch : reindexOperation.apply(batch);
 
