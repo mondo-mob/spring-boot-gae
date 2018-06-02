@@ -81,7 +81,7 @@ public class QueryImpl<E> implements QueryBuilder<E>, Query<E> {
     @Nonnull
     @Override
     public QueryBuilder<E> order(String field, Sort.Direction direction) {
-        Sort newSort = new Sort(new Sort.Order(direction, field));
+        Sort newSort = Sort.by(direction, field);
         this.sort = this.sort != null ? this.sort.and(newSort) : newSort;
 
         return this;
