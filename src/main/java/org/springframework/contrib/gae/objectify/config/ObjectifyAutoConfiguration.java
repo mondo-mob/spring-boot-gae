@@ -90,8 +90,8 @@ public class ObjectifyAutoConfiguration {
      */
     @Bean
     @ConditionalOnMissingBean(ObjectifyFilter.class)
-    public FilterRegistrationBean registerObjectifyFilter() {
-        FilterRegistrationBean reg = new FilterRegistrationBean(new ObjectifyFilter());
+    public FilterRegistrationBean<ObjectifyFilter> registerObjectifyFilter() {
+        FilterRegistrationBean<ObjectifyFilter> reg = new FilterRegistrationBean<>(new ObjectifyFilter());
         reg.setOrder(Integer.MIN_VALUE);  // must ensure loaded prior to security filter
         return reg;
     }

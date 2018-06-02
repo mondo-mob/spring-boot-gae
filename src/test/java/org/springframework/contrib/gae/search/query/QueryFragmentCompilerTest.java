@@ -34,13 +34,13 @@ public class QueryFragmentCompilerTest {
     private QueryFragmentCompiler compiler;
 
     @Before
-    public void setUp()  {
+    public void setUp() {
         compiler = new QueryFragmentCompiler(TestSearchEntity.class, searchMetadata, conversionService);
 
         when(searchMetadata.encodeFieldName(TestSearchEntity.class, "field")).thenReturn("field");
-        when(conversionService.convert(anyString(), eq(String.class))).thenAnswer(invocation -> invocation.getArgumentAt(0, String.class));
+        when(conversionService.convert(anyString(), eq(String.class))).thenAnswer(invocation -> invocation.getArgument(0));
         when(conversionService.convert(any(String[].class), any(TypeDescriptor.class), any(TypeDescriptor.class)))
-                .thenAnswer(invocation -> Arrays.asList(invocation.getArgumentAt(0, String[].class)));
+                .thenAnswer(invocation -> Arrays.asList(invocation.getArgument(0)));
     }
 
     @Test

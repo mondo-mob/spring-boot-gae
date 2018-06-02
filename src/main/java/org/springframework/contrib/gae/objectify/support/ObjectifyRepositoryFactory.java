@@ -9,7 +9,6 @@ import org.springframework.data.repository.core.support.RepositoryFactorySupport
 import org.springframework.util.Assert;
 
 import javax.annotation.Nonnull;
-import java.io.Serializable;
 
 /**
  * Objectify {@link org.springframework.data.repository.Repository} factory.
@@ -45,7 +44,7 @@ public class ObjectifyRepositoryFactory extends RepositoryFactorySupport {
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T, ID extends Serializable> ObjectifyEntityInformation<T, ID> getEntityInformation(Class<T> entityType) {
+    public <T, ID> ObjectifyEntityInformation<T, ID> getEntityInformation(Class<T> entityType) {
         return new ObjectifyEntityInformation<>(objectify, entityType);
     }
 }
