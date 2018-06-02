@@ -1,4 +1,4 @@
-# Spring Boot Google App Engine
+# Spring Boot Google App Engine (Spring Boot 1.x.x)
 
 Spring Boot support for Google App Engine Datastore via Objectify and the full-text search API.
 
