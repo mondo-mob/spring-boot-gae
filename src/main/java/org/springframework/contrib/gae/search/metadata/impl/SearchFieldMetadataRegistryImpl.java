@@ -107,7 +107,7 @@ public class SearchFieldMetadataRegistryImpl implements SearchFieldMetadataRegis
                     }
 
                     return new FieldSearchFieldMetadata(entityClass, field, indexTypeRegistry);
-                }).collect(Collectors.toMap(SearchFieldMetadata::getMemberName, accessor -> accessor));
+                }).collect(Collectors.toMap(SearchFieldMetadata::getIndexName, accessor -> accessor));
     }
 
     protected Map<String, SearchFieldMetadata> registerMethods(Class<?> entityClass) {
@@ -119,6 +119,6 @@ public class SearchFieldMetadataRegistryImpl implements SearchFieldMetadataRegis
                     }
 
                     return new MethodSearchFieldMetadata(entityClass, method, indexTypeRegistry);
-                }).collect(Collectors.toMap(SearchFieldMetadata::getMemberName, accessor -> accessor));
+                }).collect(Collectors.toMap(SearchFieldMetadata::getIndexName, accessor -> accessor));
     }
 }

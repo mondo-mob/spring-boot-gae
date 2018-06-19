@@ -105,6 +105,12 @@ public class TestSearchEntity {
     }
 
     @SearchIndex
+    public String getStringBeanField() {
+        return "indexedMethodValue";
+    }
+
+
+    @SearchIndex
     public String stringMethod() {
         return "indexedMethodValue";
     }

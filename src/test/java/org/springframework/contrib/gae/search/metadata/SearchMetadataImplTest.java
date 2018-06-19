@@ -73,7 +73,6 @@ public class SearchMetadataImplTest {
 
         Map<String, SearchFieldMetadata> result = searchMetadata.getFields(entity.getClass());
         assertThat(result.get("stringField").getValue(entity)).isEqualTo("stringValue");
-        assertThat(result.get("stringField").getValue(entity)).isEqualTo("stringValue");
         assertThat(result.get("longField").getValue(entity)).isEqualTo(1234567890L);
         assertThat(result.get("geoPointField").getValue(entity)).isEqualTo(entity.getGeoPointField());
         assertThat(result.get("stringArrayField").getValue(entity)).isEqualTo(new String[]{"one", "two", "three"});
@@ -82,12 +81,15 @@ public class SearchMetadataImplTest {
         assertThat(result.get("stringArrayMethod").getValue(entity)).isEqualTo(new String[]{"value1", "value2", "value3"});
         assertThat(result.get("stringListMethod").getValue(entity)).isEqualTo(Arrays.asList("1", "2", "3"));
         assertThat(result).doesNotContainKeys("unindexedValue", "unindexedMethod");
+
+        // Translated from getStringBeanField()
+        assertThat(result.get("stringBeanField").getValue(entity)).isEqualTo("indexedMethodValue");
     }
 
     @Test
     public void encodeFieldName()  {
         assertThat(searchMetadata.encodeFieldName(TestEntityWithBadFieldNames.class, "_fieldNameRequiringEncoding")).isEqualTo("fieldNameRequiringEncoding");
-        assertThat(searchMetadata.encodeFieldName(TestEntityWithBadFieldNames.class, "explicitlyNamedFieldRequiringEncoding")).isEqualTo("explicitly_named_field_requiring_encoding");
+        assertThat(searchMetadata.encodeFieldName(TestEntityWithBadFieldNames.class, "explicitly-named-field-requiring-encoding")).isEqualTo("explicitly_named_field_requiring_encoding");
     }
 
     @Test
