@@ -12,8 +12,9 @@ import javax.annotation.Nullable;
  */
 public class BaseObjectifyKeyRepository<E> extends BaseObjectifyRepository<E, Key<E>> {
 
-    public BaseObjectifyKeyRepository(ObjectifyProxy objectify, @Nullable SearchService searchService, Class<E> entityType, Class<Key<E>> idType) {
-        super(objectify, searchService, entityType, idType);
+    @SuppressWarnings("unchecked")
+    public BaseObjectifyKeyRepository(ObjectifyProxy objectify, @Nullable SearchService searchService, Class<E> entityType) {
+        super(objectify, searchService, entityType, (Class<Key<E>>) (Class<?>) Key.class);
     }
 
 }
