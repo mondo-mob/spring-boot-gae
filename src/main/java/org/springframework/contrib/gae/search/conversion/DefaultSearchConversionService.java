@@ -2,8 +2,10 @@ package org.springframework.contrib.gae.search.conversion;
 
 import org.springframework.contrib.gae.search.conversion.converter.DateToStringConverter;
 import org.springframework.contrib.gae.search.conversion.converter.GeoPointToStringConverter;
+import org.springframework.contrib.gae.search.conversion.converter.KeyToStringConverter;
 import org.springframework.contrib.gae.search.conversion.converter.OffsetDateTimeToDateConverter;
 import org.springframework.contrib.gae.search.conversion.converter.OffsetDateTimeToStringConverter;
+import org.springframework.contrib.gae.search.conversion.converter.RefToStringConverter;
 import org.springframework.contrib.gae.search.conversion.converter.ZonedDateTimeToDateConverter;
 import org.springframework.contrib.gae.search.conversion.converter.ZonedDateTimeToStringConverter;
 import org.springframework.core.convert.converter.ConverterRegistry;
@@ -28,6 +30,8 @@ public class DefaultSearchConversionService extends DefaultConversionService {
      */
     public static void addDefaultConverters(ConverterRegistry registry) {
         registry.addConverter(new DateToStringConverter());
+        registry.addConverter(new RefToStringConverter());
+        registry.addConverter(new KeyToStringConverter());
 
         registry.addConverter(new OffsetDateTimeToStringConverter());
         registry.addConverter(new OffsetDateTimeToDateConverter());

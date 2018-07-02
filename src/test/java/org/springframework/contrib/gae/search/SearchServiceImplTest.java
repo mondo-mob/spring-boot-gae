@@ -3,6 +3,7 @@ package org.springframework.contrib.gae.search;
 import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.GeoPoint;
 import com.google.appengine.api.search.Index;
+import com.googlecode.objectify.Key;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -23,13 +24,17 @@ public class SearchServiceImplTest extends SearchTest {
 
     @Test
     public void index() {
+        TestSearchEntity otherEntity = new TestSearchEntity("idOther");
+
         TestSearchEntity entity = new TestSearchEntity("id1")
                 .setStringField("String value 1")
                 .setLongField(1234567890L)
                 .setStringArrayField(new String[]{"value1", "value2", "value3"})
                 .setStringListField(Arrays.asList("9", "8", "7"))
                 .setGeoPointField(new GeoPoint(1, 2))
-                .setUnindexedValue("unindexed");
+                .setUnindexedValue("unindexed")
+                .setOtherEntity(otherEntity)
+                .setOtherEntityKey(Key.create(otherEntity));
 
         searchService.index(entity);
 
@@ -41,6 +46,11 @@ public class SearchServiceImplTest extends SearchTest {
         assertThat(result.getFields("stringListField")).extracting("text").containsExactlyInAnyOrder("9", "8", "7");
 
         assertThat(result.getFields("longField")).extracting("number").contains(1234567890d);
+
+        // Ref and Key should be indexed with same value. Objectify allows you to interchange and stores them as key.
+        String keyAsString = Key.create(otherEntity).toWebSafeString();
+        assertThat(result.getFields("otherEntity")).extracting("atom").contains(keyAsString);
+        assertThat(result.getFields("otherEntityKey")).extracting("atom").contains(keyAsString);
     }
 
     @Test

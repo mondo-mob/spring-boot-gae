@@ -1,6 +1,8 @@
 package org.springframework.contrib.gae.search.metadata.impl;
 
 import com.google.appengine.api.search.GeoPoint;
+import com.googlecode.objectify.Key;
+import com.googlecode.objectify.Ref;
 import org.springframework.contrib.gae.search.IndexType;
 import org.springframework.contrib.gae.search.metadata.IndexTypeRegistry;
 
@@ -82,6 +84,9 @@ public class DefaultIndexTypeRegistry implements Function<Type, IndexType>, Inde
         mappings.put(Boolean.class, IndexType.IDENTIFIER);
         mappings.put(Enum.class, IndexType.IDENTIFIER);
         mappings.put(UUID.class, IndexType.IDENTIFIER);
+
+        mappings.put(Ref.class, IndexType.IDENTIFIER);
+        mappings.put(Key.class, IndexType.IDENTIFIER);
 
         mappings.put(CharSequence.class, IndexType.TEXT);
 

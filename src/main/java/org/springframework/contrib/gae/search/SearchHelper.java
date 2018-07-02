@@ -11,6 +11,10 @@ import java.util.stream.Stream;
 public final class SearchHelper {
     /**
      * Generates all substring ngrams of one or more input strings, intended to be used as a search index to facilitate partial string searching.
+     *
+     * @param strings   The source strings to split.
+     *
+     * @return Searchable text, lowercase and separated by space.
      */
     public static String getSearchableString(String... strings) {
         return getSearchableString(1, strings);

@@ -1,6 +1,8 @@
 package org.springframework.contrib.gae.search;
 
 import com.google.appengine.api.search.GeoPoint;
+import com.googlecode.objectify.Key;
+import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
@@ -30,6 +32,11 @@ public class TestSearchEntity {
     private String[] stringArrayField;
     @SearchIndex
     private List<String> stringListField;
+    @SearchIndex
+    private Ref<TestSearchEntity> otherEntity;
+    @SearchIndex
+    private Key<TestSearchEntity> otherEntityKey;
+
 
     private String unindexedValue;
 
@@ -101,6 +108,24 @@ public class TestSearchEntity {
 
     public TestSearchEntity setUnindexedValue(String unindexedValue) {
         this.unindexedValue = unindexedValue;
+        return this;
+    }
+
+    public TestSearchEntity getOtherEntity() {
+        return otherEntity.get();
+    }
+
+    public TestSearchEntity setOtherEntity(TestSearchEntity otherEntity) {
+        this.otherEntity = Ref.create(otherEntity);
+        return this;
+    }
+
+    public Key<TestSearchEntity> getOtherEntityKey() {
+        return otherEntityKey;
+    }
+
+    public TestSearchEntity setOtherEntityKey(Key<TestSearchEntity> otherEntityKey) {
+        this.otherEntityKey = otherEntityKey;
         return this;
     }
 

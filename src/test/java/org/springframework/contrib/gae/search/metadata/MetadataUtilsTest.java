@@ -1,9 +1,13 @@
 package org.springframework.contrib.gae.search.metadata;
 
+import com.googlecode.objectify.Ref;
+import com.googlecode.objectify.impl.ref.LiveRef;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.springframework.contrib.gae.SetupObjectify;
+import org.springframework.contrib.gae.objectify.TestStringEntity;
 import org.springframework.contrib.gae.search.metadata.impl.MetadataUtils;
 
 import java.lang.reflect.Field;
@@ -19,6 +23,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class MetadataUtilsTest {
 
     @Rule
+    public SetupObjectify setupObjectify = new SetupObjectify(TestStringEntity.class);
+
+    @Rule
     public ExpectedException thrown = ExpectedException.none();
 
     private SoftAssertions softly = new SoftAssertions();
@@ -29,6 +36,8 @@ public class MetadataUtilsTest {
         softly.assertThat(MetadataUtils.getRawType(String.class)).isEqualTo(String.class);
         softly.assertThat(MetadataUtils.getRawType(List.class)).isEqualTo(List.class);
         softly.assertThat(MetadataUtils.getRawType(Map.Entry.class)).isEqualTo(Map.Entry.class);
+        softly.assertThat(MetadataUtils.getRawType(Ref.class)).isEqualTo(Ref.class);
+        softly.assertThat(MetadataUtils.getRawType(Ref.create(new TestStringEntity("id123")).getClass())).isEqualTo(LiveRef.class);
 
         softly.assertThat(MetadataUtils.getRawType(new ArrayList<String>().getClass())).isEqualTo(ArrayList.class);
         softly.assertThat(MetadataUtils.getRawType(new ArrayList<ArrayList<Integer>>().getClass())).isEqualTo(ArrayList.class);
