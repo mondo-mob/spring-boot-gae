@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * {@link SearchFieldMetadataRegistry} implementation.
@@ -99,7 +100,17 @@ public class SearchFieldMetadataRegistryImpl implements SearchFieldMetadataRegis
 
 
     protected Map<String, SearchFieldMetadata> registerFields(Class<?> entityClass) {
-        return Arrays.stream(entityClass.getDeclaredFields())
+        return getFields(entityClass)
+                .collect(Collectors.toMap(SearchFieldMetadata::getIndexName, accessor -> accessor));
+    }
+
+    protected Map<String, SearchFieldMetadata> registerMethods(Class<?> entityClass) {
+        return getMethods(entityClass)
+                .collect(Collectors.toMap(SearchFieldMetadata::getIndexName, accessor -> accessor));
+    }
+
+    private Stream<FieldSearchFieldMetadata> getFields(Class<?> entityClass) {
+        Stream<FieldSearchFieldMetadata> currentStream = Arrays.stream(entityClass.getDeclaredFields())
                 .filter((field) -> field.isAnnotationPresent(SearchIndex.class) || field.isAnnotationPresent(SearchId.class))
                 .map((field) -> {
                     if (field.isAnnotationPresent(SearchId.class)) {
@@ -107,11 +118,13 @@ public class SearchFieldMetadataRegistryImpl implements SearchFieldMetadataRegis
                     }
 
                     return new FieldSearchFieldMetadata(entityClass, field, indexTypeRegistry);
-                }).collect(Collectors.toMap(SearchFieldMetadata::getIndexName, accessor -> accessor));
+                });
+        Class<?> superclass = entityClass.getSuperclass();
+        return superclass == null ? currentStream : Stream.concat(getFields(superclass), currentStream);
     }
 
-    protected Map<String, SearchFieldMetadata> registerMethods(Class<?> entityClass) {
-        return Arrays.stream(entityClass.getDeclaredMethods())
+    private Stream<MethodSearchFieldMetadata> getMethods(Class<?> entityClass) {
+        Stream<MethodSearchFieldMetadata> currentStream = Arrays.stream(entityClass.getDeclaredMethods())
                 .filter((field) -> field.isAnnotationPresent(SearchIndex.class) || field.isAnnotationPresent(SearchId.class))
                 .map((method) -> {
                     if (method.isAnnotationPresent(SearchId.class)) {
@@ -119,6 +132,9 @@ public class SearchFieldMetadataRegistryImpl implements SearchFieldMetadataRegis
                     }
 
                     return new MethodSearchFieldMetadata(entityClass, method, indexTypeRegistry);
-                }).collect(Collectors.toMap(SearchFieldMetadata::getIndexName, accessor -> accessor));
+                });
+        Class<?> superclass = entityClass.getSuperclass();
+        return superclass == null ? currentStream : Stream.concat(getMethods(superclass), currentStream);
     }
+
 }

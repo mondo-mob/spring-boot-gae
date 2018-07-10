@@ -15,7 +15,7 @@ import java.util.List;
 
 @Entity
 @SuppressWarnings("unused")
-public class TestSearchEntity {
+public class TestSearchEntity extends TestBaseSearchEntity {
     @Id
     @SearchId
     @BusinessKey

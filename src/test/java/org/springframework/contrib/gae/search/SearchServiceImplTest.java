@@ -34,7 +34,8 @@ public class SearchServiceImplTest extends SearchTest {
                 .setGeoPointField(new GeoPoint(1, 2))
                 .setUnindexedValue("unindexed")
                 .setOtherEntity(otherEntity)
-                .setOtherEntityKey(Key.create(otherEntity));
+                .setOtherEntityKey(Key.create(otherEntity))
+                .setParentStringField("Parent string value");
 
         searchService.index(entity);
 
@@ -42,6 +43,10 @@ public class SearchServiceImplTest extends SearchTest {
         Document result = index.get("id1");
 
         assertThat(result.getFields("stringField")).extracting("text").contains("String value 1");
+        assertThat(result.getFields("parentStringField")).extracting("text").contains("Parent string value");
+        assertThat(result.getFields("parentStringBeanField")).extracting("text").contains("indexedMethodValue");
+        assertThat(result.getFields("stringBeanField")).extracting("text").contains("indexedMethodValue");
+        assertThat(result.getFields("parentStringField")).extracting("text").contains("Parent string value");
         assertThat(result.getFields("stringArrayField")).extracting("text").containsExactlyInAnyOrder("value1", "value2", "value3");
         assertThat(result.getFields("stringListField")).extracting("text").containsExactlyInAnyOrder("9", "8", "7");
 

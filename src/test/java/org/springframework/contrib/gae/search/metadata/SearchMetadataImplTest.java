@@ -69,10 +69,12 @@ public class SearchMetadataImplTest {
                 .setStringListField(Arrays.asList("10", "9", "8"))
                 .setLongField(1234567890L)
                 .setGeoPointField(new GeoPoint(1.1, 2.2))
-                .setUnindexedValue("unindexedValue");
+                .setUnindexedValue("unindexedValue")
+                .setParentStringField("stringValue");
 
         Map<String, SearchFieldMetadata> result = searchMetadata.getFields(entity.getClass());
         assertThat(result.get("stringField").getValue(entity)).isEqualTo("stringValue");
+        assertThat(result.get("parentStringField").getValue(entity)).isEqualTo("stringValue");
         assertThat(result.get("longField").getValue(entity)).isEqualTo(1234567890L);
         assertThat(result.get("geoPointField").getValue(entity)).isEqualTo(entity.getGeoPointField());
         assertThat(result.get("stringArrayField").getValue(entity)).isEqualTo(new String[]{"one", "two", "three"});
@@ -84,6 +86,7 @@ public class SearchMetadataImplTest {
 
         // Translated from getStringBeanField()
         assertThat(result.get("stringBeanField").getValue(entity)).isEqualTo("indexedMethodValue");
+        assertThat(result.get("parentStringBeanField").getValue(entity)).isEqualTo("indexedMethodValue");
     }
 
     @Test
