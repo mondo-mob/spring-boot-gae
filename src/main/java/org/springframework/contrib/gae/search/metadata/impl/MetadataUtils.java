@@ -24,7 +24,6 @@ public class MetadataUtils {
      * @return Taw type.
      */
     public static Class<?> getRawType(Type type) {
-        System.out.println("Getting type: " + type);
         if (type instanceof Class) {
             return (Class<?>) type;
         } else if (type instanceof ParameterizedType) {
