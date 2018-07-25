@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.contrib.gae.datastore.client.GoogleCloudDatastoreExportClient;
 import org.springframework.contrib.gae.datastore.client.model.ExportEntitiesOperation;
 import org.springframework.contrib.gae.datastore.config.DatastoreBackupProperties;
@@ -26,9 +26,9 @@ import static com.google.appengine.api.taskqueue.TaskOptions.Method.GET;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyListOf;
-import static org.mockito.Matchers.anyString;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -124,7 +124,7 @@ public class DatastoreBackupServiceTest {
     }
 
     private void givenStartExportWillReturn(ExportEntitiesOperation exportOperation) {
-        when(datastoreExportClient.startExport(anyString(), anyString(), anyListOf(String.class), anyListOf(String.class))).thenReturn(exportOperation);
+        when(datastoreExportClient.startExport(anyString(), anyString(), anyList(), anyList())).thenReturn(exportOperation);
     }
 
     private void givenGetExportOperationWillReturn(ExportEntitiesOperation exportOperation) {
