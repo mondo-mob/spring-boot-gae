@@ -11,6 +11,7 @@ import org.springframework.contrib.gae.objectify.config.ObjectifyConfigurer;
 import org.springframework.contrib.gae.security.GaeUser;
 import org.springframework.contrib.gae.security.GaeUserDetailsManager;
 import org.springframework.contrib.gae.security.UserAdapter;
+import org.springframework.contrib.gae.security.persistence.FixedValuePersistentTokenBasedRememberMeServices;
 import org.springframework.contrib.gae.security.persistence.RememberMeToken;
 import org.springframework.contrib.gae.security.persistence.RememberMeTokenRepository;
 import org.springframework.contrib.gae.security.rest.RestAuthenticationFailureHandler;
@@ -25,7 +26,6 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
-import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 import java.util.Collection;
@@ -114,6 +114,6 @@ public class SecurityAutoConfiguration implements ObjectifyConfigurer {
             LOG.warn("Cannot create PersistentTokenBasedRememberMeServices: UserDetailsManager implementation missing from context. This is usually caused by an earlier configuration error.");
             return null;
         }
-        return new PersistentTokenBasedRememberMeServices(properties.getRememberMe().getKey(), userDetailsManager, persistentTokenRepository);
+        return new FixedValuePersistentTokenBasedRememberMeServices(properties.getRememberMe().getKey(), userDetailsManager, persistentTokenRepository);
     }
 }
