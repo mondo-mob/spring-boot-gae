@@ -5,12 +5,11 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationFa
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 public class RestAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
     @Override
-    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException {
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Not authorised");
+    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) {
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
     }
 }

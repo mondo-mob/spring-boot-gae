@@ -4,7 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.security.core.AuthenticationException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,14 +27,14 @@ public class RestAuthenticationFailureHandlerTest {
     private RestAuthenticationFailureHandler handler;
 
     @Before
-    public void setUp()  {
+    public void setUp() {
         handler = new RestAuthenticationFailureHandler();
     }
 
     @Test
-    public void onAuthenticationFailure() throws Exception {
+    public void onAuthenticationFailure() {
         handler.onAuthenticationFailure(request, response, exception);
 
-        verify(response).sendError(HttpServletResponse.SC_UNAUTHORIZED, "Not authorised");
+        verify(response).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
     }
 }
