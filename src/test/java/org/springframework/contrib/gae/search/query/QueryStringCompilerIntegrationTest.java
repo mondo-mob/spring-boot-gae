@@ -46,7 +46,7 @@ public class QueryStringCompilerIntegrationTest extends ObjectifyTest {
                 .build();
 
         assertThat(compiler.apply(query))
-                .isEqualTo("stringField=\"stringValue\" longField>\"3\" id:(\"id1\" OR \"id2\") stringArrayField=~\"likeValue\"");
+                .isEqualTo("stringField=\"stringValue\" longField>3.0 id:(\"id1\" OR \"id2\") stringArrayField=~\"likeValue\"");
     }
 
     private QueryImpl<TestSearchEntity> query() {
