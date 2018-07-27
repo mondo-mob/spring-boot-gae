@@ -10,6 +10,8 @@ import com.openpojo.business.BusinessIdentity;
 import com.openpojo.business.annotation.BusinessKey;
 
 import javax.annotation.Nullable;
+import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -36,7 +38,14 @@ public class TestSearchEntity extends TestBaseSearchEntity {
     private Ref<TestSearchEntity> otherEntity;
     @SearchIndex
     private Key<TestSearchEntity> otherEntityKey;
-
+    @SearchIndex
+    private OffsetDateTime offsetDateTimeField = OffsetDateTime.now();
+    @SearchIndex(type = IndexType.DATE)
+    private OffsetDateTime offsetDateTimeAsDateField = OffsetDateTime.now();
+    @SearchIndex
+    private ZonedDateTime zonedDateTimeField = ZonedDateTime.now();
+    @SearchIndex(type = IndexType.DATE)
+    private ZonedDateTime zonedDateTimeAsDateField = ZonedDateTime.now();
 
     private String unindexedValue;
 

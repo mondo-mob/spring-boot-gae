@@ -12,7 +12,7 @@ import static org.springframework.contrib.gae.search.Operator.EQUAL;
 import static org.springframework.contrib.gae.search.Operator.GREATER_THAN;
 import static org.springframework.contrib.gae.search.Operator.GREATER_THAN_OR_EQUAL;
 
-public class ZonedDateTimeSearchIntegrationTest extends SearchTest {
+public class ZonedDateTimeAsDateSearchIntegrationTest extends SearchTest {
 
     @Autowired
     private SearchService searchService;
@@ -76,7 +76,7 @@ public class ZonedDateTimeSearchIntegrationTest extends SearchTest {
         @SearchId
         private String id;
 
-        @SearchIndex
+        @SearchIndex(type=IndexType.DATE)
         private ZonedDateTime value;
 
         public TestEntity(String id, ZonedDateTime value) {

@@ -12,7 +12,7 @@ import static org.springframework.contrib.gae.search.Operator.EQUAL;
 import static org.springframework.contrib.gae.search.Operator.GREATER_THAN;
 import static org.springframework.contrib.gae.search.Operator.GREATER_THAN_OR_EQUAL;
 
-public class OffsetDateTimeSearchIntegrationTest extends SearchTest {
+public class OffsetDateTimeAsDateSearchIntegrationTest extends SearchTest {
 
     @Autowired
     private SearchService searchService;
@@ -76,7 +76,7 @@ public class OffsetDateTimeSearchIntegrationTest extends SearchTest {
         @SearchId
         private String id;
 
-        @SearchIndex
+        @SearchIndex(type = IndexType.DATE)
         private OffsetDateTime value;
 
         public TestEntity(String id, OffsetDateTime value) {

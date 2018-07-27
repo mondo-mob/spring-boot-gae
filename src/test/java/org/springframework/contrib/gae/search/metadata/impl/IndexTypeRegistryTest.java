@@ -45,8 +45,8 @@ public class IndexTypeRegistryTest {
         softly.assertThat(lookup.apply(double.class)).isEqualTo(IndexType.NUMBER);
         softly.assertThat(lookup.apply(Double.class)).isEqualTo(IndexType.NUMBER);
         softly.assertThat(lookup.apply(CharSequence.class)).isEqualTo(IndexType.TEXT);
-        softly.assertThat(lookup.apply(OffsetDateTime.class)).isEqualTo(IndexType.DATE);
-        softly.assertThat(lookup.apply(ZonedDateTime.class)).isEqualTo(IndexType.DATE);
+        softly.assertThat(lookup.apply(OffsetDateTime.class)).isEqualTo(IndexType.NUMBER);
+        softly.assertThat(lookup.apply(ZonedDateTime.class)).isEqualTo(IndexType.NUMBER);
         softly.assertThat(lookup.apply(Date.class)).isEqualTo(IndexType.DATE);
         softly.assertThat(lookup.apply(GeoPoint.class)).isEqualTo(IndexType.GEOPOINT);
 

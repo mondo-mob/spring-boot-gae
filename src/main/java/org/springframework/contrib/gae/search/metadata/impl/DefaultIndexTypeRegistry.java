@@ -91,8 +91,8 @@ public class DefaultIndexTypeRegistry implements Function<Type, IndexType>, Inde
         mappings.put(CharSequence.class, IndexType.TEXT);
 
         mappings.put(Date.class, IndexType.DATE);
-        mappings.put(OffsetDateTime.class, IndexType.DATE);
-        mappings.put(ZonedDateTime.class, IndexType.DATE);
+        mappings.put(OffsetDateTime.class, IndexType.NUMBER);
+        mappings.put(ZonedDateTime.class, IndexType.NUMBER);
 
         mappings.put(GeoPoint.class, IndexType.GEOPOINT);
     }
