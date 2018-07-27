@@ -10,6 +10,7 @@ import com.openpojo.business.BusinessIdentity;
 import com.openpojo.business.annotation.BusinessKey;
 
 import javax.annotation.Nullable;
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 import java.util.Arrays;
@@ -46,6 +47,8 @@ public class TestSearchEntity extends TestBaseSearchEntity {
     private ZonedDateTime zonedDateTimeField = ZonedDateTime.now();
     @SearchIndex(type = IndexType.DATE)
     private ZonedDateTime zonedDateTimeAsDateField = ZonedDateTime.now();
+    @SearchIndex(type = IndexType.DATE)
+    private LocalDate localDateField = LocalDate.now();
 
     private String unindexedValue;
 
@@ -135,6 +138,51 @@ public class TestSearchEntity extends TestBaseSearchEntity {
 
     public TestSearchEntity setOtherEntityKey(Key<TestSearchEntity> otherEntityKey) {
         this.otherEntityKey = otherEntityKey;
+        return this;
+    }
+
+    public OffsetDateTime getOffsetDateTimeField() {
+        return offsetDateTimeField;
+    }
+
+    public TestSearchEntity setOffsetDateTimeField(OffsetDateTime offsetDateTimeField) {
+        this.offsetDateTimeField = offsetDateTimeField;
+        return this;
+    }
+
+    public OffsetDateTime getOffsetDateTimeAsDateField() {
+        return offsetDateTimeAsDateField;
+    }
+
+    public TestSearchEntity setOffsetDateTimeAsDateField(OffsetDateTime offsetDateTimeAsDateField) {
+        this.offsetDateTimeAsDateField = offsetDateTimeAsDateField;
+        return this;
+    }
+
+    public ZonedDateTime getZonedDateTimeField() {
+        return zonedDateTimeField;
+    }
+
+    public TestSearchEntity setZonedDateTimeField(ZonedDateTime zonedDateTimeField) {
+        this.zonedDateTimeField = zonedDateTimeField;
+        return this;
+    }
+
+    public ZonedDateTime getZonedDateTimeAsDateField() {
+        return zonedDateTimeAsDateField;
+    }
+
+    public TestSearchEntity setZonedDateTimeAsDateField(ZonedDateTime zonedDateTimeAsDateField) {
+        this.zonedDateTimeAsDateField = zonedDateTimeAsDateField;
+        return this;
+    }
+
+    public LocalDate getLocalDateField() {
+        return localDateField;
+    }
+
+    public TestSearchEntity setLocalDateField(LocalDate localDateField) {
+        this.localDateField = localDateField;
         return this;
     }
 

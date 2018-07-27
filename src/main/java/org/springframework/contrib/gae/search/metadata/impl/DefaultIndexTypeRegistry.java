@@ -7,6 +7,7 @@ import org.springframework.contrib.gae.search.IndexType;
 import org.springframework.contrib.gae.search.metadata.IndexTypeRegistry;
 
 import java.lang.reflect.Type;
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 import java.util.Date;
@@ -93,6 +94,7 @@ public class DefaultIndexTypeRegistry implements Function<Type, IndexType>, Inde
         mappings.put(Date.class, IndexType.DATE);
         mappings.put(OffsetDateTime.class, IndexType.NUMBER);
         mappings.put(ZonedDateTime.class, IndexType.NUMBER);
+        mappings.put(LocalDate.class, IndexType.DATE);
 
         mappings.put(GeoPoint.class, IndexType.GEOPOINT);
     }

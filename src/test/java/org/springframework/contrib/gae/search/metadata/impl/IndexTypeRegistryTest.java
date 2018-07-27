@@ -10,6 +10,7 @@ import org.junit.rules.ExpectedException;
 import org.springframework.contrib.gae.search.IndexType;
 import org.springframework.contrib.gae.search.metadata.IndexTypeRegistry;
 
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 import java.util.Date;
@@ -47,6 +48,7 @@ public class IndexTypeRegistryTest {
         softly.assertThat(lookup.apply(CharSequence.class)).isEqualTo(IndexType.TEXT);
         softly.assertThat(lookup.apply(OffsetDateTime.class)).isEqualTo(IndexType.NUMBER);
         softly.assertThat(lookup.apply(ZonedDateTime.class)).isEqualTo(IndexType.NUMBER);
+        softly.assertThat(lookup.apply(LocalDate.class)).isEqualTo(IndexType.DATE);
         softly.assertThat(lookup.apply(Date.class)).isEqualTo(IndexType.DATE);
         softly.assertThat(lookup.apply(GeoPoint.class)).isEqualTo(IndexType.GEOPOINT);
 

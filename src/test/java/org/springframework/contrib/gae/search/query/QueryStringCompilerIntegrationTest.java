@@ -14,6 +14,7 @@ import org.springframework.contrib.gae.search.conversion.DefaultSearchConversion
 import org.springframework.contrib.gae.search.metadata.SearchMetadata;
 import org.springframework.core.convert.ConversionService;
 
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 
@@ -85,6 +86,17 @@ public class QueryStringCompilerIntegrationTest extends ObjectifyTest {
 
         assertThat(compiler.apply(query))
                 .isEqualTo("zonedDateTimeField=1483232.523 zonedDateTimeField=1483232.523567 zonedDateTimeAsDateField=2017-01-01");
+    }
+
+    @Test
+    public void apply_localDates() {
+        Query<TestSearchEntity> query = query()
+                .filter("localDateField", Operator.EQUAL, LocalDate.parse("2017-06-01"))
+                .filter("localDateField", Operator.GREATER_THAN, LocalDate.parse("2017-06-01"))
+                .build();
+
+        assertThat(compiler.apply(query))
+                .isEqualTo("localDateField=2017-06-01 localDateField>2017-06-01");
     }
 
     private QueryImpl<TestSearchEntity> query() {
