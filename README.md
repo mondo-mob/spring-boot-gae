@@ -13,13 +13,13 @@ Maven
 <dependency>
   <groupId>com.threewks.spring</groupId>
   <artifactId>spring-boot-gae</artifactId>
-  <version>2.0.0-beta-2</version>
+  <version>2.1.0-beta-1</version>
 </dependency>
 ```
 
 Gradle
 ```
-compile 'com.threewks.spring:spring-boot-gae:2.0.0-beta-2'
+compile 'com.threewks.spring:spring-boot-gae:2.1.0-beta-1'
 ```
 
 ## Requirements
@@ -44,7 +44,8 @@ There are some limitations of the the google Search API that impact what can and
 by the `SearchService`:
 
 * Collections are not supported on NUMBER or DATE fields.
-* Date/Time fields are stored and queried as DATE only, the time component is truncated.
+* OffsetDateTime and ZonedDateTime fields are stored and queried as NUMBER to retain time component. If index type overridden to DATE the time component will be truncated.
+* LocalDate fields are stored and queried as DATE (no time component required)
 * Substring matching is not supported.
 * GT, GTE, LT, LTE are not supported for STRING/HTML queries.
 
