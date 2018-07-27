@@ -55,8 +55,8 @@ public class FieldBuilder implements BiFunction<SearchFieldMetadata, Object, Lis
      * Search only supports multiple values if the index type is not {@link IndexType#NUMBER} or {@link IndexType#DATE}.
      * See https://cloud.google.com/appengine/docs/standard/java/search/ - Multi-valued fields.
      *
-     * @param searchFieldMetadata   Field searchFieldMetadata.
-     * @param fieldValue The value of the field.
+     * @param searchFieldMetadata Field searchFieldMetadata.
+     * @param fieldValue          The value of the field.
      */
     private void assertSupportedMultiplicity(SearchFieldMetadata searchFieldMetadata, @Nullable Object fieldValue) {
         if (fieldValue == null) {
@@ -128,11 +128,15 @@ public class FieldBuilder implements BiFunction<SearchFieldMetadata, Object, Lis
 
     private void setDate(Field.Builder field, Object value) {
         Date normalized = conversionService.convert(value, Date.class);
-        field.setDate(normalized);
+        if (normalized != null) {
+            field.setDate(normalized);
+        }
     }
 
     private void setGeopoint(Field.Builder field, Object value) {
         GeoPoint normalized = conversionService.convert(value, GeoPoint.class);
-        field.setGeoPoint(normalized);
+        if (normalized != null) {
+            field.setGeoPoint(normalized);
+        }
     }
 }

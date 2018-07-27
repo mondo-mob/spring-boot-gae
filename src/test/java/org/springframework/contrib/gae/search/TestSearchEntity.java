@@ -42,13 +42,13 @@ public class TestSearchEntity extends TestBaseSearchEntity {
     @SearchIndex
     private OffsetDateTime offsetDateTimeField = OffsetDateTime.now();
     @SearchIndex(type = IndexType.DATE)
-    private OffsetDateTime offsetDateTimeAsDateField = OffsetDateTime.now();
+    private OffsetDateTime offsetDateTimeAsDateField;
     @SearchIndex
     private ZonedDateTime zonedDateTimeField = ZonedDateTime.now();
     @SearchIndex(type = IndexType.DATE)
-    private ZonedDateTime zonedDateTimeAsDateField = ZonedDateTime.now();
+    private ZonedDateTime zonedDateTimeAsDateField;
     @SearchIndex(type = IndexType.DATE)
-    private LocalDate localDateField = LocalDate.now();
+    private LocalDate localDateField;
 
     private String unindexedValue;
 
