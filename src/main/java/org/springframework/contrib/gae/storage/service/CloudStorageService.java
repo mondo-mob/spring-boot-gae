@@ -1,11 +1,14 @@
 package org.springframework.contrib.gae.storage.service;
 
+import com.google.auth.Credentials;
+import com.google.auth.oauth2.ServiceAccountCredentials;
 import com.google.cloud.ReadChannel;
 import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.channels.Channels;
 import java.util.ArrayList;
@@ -21,6 +24,21 @@ public class CloudStorageService {
     public CloudStorageService(String bucketName) {
         this.bucketName = bucketName;
         this.storage = StorageOptions.getDefaultInstance().getService();
+    }
+
+    public CloudStorageService(String bucketName, String credentialsFile, String projectId) {
+        Credentials googleCredential;
+        InputStream inputStream = StorageOptions.class.getResourceAsStream(credentialsFile);
+
+        try {
+            googleCredential = ServiceAccountCredentials.fromStream(inputStream);
+        } catch (IOException e) {
+            throw new IllegalArgumentException(String.format("Can not read local gcs credentials file %s", credentialsFile), e);
+        }
+
+        this.storage = StorageOptions.newBuilder().setCredentials(googleCredential)
+                .setProjectId(projectId).build().getService();
+        this.bucketName = bucketName;
     }
 
     public void writeFile(byte[] data, String objectName) {

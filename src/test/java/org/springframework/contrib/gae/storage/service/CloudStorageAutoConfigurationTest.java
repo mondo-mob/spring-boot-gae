@@ -22,4 +22,14 @@ public class CloudStorageAutoConfigurationTest {
     public void springCloudStorageConfiguration_throwsException_whenEmptyBucketNameProvided() {
         cloudStorageAutoConfiguration.cloudStorageService(" ");
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void springLocalCloudStorageConfiguration_throwsException_whenNoProjectProvided() {
+        cloudStorageAutoConfiguration.localCloudStorageService("myBucket", "blah", null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void springLocalCloudStorageConfiguration_throwsException_whenEmptProjedtProvided() {
+        cloudStorageAutoConfiguration.localCloudStorageService("myBucket", "blah", " ");
+    }
 }
