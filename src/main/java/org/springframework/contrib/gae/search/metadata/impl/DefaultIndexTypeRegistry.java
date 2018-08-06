@@ -11,17 +11,17 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
 /**
  * {@link DefaultIndexTypeRegistry}.
  */
 public class DefaultIndexTypeRegistry implements Function<Type, IndexType>, IndexTypeRegistry {
-    private Map<Class<?>, IndexType> mappings = new HashMap<>();
+    private Map<Class<?>, IndexType> mappings = new ConcurrentHashMap<>();
 
     /**
      * Create a new instance.
