@@ -10,6 +10,7 @@ import java.util.function.Function;
  */
 public class QueryOptionsCompiler implements Function<Query<?>, QueryOptions> {
     final SortOptionsCompiler sortOptionsCompiler;
+    final SearchMetadata searchMetadata;
 
     /**
      * Create a new instance.
@@ -17,6 +18,7 @@ public class QueryOptionsCompiler implements Function<Query<?>, QueryOptions> {
      * @param searchMetadata Search metadata.
      */
     public QueryOptionsCompiler(SearchMetadata searchMetadata) {
+        this.searchMetadata = searchMetadata;
         sortOptionsCompiler = new SortOptionsCompiler(searchMetadata);
     }
 
@@ -27,7 +29,9 @@ public class QueryOptionsCompiler implements Function<Query<?>, QueryOptions> {
         int offset = query.getSkip().orElse(0);
         options.setOffset(offset);
 
-        query.getLimit().ifPresent(limit -> options.setLimit(limit + offset));
+        int baseLimit = query.getLimit()
+                .orElseGet(searchMetadata::getDefaultLimit);
+        options.setLimit(baseLimit + offset);
         query.getAccuracy().ifPresent(options::setNumberFoundAccuracy);
         options.setSortOptions(sortOptionsCompiler.apply(query));
 

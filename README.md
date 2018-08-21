@@ -3,7 +3,7 @@
 Spring Boot support for Google App Engine Datastore via Objectify and the full-text search API.
 
 Version 2.x.x of this library has been updated for Spring Boot 2.x.x. If you need Spring boot 1.x.x you an see [the version 1 branch](https://github.com/3wks/spring-boot-gae/tree/1.0.x).
-This will not be actively maintained going forward. 
+This will not be actively maintained going forward.
 
 **Please note that this library is in an early stage and we cannot guarantee non-breaking changes just yet between releases.**
 
@@ -13,13 +13,13 @@ Maven
 <dependency>
   <groupId>com.threewks.spring</groupId>
   <artifactId>spring-boot-gae</artifactId>
-  <version>2.1.0-beta-3</version>
+  <version>2.1.1</version>
 </dependency>
 ```
 
 Gradle
 ```
-compile 'com.threewks.spring:spring-boot-gae:2.1.0-beta-3'
+compile 'com.threewks.spring:spring-boot-gae:2.1.1'
 ```
 
 ## Requirements

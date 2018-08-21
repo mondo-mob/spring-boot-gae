@@ -17,6 +17,20 @@ public class SearchProperties {
      */
     private Class<? extends IndexNamingStrategy> indexNamingStrategy = DefaultIndexNamingStrategy.class;
 
+    /**
+     * Default limit for search queries. If not set, it will be set to be the same as Google's 20 as per {@link com.google.appengine.api.search.QueryOptions}.
+     */
+    private int defaultLimit = 20;
+
+    public int getDefaultLimit() {
+        return defaultLimit;
+    }
+
+    public SearchProperties setDefaultLimit(int defaultLimit) {
+        this.defaultLimit = defaultLimit;
+        return this;
+    }
+
     public Class<? extends IndexNamingStrategy> getIndexNamingStrategy() {
         return indexNamingStrategy;
     }

@@ -39,7 +39,8 @@ public class SearchMetadataImplTest {
     public void setUp()  {
         searchMetadata = Mockito.spy(new SearchMetadataImpl(
                 indexTypeRegistry,
-                indexNamingStrategy));
+                indexNamingStrategy,
+                20));
     }
 
     @Test

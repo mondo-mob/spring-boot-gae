@@ -73,7 +73,7 @@ public class SearchAutoConfiguration {
 
         configurers.forEach(configurer -> configurer.registerSearchIndexTypes(registry));
 
-        return new SearchMetadataImpl(registry, indexNamingStrategy());
+        return new SearchMetadataImpl(registry, indexNamingStrategy(), searchProperties().getDefaultLimit());
     }
 
     /**

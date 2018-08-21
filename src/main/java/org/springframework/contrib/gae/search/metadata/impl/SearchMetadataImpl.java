@@ -15,16 +15,19 @@ import java.util.Map;
 public class SearchMetadataImpl implements SearchMetadata {
     private final SearchFieldMetadataRegistry searchFieldMetadataRegistry;
     private final IndexNamingStrategy namingStrategy;
+    private final int defaultLimit;
 
     /**
      * Create a new instance.
      *
-     * @param indexTypeRegistry Lookup used to determine index type for a field.
+     *  @param indexTypeRegistry Lookup used to determine index type for a field.
      * @param namingStrategy    The index naming strategy.
+     * @param defaultLimit The default limit for search queries if not set.
      */
-    public SearchMetadataImpl(IndexTypeRegistry indexTypeRegistry, IndexNamingStrategy namingStrategy) {
+    public SearchMetadataImpl(IndexTypeRegistry indexTypeRegistry, IndexNamingStrategy namingStrategy, int defaultLimit) {
         this.searchFieldMetadataRegistry = new SearchFieldMetadataRegistryImpl(indexTypeRegistry);
         this.namingStrategy = namingStrategy;
+        this.defaultLimit = defaultLimit;
     }
 
     @Override
@@ -73,5 +76,10 @@ public class SearchMetadataImpl implements SearchMetadata {
     @Override
     public boolean hasIndexedFields(Class<?> entityType) {
         return !searchFieldMetadataRegistry.get(entityType).isEmpty();
+    }
+
+    @Override
+    public int getDefaultLimit() {
+        return defaultLimit;
     }
 }

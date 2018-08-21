@@ -93,4 +93,11 @@ public interface SearchMetadata {
      * @return True if the entity has fields marked as indexed for searching.
      */
     boolean hasIndexedFields(Class<?> entityType);
+
+    /**
+     * Default limit to be used for search queries if one is not set.
+     *
+     * @return limit.
+     */
+    int getDefaultLimit();
 }
