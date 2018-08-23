@@ -75,6 +75,17 @@ public interface SearchRepository<E, I extends Serializable> extends LoadReposit
     }
 
     /**
+     * Reindex data and search without performing any transformations.
+     *
+     * @param batchSize size of batches
+     *
+     * @return the number of entities reindexed.
+     */
+    default int reindexDataAndSearch(int batchSize) {
+        return reindex(b -> b, batchSize);
+    }
+
+    /**
      * Find all entities and reindex their associated docs in the Search Index. If
      * a non-null ReindexOperation is supplied then entities will have that operation
      * applied to them prior to being saved in DataStore and saved in the Search Index.
@@ -91,12 +102,33 @@ public interface SearchRepository<E, I extends Serializable> extends LoadReposit
      * @return number of entities reindexed
      */
     default int reindex(Function<List<E>, List<E>> reindexOperation) {
+        return reindex(reindexOperation, BATCH_SIZE);
+    }
+
+    /**
+     * Find all entities and reindex their associated docs in the Search Index. If
+     * a non-null ReindexOperation is supplied then entities will have that operation
+     * applied to them prior to being saved in DataStore and saved in the Search Index.
+     * <p>
+     * A null reindexOperation will result in no DataStore updates, but only Search Index updates.
+     * <p>
+     * Use with care i.e. if there are heaps of
+     * entities then consider triggering this from a queue or a backend (so that the request
+     * has more time to complete). Otherwise, craft your own mechanism to reindex a batch
+     * then create a queue task to continue on (from a cursor).
+     *
+     * @param reindexOperation If provided, the entities will be updated. Allows caller to perform transformations.
+     * @param batchSize size of batches
+     *
+     * @return number of entities reindexed
+     */
+    default int reindex(Function<List<E>, List<E>> reindexOperation, int batchSize) {
         List<Key<E>> keys = ofy()
                 .load()
                 .type(getEntityType())
                 .keys()
                 .list();
-        return reindex(keys, BATCH_SIZE, reindexOperation);
+        return reindex(keys, batchSize, reindexOperation);
     }
 
     /**
