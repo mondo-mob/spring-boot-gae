@@ -1,5 +1,6 @@
 package org.springframework.contrib.gae.search;
 
+import com.google.common.collect.Sets;
 import org.junit.Test;
 
 import java.util.regex.Pattern;
@@ -32,6 +33,54 @@ public class SearchHelperTest {
         String studentName = "Jo Smith";
 
         String searchableText = SearchHelper.getSearchableString(studentNumber, studentName);
+
+        System.out.println("TEXT: " + searchableText);
+        assertThat(searchableText.length(), is(151));
+        assertMatches(searchableText,
+                "1",
+                "2",
+                "3",
+                "4",
+                "12",
+                "123",
+                "1234",
+                "23",
+                "234",
+                "34",
+
+                "j",
+                "o",
+                "s",
+                "m",
+                "i",
+                "t",
+                "h",
+                "jo",
+                "jo s",
+                "jo sm",
+                "jo smi",
+                "jo smit",
+                "jo smith",
+
+                "sm",
+                "smi",
+                "smit",
+                "smith",
+                "mi",
+                "mit",
+                "mith",
+                "it",
+                "ith",
+                "th"
+        );
+    }
+
+    @Test
+    public void getSearchableString_willGenerate_fromCollection() {
+        String studentNumber = "1234";
+        String studentName = "Jo Smith";
+
+        String searchableText = SearchHelper.getSearchableString(Sets.newHashSet(studentNumber, studentName));
 
         System.out.println("TEXT: " + searchableText);
         assertThat(searchableText.length(), is(151));
