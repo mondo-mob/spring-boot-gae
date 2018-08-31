@@ -4,12 +4,15 @@ import com.googlecode.objectify.Key;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.contrib.gae.objectify.TestLongEntity;
+import org.springframework.contrib.gae.objectify.TestStringEntity;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -35,6 +38,22 @@ public class LongLoadRepositoryTest extends AbstractLongRepositoryTest {
     }
 
     @Test
+    public void findAllKeys() {
+        TestLongEntity[] entities = fixture.get(3);
+        ofy().save().entities(entities).now();
+        List<Key<TestLongEntity>> expectedKeys = Stream.of(entities).map(Key::create).collect(Collectors.toList());
+
+        assertThat(repository.findAllKeys())
+                .containsExactlyInAnyOrderElementsOf(expectedKeys);
+    }
+
+    @Test
+    public void findAllKeys_willReturnEmptyList_whenThereAreNoEntities()  {
+        assertThat(repository.findAllKeys())
+                .isEmpty();
+    }
+
+    @Test
     public void findAllWithCount()  {
         TestLongEntity[] entities = fixture.get(3);
         ofy().save().entities(entities).now();
@@ -49,6 +68,26 @@ public class LongLoadRepositoryTest extends AbstractLongRepositoryTest {
     @Test
     public void findAllWithCount_willReturnEmptyList_whenThereAreNoEntities()  {
         assertThat(repository.findAll(69))
+                .isEmpty();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void findAllKeysWithCount()  {
+        TestLongEntity[] entities = fixture.get(3);
+        ofy().save().entities(entities).now();
+        Key<TestLongEntity>[] keys = Stream.of(entities).map(Key::create).toArray(Key[]::new);
+
+        List<Key<TestLongEntity>> result = repository.findAllKeys(2);
+        assertThat(result)
+                .hasSize(2)
+                .containsExactlyInAnyOrder(keys[0], keys[1]);
+        result.forEach(key -> assertThat(keys).contains(key));
+    }
+
+    @Test
+    public void findAllKeysWithCount_willReturnEmptyList_whenThereAreNoEntities()  {
+        assertThat(repository.findAllKeys(69))
                 .isEmpty();
     }
 

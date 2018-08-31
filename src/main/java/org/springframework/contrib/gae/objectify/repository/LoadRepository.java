@@ -38,6 +38,20 @@ public interface LoadRepository<E, I extends Serializable> extends ObjectifyAwar
     }
 
     /**
+     * List keys of all entities.
+     *
+     * @return List of keys belonging to all entities.
+     */
+    @Nonnull
+    default List<Key<E>> findAllKeys() {
+        return ofy()
+                .load()
+                .type(getEntityType())
+                .keys()
+                .list();
+    }
+
+    /**
      * List {@code limit} entities.
      * This will load all entities into memory, so should only be used where the number of entities is constrained.
      *
@@ -50,6 +64,22 @@ public interface LoadRepository<E, I extends Serializable> extends ObjectifyAwar
                 .load()
                 .type(getEntityType())
                 .limit(limit)
+                .list();
+    }
+
+    /**
+     * List {@code limit} entity keys.
+     *
+     * @param limit Max number of entities to retrieve.
+     * @return List of keys belonging to all entities.
+     */
+    @Nonnull
+    default List<Key<E>> findAllKeys(int limit) {
+        return ofy()
+                .load()
+                .type(getEntityType())
+                .limit(limit)
+                .keys()
                 .list();
     }
 
