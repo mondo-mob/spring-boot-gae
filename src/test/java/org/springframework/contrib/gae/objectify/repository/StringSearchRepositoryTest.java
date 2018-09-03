@@ -1,5 +1,6 @@
 package org.springframework.contrib.gae.objectify.repository;
 
+import com.googlecode.objectify.Key;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.contrib.gae.objectify.TestStringEntity;
@@ -8,6 +9,7 @@ import org.springframework.contrib.gae.search.query.Query;
 import org.springframework.contrib.gae.search.query.Result;
 
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -27,8 +29,7 @@ public class StringSearchRepositoryTest extends AbstractStringRepositoryTest {
                 new TestStringEntity("id3").setName("name3")
         );
 
-        assertThat(searchByName("name2"))
-                .containsExactly(target);
+        assertSearchByName("name2", target);
 
         repository.findAll().forEach(e -> assertThat(e.isReindexed()).isEqualTo(false));
     }
@@ -38,14 +39,13 @@ public class StringSearchRepositoryTest extends AbstractStringRepositoryTest {
         TestStringEntity target = new TestStringEntity("id2").setName("name2");
         repository.save(target);
 
-        assertThat(searchByName("name2"))
-                .containsExactly(target);
+        assertSearchByName("name2", target);
 
         target.setName("name2-updated");
         repository.save(target);
 
-        assertThat(searchByName("name2-updated"))
-                .containsExactly(target);
+        assertSearchByName("name2-updated", target);
+
         assertThat(searchByName("name2"))
                 .isEmpty();
 
@@ -62,8 +62,7 @@ public class StringSearchRepositoryTest extends AbstractStringRepositoryTest {
                 target
         );
 
-        assertThat(searchByName(target.getName()))
-                .containsExactly(target);
+        assertSearchByName(target.getName(), target);
 
         repository.delete(target);
 
@@ -81,8 +80,7 @@ public class StringSearchRepositoryTest extends AbstractStringRepositoryTest {
                 target
         );
 
-        assertThat(searchByName(target.getName()))
-                .containsExactly(target);
+        assertSearchByName(target.getName(), target);
 
         repository.clearSearchIndex();
 
@@ -140,6 +138,16 @@ public class StringSearchRepositoryTest extends AbstractStringRepositoryTest {
                 .isEmpty();
 
         repository.findAll().forEach(e -> assertThat(e.isReindexed()).isEqualTo(true));
+    }
+
+    private void assertSearchByName(String name, TestStringEntity... expectedEntities) {
+        Result<TestStringEntity> searchResult = searchByName(name);
+        assertThat(searchResult).containsExactly(expectedEntities);
+        assertThat(searchResult.getKeys()).containsAll(
+                Stream.of(expectedEntities)
+                        .map(Key::create)
+                        .collect(Collectors.toList())
+        );
     }
 
     private Result<TestStringEntity> searchByName(String name) {
