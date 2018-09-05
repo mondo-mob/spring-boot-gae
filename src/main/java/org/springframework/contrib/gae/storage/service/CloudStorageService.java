@@ -19,15 +19,15 @@ public class CloudStorageService {
 
     private static final String PUBLIC_CACHE_CONTROL = "public, max-age=0";
 
-    private final String bucketName;
+    private final String defaultBucketName;
     private final Storage storage;
 
-    public CloudStorageService(String bucketName) {
-        this.bucketName = bucketName;
+    public CloudStorageService(String defaultBucketName) {
+        this.defaultBucketName = defaultBucketName;
         this.storage = StorageOptions.getDefaultInstance().getService();
     }
 
-    public CloudStorageService(String bucketName, String credentialsFile, String projectId) {
+    public CloudStorageService(String defaultBucketName, String credentialsFile, String projectId) {
         Credentials googleCredential;
         InputStream inputStream = StorageOptions.class.getResourceAsStream(credentialsFile);
 
@@ -39,15 +39,23 @@ public class CloudStorageService {
 
         this.storage = StorageOptions.newBuilder().setCredentials(googleCredential)
                 .setProjectId(projectId).build().getService();
-        this.bucketName = bucketName;
+        this.defaultBucketName = defaultBucketName;
     }
 
     public Blob writeFile(byte[] data, String objectName) {
-        return writeFile(data, objectName, false);
+        return writeFile(defaultBucketName, data, objectName);
+    }
+
+    public Blob writeFile(String bucketName, byte[] data, String objectName) {
+        return writeFile(bucketName, data, objectName, false);
     }
 
     public Blob writeFile(byte[] data, String objectName, boolean publicReadable) {
-        BlobId gcsFilename = blobId(objectName);
+        return writeFile(defaultBucketName, data, objectName, publicReadable);
+    }
+
+    public Blob writeFile(String bucketName, byte[] data, String objectName, boolean publicReadable) {
+        BlobId gcsFilename = blobId(bucketName, objectName);
         BlobInfo.Builder blobInfoBuilder = BlobInfo.newBuilder(gcsFilename);
         List<Storage.BlobTargetOption> blobTargetOptions = new ArrayList<>();
 
@@ -63,14 +71,22 @@ public class CloudStorageService {
     }
 
     public InputStream readFile(String objectName) {
-        BlobId gcsFilename = blobId(objectName);
+        return readFile(defaultBucketName, objectName);
+    }
+
+    public InputStream readFile(String bucketName, String objectName) {
+        BlobId gcsFilename = blobId(bucketName, objectName);
         ReadChannel readChannel = storage.reader(gcsFilename);
         return Channels.newInputStream(readChannel);
     }
 
     public void copyFile(String fromObjectName, String toObjectName, boolean publicReadable) {
-        BlobId targetObject = blobId(toObjectName);
-        storage.copy(Storage.CopyRequest.of(blobId(fromObjectName), targetObject));
+        copyFile(defaultBucketName, fromObjectName, toObjectName, publicReadable);
+    }
+
+    public void copyFile(String bucketName, String fromObjectName, String toObjectName, boolean publicReadable) {
+        BlobId targetObject = blobId(bucketName, toObjectName);
+        storage.copy(Storage.CopyRequest.of(blobId(bucketName, fromObjectName), targetObject));
 
         if (publicReadable) {
             makePublic(targetObject);
@@ -83,11 +99,19 @@ public class CloudStorageService {
     }
 
     public boolean fileExists(String objectName) {
-        return storage.get(blobId(objectName)).exists();
+        return fileExists(defaultBucketName, objectName);
+    }
+
+    public boolean fileExists(String bucketName, String objectName) {
+        return storage.get(blobId(bucketName, objectName)).exists();
     }
 
     public boolean deleteFile(String objectName) {
-        return storage.delete(blobId(objectName));
+        return deleteFile(defaultBucketName, objectName);
+    }
+
+    public boolean deleteFile(String bucketName, String objectName) {
+        return storage.delete(blobId(bucketName, objectName));
     }
 
     private Blob makePublic(BlobId target) {
@@ -96,7 +120,7 @@ public class CloudStorageService {
             Storage.BlobTargetOption.predefinedAcl(Storage.PredefinedAcl.PUBLIC_READ));
     }
 
-    private BlobId blobId(String objectName) {
+    private BlobId blobId(String bucketName, String objectName) {
         return BlobId.of(bucketName, objectName);
     }
 }
