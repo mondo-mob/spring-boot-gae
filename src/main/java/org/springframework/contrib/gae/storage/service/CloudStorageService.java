@@ -3,6 +3,7 @@ package org.springframework.contrib.gae.storage.service;
 import com.google.auth.Credentials;
 import com.google.auth.oauth2.ServiceAccountCredentials;
 import com.google.cloud.ReadChannel;
+import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
@@ -41,11 +42,11 @@ public class CloudStorageService {
         this.bucketName = bucketName;
     }
 
-    public void writeFile(byte[] data, String objectName) {
-        writeFile(data, objectName, false);
+    public Blob writeFile(byte[] data, String objectName) {
+        return writeFile(data, objectName, false);
     }
 
-    public void writeFile(byte[] data, String objectName, boolean publicReadable) {
+    public Blob writeFile(byte[] data, String objectName, boolean publicReadable) {
         BlobId gcsFilename = blobId(objectName);
         BlobInfo.Builder blobInfoBuilder = BlobInfo.newBuilder(gcsFilename);
         List<Storage.BlobTargetOption> blobTargetOptions = new ArrayList<>();
@@ -55,7 +56,7 @@ public class CloudStorageService {
             blobInfoBuilder.setCacheControl(PUBLIC_CACHE_CONTROL);
         }
 
-        storage.create(
+        return storage.create(
             blobInfoBuilder.build(),
             data,
             blobTargetOptions.toArray(new Storage.BlobTargetOption[0]));
@@ -85,12 +86,12 @@ public class CloudStorageService {
         return storage.get(blobId(objectName)).exists();
     }
 
-    public void deleteFile(String objectName) {
-        storage.delete(blobId(objectName));
+    public boolean deleteFile(String objectName) {
+        return storage.delete(blobId(objectName));
     }
 
-    private void makePublic(BlobId target) {
-        storage.update(
+    private Blob makePublic(BlobId target) {
+        return storage.update(
             BlobInfo.newBuilder(target).setCacheControl(PUBLIC_CACHE_CONTROL).build(),
             Storage.BlobTargetOption.predefinedAcl(Storage.PredefinedAcl.PUBLIC_READ));
     }
