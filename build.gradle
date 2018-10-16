@@ -9,7 +9,7 @@ buildscript {
 
 // Check for latest dependencies: gradle dependencyUpdates -Drevision=release
 plugins {
-    id 'com.jfrog.bintray' version '1.8.0'
+    id 'com.jfrog.bintray' version '1.8.4'
     id 'com.github.ben-manes.versions' version '0.17.0'
 }
 
@@ -38,8 +38,9 @@ repositories {
     mavenCentral()
 }
 
+// Update wrapper with command: gradle wrapper
 wrapper {
-    gradleVersion = '4.4.1'
+    gradleVersion = '4.10.2'
 }
 
 // For dependencies listed on this page use spring-defined versions (don't specify version)
