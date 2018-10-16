@@ -1,5 +1,6 @@
 package org.springframework.contrib.gae.search.query;
 
+import com.google.appengine.api.search.Cursor;
 import org.springframework.contrib.gae.search.Operator;
 import org.springframework.data.domain.Sort;
 
@@ -26,6 +27,12 @@ public interface Query<E> {
      */
     @Nonnull
     List<Fragment> getFragments();
+
+    /**
+     * @return The the optional cursor.
+     */
+    @Nonnull
+    Optional<Cursor> getCursor();
 
     /**
      * @return The specified record limit.

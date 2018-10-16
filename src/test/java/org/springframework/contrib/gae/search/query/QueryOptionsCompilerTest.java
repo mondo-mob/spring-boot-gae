@@ -1,5 +1,6 @@
 package org.springframework.contrib.gae.search.query;
 
+import com.google.appengine.api.search.Cursor;
 import com.google.appengine.api.search.QueryOptions;
 import org.junit.Rule;
 import org.junit.Test;
@@ -28,7 +29,6 @@ public class QueryOptionsCompilerTest {
 
     @Test
     public void apply_willAddSkipToLimit_whenBothSupplied() {
-
         Query<TestSearchEntity> query = query()
                 .skip(10)
                 .limit(99)
@@ -42,8 +42,7 @@ public class QueryOptionsCompilerTest {
 
     @Test
     public void apply_willSetLimitDefault_whenLimitNotSupplied() {
-        int defaultLimit = 99;
-        when(searchMetadata.getDefaultLimit()).thenReturn(defaultLimit);
+        int defaultLimit = mockDefaultLimit();
 
         Query<TestSearchEntity> query = query()
                 .build();
@@ -55,8 +54,7 @@ public class QueryOptionsCompilerTest {
 
     @Test
     public void apply_willSetLimitDefault_andAddSkip_whenLimitNotSupplied_andSkipSupplied() {
-        int defaultLimit = 99;
-        when(searchMetadata.getDefaultLimit()).thenReturn(defaultLimit);
+        int defaultLimit = mockDefaultLimit();
 
         Query<TestSearchEntity> query = query()
                 .skip(10)
@@ -65,6 +63,38 @@ public class QueryOptionsCompilerTest {
         QueryOptions options = queryOptionsCompiler.apply(query);
 
         assertThat(options.getLimit(), is(defaultLimit + 10));
+    }
+
+    @Test
+    public void apply_willAddCursor_whenSupplied() {
+        mockDefaultLimit();
+        Cursor cursor = Cursor.newBuilder().build();
+        Query<TestSearchEntity> query = query()
+                .setCursor(cursor)
+                .build();
+
+        QueryOptions options = queryOptionsCompiler.apply(query);
+        assertThat(options.getCursor(), is(cursor));
+    }
+
+    @Test
+    public void apply_willPrioritiseCursor_whenSuppliedWithSkip() {
+        mockDefaultLimit();
+        Cursor cursor = Cursor.newBuilder().build();
+        Query<TestSearchEntity> query = query()
+                .setCursor(cursor)
+                .skip(101)
+                .build();
+
+        QueryOptions options = queryOptionsCompiler.apply(query);
+        assertThat(options.getCursor(), is(cursor));
+        assertThat(options.getOffset(), is(0));
+    }
+
+    private int mockDefaultLimit() {
+        int defaultLimit = 99;
+        when(searchMetadata.getDefaultLimit()).thenReturn(defaultLimit);
+        return defaultLimit;
     }
 
     private QueryImpl<TestSearchEntity> query() {

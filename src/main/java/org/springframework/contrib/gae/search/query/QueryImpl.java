@@ -1,5 +1,6 @@
 package org.springframework.contrib.gae.search.query;
 
+import com.google.appengine.api.search.Cursor;
 import org.springframework.contrib.gae.search.Operator;
 import org.springframework.data.domain.Sort;
 
@@ -23,6 +24,7 @@ public class QueryImpl<E> implements QueryBuilder<E>, Query<E> {
     private Integer skip = null;
     private Integer accuracy = null;
     private boolean idsOnly = false;
+    private Cursor cursor;
 
     /**
      * Create a new instance.
@@ -92,6 +94,18 @@ public class QueryImpl<E> implements QueryBuilder<E>, Query<E> {
     public QueryBuilder<E> setRetrieveIdsOnly(boolean idsOnly) {
         this.idsOnly = idsOnly;
         return this;
+    }
+
+    @Nonnull
+    @Override
+    public QueryBuilder<E> setCursor(Cursor cursor) {
+        this.cursor = cursor;
+        return this;
+    }
+
+    @Nonnull
+    public Optional<Cursor> getCursor() {
+        return Optional.ofNullable(cursor);
     }
 
     @Nonnull

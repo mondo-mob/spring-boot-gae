@@ -1,5 +1,6 @@
 package org.springframework.contrib.gae.search.query;
 
+import com.google.appengine.api.search.Cursor;
 import org.springframework.contrib.gae.search.Operator;
 import org.springframework.contrib.gae.search.SearchService;
 import org.springframework.data.domain.Sort;
@@ -131,6 +132,16 @@ public interface QueryBuilder<E> {
     default QueryBuilder<E> retrieveIdsOnly() {
         return setRetrieveIdsOnly(true);
     }
+
+
+    /**
+     * Set the cursor if paging is required
+     *
+     * @param cursor The cursor to page on
+     * @return Query builder.
+     */
+    @Nonnull
+    QueryBuilder<E> setCursor(Cursor cursor);
 
     /**
      * Builds the filter and returns the result.
