@@ -13,7 +13,7 @@ Maven
 <dependency>
   <groupId>com.threewks.spring</groupId>
   <artifactId>spring-boot-gae</artifactId>
-  <version>2.1.1</version>
+  <version>2.2.0</version>
 </dependency>
 ```
 
@@ -60,16 +60,7 @@ See [Google Cloud Datastore Backup](README-DATASTORE-BACKUP.md) documentation fo
 
 ### Google Cloud Storage
 
-To enable support for reading/write to Cloud Storage via `CloudStorageService` add the following to your spring configuration:
-```
-spring:
-  contrib:
-    gae:
-      storage:
-        bucket: my-bucket
-```
-
-If running locally you will need to set your default credential - `gcloud auth application-default login`
+This was migrated to `spring-gae-gcs:1.2.0` library as of version `2.2.0` of this library.
 
 ## Background
 This library has evolved from a custom framework developed by [3wks](https://3wks.com.au/) and used in over 200 Google App Engine standard projects.
