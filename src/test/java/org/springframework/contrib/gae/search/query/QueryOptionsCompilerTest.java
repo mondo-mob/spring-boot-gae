@@ -30,13 +30,14 @@ public class QueryOptionsCompilerTest {
     @Test
     public void apply_willAddSkipToLimit_whenBothSupplied() {
         Query<TestSearchEntity> query = query()
-                .skip(10)
-                .limit(99)
+                .skip(20)
+                .limit(10)
                 .build();
 
         QueryOptions options = queryOptionsCompiler.apply(query);
 
-        assertThat(options.getLimit(), is(109));
+        assertThat(options.getLimit(), is(10));
+        assertThat(options.getOffset(), is(20));
         verify(searchMetadata, never()).getDefaultLimit();
     }
 
@@ -45,6 +46,7 @@ public class QueryOptionsCompilerTest {
         int defaultLimit = mockDefaultLimit();
 
         Query<TestSearchEntity> query = query()
+                .skip(20)
                 .build();
 
         QueryOptions options = queryOptionsCompiler.apply(query);
@@ -57,12 +59,13 @@ public class QueryOptionsCompilerTest {
         int defaultLimit = mockDefaultLimit();
 
         Query<TestSearchEntity> query = query()
-                .skip(10)
+                .skip(20)
                 .build();
 
         QueryOptions options = queryOptionsCompiler.apply(query);
 
-        assertThat(options.getLimit(), is(defaultLimit + 10));
+        assertThat(options.getLimit(), is(defaultLimit));
+        assertThat(options.getOffset(), is(20));
     }
 
     @Test

@@ -27,9 +27,8 @@ public class QueryOptionsCompiler implements Function<Query<?>, QueryOptions> {
         final QueryOptions.Builder options = QueryOptions.newBuilder();
         int offset = query.getSkip().orElse(0);
         setPagingOptions(query, options, offset);
-        int baseLimit = query.getLimit()
-                .orElseGet(searchMetadata::getDefaultLimit);
-        options.setLimit(baseLimit + offset);
+        int limit = query.getLimit().orElseGet(searchMetadata::getDefaultLimit);
+        options.setLimit(limit);
         query.getAccuracy().ifPresent(options::setNumberFoundAccuracy);
         options.setSortOptions(sortOptionsCompiler.apply(query));
 
