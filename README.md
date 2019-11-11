@@ -26,7 +26,6 @@ compile 'com.threewks.spring:spring-boot-gae:2.1.1'
 
 * Java 8+
 * Appengine Standard Java 8+
-* Gradle 4+ (if you don't want to use the wrapper)
 * Spring boot 2.x.x
 
 This library has been designed to work with the new Java 8 App Engine Standard Environment. It will not work
@@ -129,7 +128,7 @@ Jcenter also has CDN among other improvements listed here: [Why should I use jce
 Privileged users will have system properties for `bintray.user` and `bintray.key` defined to do this.
 
 ```
-gradle clean bintrayUpload --info
+./gradlew clean bintrayUpload --info
 ```
 The above command fails silently (as of version `1.8.0` of `gradle-bintray-plugin` so just make sure it didn't skip upload due to undefined key). 
 
