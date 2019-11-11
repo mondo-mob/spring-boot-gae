@@ -1,6 +1,5 @@
 package org.springframework.contrib.gae.datastore;
 
-import com.google.api.client.http.HttpTransport;
 import com.google.api.client.testing.http.MockLowLevelHttpRequest;
 import com.google.api.client.testing.http.MockLowLevelHttpResponse;
 import com.google.appengine.api.utils.SystemProperty;
@@ -39,7 +38,7 @@ public class CloudDatastoreBackupTest extends ObjectifyTest {
 	private BackupOperationRepository backupOperationRepository;
 
 	@Autowired
-	private HttpTransport httpTransport;
+	private EditableMockHttpTransport httpTransport;
 
 	private MockMvc mvc;
 	private String operationId = "projects/my-project/operations/ASA5NDAwOTE4MjMJGnRsdWFmZWQHEmxhcnRuZWNzdS1zYm9qLW5pbWRhFAosEg";
@@ -54,6 +53,7 @@ public class CloudDatastoreBackupTest extends ObjectifyTest {
 		mvc = MockMvcBuilders
 			.webAppContextSetup(webApplicationContext)
 			.build();
+		httpTransport.reset();
 	}
 
 	@Test
@@ -71,7 +71,7 @@ public class CloudDatastoreBackupTest extends ObjectifyTest {
 		assertThat(backupOperation.getState(), is("PROCESSING"));
 
 		// Request sent to correct api endpoint
-		MockLowLevelHttpRequest httpRequest = ((EditableMockHttpTransport) httpTransport).getLastRequest();
+		MockLowLevelHttpRequest httpRequest = httpTransport.getLastRequest();
 		assertThat(httpRequest.getUrl(), is("https://datastore.googleapis.com/v1/projects/my-project:export"));
 	}
 
@@ -93,14 +93,14 @@ public class CloudDatastoreBackupTest extends ObjectifyTest {
 		assertThat(backupOperation.getState(), is("SUCCESSFUL"));
 
 		// Request sent to correct api endpoint
-		MockLowLevelHttpRequest httpRequest = ((EditableMockHttpTransport) httpTransport).getLastRequest();
+		MockLowLevelHttpRequest httpRequest = httpTransport.getLastRequest();
 		assertThat(httpRequest.getUrl(), is("https://datastore.googleapis.com/v1/" + operationId));
 	}
 
 	private void givenApiWillReturn(String responseJson) {
 		MockLowLevelHttpResponse httpResponse = new MockLowLevelHttpResponse()
 			.setContent(responseJson);
-		((EditableMockHttpTransport) httpTransport).setNextResponse(httpResponse);
+		httpTransport.setNextResponse(httpResponse);
 	}
 
 	private String successfulOperation() throws IOException {

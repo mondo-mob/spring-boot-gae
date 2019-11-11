@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 public class CloudDatastoreBackupTestConfiguration {
 
     @Bean
-    public HttpTransport httpTransport() {
+    public EditableMockHttpTransport httpTransport() {
         return new EditableMockHttpTransport();
     }
 
