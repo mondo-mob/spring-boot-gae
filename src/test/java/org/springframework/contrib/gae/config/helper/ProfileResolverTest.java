@@ -14,6 +14,7 @@ import java.util.function.Function;
 
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.when;
 
@@ -40,6 +41,8 @@ public class ProfileResolverTest {
         List<String> profiles = profileResolver.getProfiles();
 
         assertThat(profiles, contains("local"));
+        assertThat(ProfileResolver.isLocalEnvironment(), is(true));
+        assertThat(ProfileResolver.isGaeEnvironment(), is(false));
     }
 
     @Test
@@ -51,6 +54,8 @@ public class ProfileResolverTest {
         List<String> profiles = profileResolver.getProfiles();
 
         assertThat(profiles, contains("my-application-dev"));
+        assertThat(ProfileResolver.isLocalEnvironment(), is(false));
+        assertThat(ProfileResolver.isGaeEnvironment(), is(true));
     }
 
     @Test
@@ -60,6 +65,8 @@ public class ProfileResolverTest {
         List<String> profiles = profileResolver.getProfiles();
 
         assertThat(profiles, hasSize(0));
+        assertThat(ProfileResolver.isLocalEnvironment(), is(false));
+        assertThat(ProfileResolver.isGaeEnvironment(), is(true));
     }
 
     @Test
@@ -72,6 +79,8 @@ public class ProfileResolverTest {
             .getProfiles();
 
         assertThat(profiles, contains("dev", "my-application-dev"));
+        assertThat(ProfileResolver.isLocalEnvironment(), is(false));
+        assertThat(ProfileResolver.isGaeEnvironment(), is(true));
     }
 
     @Test
@@ -84,6 +93,21 @@ public class ProfileResolverTest {
             .getProfiles();
 
         assertThat(profiles, contains("my-application-dev"));
+        assertThat(ProfileResolver.isLocalEnvironment(), is(false));
+        assertThat(ProfileResolver.isGaeEnvironment(), is(true));
+    }
+
+    @Test
+    public void applicationId_willReturnSystemProperty_whenPresent() {
+        SystemProperty.applicationId.set("my-application-dev");
+
+        assertThat(ProfileResolver.applicationId().isPresent(), is(true));
+        assertThat(ProfileResolver.applicationId().get(), is("my-application-dev"));
+    }
+
+    @Test
+    public void applicationId_willReturnEmpty_whenSystemPropertyAbsent() {
+        assertThat(ProfileResolver.applicationId().isPresent(), is(false));
     }
 
 }
