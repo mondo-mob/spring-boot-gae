@@ -36,7 +36,6 @@ import java.util.stream.Collectors;
 @NoRepositoryBean
 public interface SearchRepository<E, I extends Serializable> extends LoadRepository<E, I>, SaveRepository<E, I>, DeleteRepository<E, I> {
     Logger LOG = LoggerFactory.getLogger(SearchRepository.class);
-    int BATCH_SIZE = 200;
 
     /**
      * @return Search service.

@@ -1,6 +1,7 @@
 package org.springframework.contrib.gae.objectify.repository;
 
 import com.google.appengine.api.datastore.Query;
+import com.google.common.collect.Lists;
 import com.googlecode.objectify.Key;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.repository.Repository;
@@ -13,6 +14,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**
@@ -23,6 +25,8 @@ import java.util.stream.Collectors;
  */
 @NoRepositoryBean
 public interface LoadRepository<E, I extends Serializable> extends ObjectifyAware, EntityManager<E, I>, Repository<E, I> {
+    int BATCH_SIZE = 200;
+
     /**
      * List all entities.
      * This will load all entities into memory, so should only be used where the number of entities is constrained.
@@ -93,9 +97,9 @@ public interface LoadRepository<E, I extends Serializable> extends ObjectifyAwar
     default List<E> findAll(Iterable<Key<E>> keys) {
         return new ArrayList<>(
                 ofy()
-                    .load()
-                    .keys(keys)
-                    .values()
+                        .load()
+                        .keys(keys)
+                        .values()
         );
     }
 
@@ -126,9 +130,9 @@ public interface LoadRepository<E, I extends Serializable> extends ObjectifyAwar
 
         return new ArrayList<>(
                 ofy()
-                    .load()
-                    .keys(keys)
-                    .values()
+                        .load()
+                        .keys(keys)
+                        .values()
         );
     }
 
@@ -222,6 +226,36 @@ public interface LoadRepository<E, I extends Serializable> extends ObjectifyAwar
         return findByKey(key)
                 .orElseThrow(() -> new EntityNotFoundException(key));
     }
+
+    /**
+     * Allows a {@link Consumer} to operate on each hydrated entity within the list of keys, while
+     * the internal mechanics retrieve entities in batches for performance reasons.
+     *
+     * Uses a the default batch size of {@value BATCH_SIZE}.
+     *
+     * @param keys The list of keys (potentially large).
+     * @param consumer The operation to perform on each entity.
+     */
+    default void forEachEntity(List<Key<E>> keys, Consumer<E> consumer) {
+        forEachEntity(keys, BATCH_SIZE, consumer);
+    }
+
+    /**
+     * Allows a {@link Consumer} to operate on each hydrated entity within the list of keys, while
+     * the internal mechanics retrieve entities in batches for performance reasons.
+     *
+     * @param keys The list of keys (potentially large).
+     * @param batchSize The batch size to retrieve entities in.
+     * @param consumer The operation to perform on each entity.
+     */
+    default void forEachEntity(List<Key<E>> keys, int batchSize, Consumer<E> consumer) {
+        Lists.partition(keys, batchSize).forEach(batchKeys -> ofy()
+                .load()
+                .keys(batchKeys)
+                .values()
+                .forEach(consumer));
+    }
+
 
     /**
      * Find an entity by its web-safe key string.

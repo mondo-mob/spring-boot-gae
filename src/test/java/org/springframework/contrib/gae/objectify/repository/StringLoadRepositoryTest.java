@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.contrib.gae.objectify.TestStringEntity;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -505,5 +506,30 @@ public class StringLoadRepositoryTest extends AbstractStringRepositoryTest {
 
         repository.getByKey(Key.create(TestStringEntity.class, "bad-id"));
     }
+
+    @Test
+    public void forEachEntity_willCallConsumer() {
+        TestStringEntity[] entities = fixture.get(3);
+        ofy().save().entities(entities).now();
+        List<Key<TestStringEntity>> keys = repository.findAllKeys();
+
+        List<String> ids = new ArrayList<>();
+        repository.forEachEntity(keys, e -> ids.add(e.getId()));
+
+        assertThat(ids).containsExactlyInAnyOrder("id1", "id2", "id3");
+    }
+
+    @Test
+    public void forEachEntity_willCallConsumer_inBatchSizeSpecified() {
+        TestStringEntity[] entities = fixture.get(7);
+        ofy().save().entities(entities).now();
+        List<Key<TestStringEntity>> keys = repository.findAllKeys();
+
+        List<String> ids = new ArrayList<>();
+        repository.forEachEntity(keys, 2, e -> ids.add(e.getId()));
+
+        assertThat(ids).containsExactlyInAnyOrder("id1", "id2", "id3", "id4", "id5", "id6", "id7");
+    }
+
 
 }
