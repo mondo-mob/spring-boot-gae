@@ -281,7 +281,7 @@ public interface SearchService {
      *
      * @param indexName The name of the index.
      * @param maxDocuments max number of documents to remove (e.g. to avoid API limits).
-     *                     If <=0 then there is no maximum.
+     *                     If less than or equal to then there is no maximum.
      *
      * @return Number of entries removed.
      */
