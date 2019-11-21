@@ -6,6 +6,7 @@ import com.google.appengine.api.search.Index;
 import com.googlecode.objectify.Key;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.contrib.gae.search.query.Query;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -182,6 +183,49 @@ public class SearchServiceImplTest extends SearchTest {
         searchService.clear(TestSearchEntity.class);
         assertThat(index.get("entity1")).isNull();
         assertThat(otherIndex.get("otherEntity")).isNotNull();
+    }
+
+    @Test
+    public void clear_byName_willClearIndexes() {
+        TestSearchEntity entity1 = new TestSearchEntity("entity1");
+        TestSearchEntity entity2 = new TestSearchEntity("entity2");
+        TestSearchEntity entity3 = new TestSearchEntity("entity3");
+
+        searchService.index(Arrays.asList(
+                entity1, entity2, entity3
+        ));
+
+        Index index = getIndex(TestSearchEntity.class);
+        assertThat(index.get("entity1")).isNotNull();
+
+        searchService.clear("TestSearchEntity", 3);
+        assertThat(index.get("entity1")).isNull();
+        assertThat(index.get("entity2")).isNull();
+        assertThat(index.get("entity3")).isNull();
+    }
+
+
+    @Test
+    public void clear_withLimit_willLimitRemovals() {
+        List<TestSearchEntity> entityList = IntStream.range(1, 201)
+                .mapToObj(i -> new TestSearchEntity("entity" + i))
+                .collect(Collectors.toList());
+
+        searchService.index(entityList);
+        assertThat(countSearchEntities()).isEqualTo(200);
+
+        int numberDeleted = searchService.clear("TestSearchEntity", 100);
+        assertThat(numberDeleted).isEqualTo(100);
+        assertThat(countSearchEntities()).isEqualTo(100);
+    }
+
+    private int countSearchEntities() {
+        Query<TestSearchEntity> query = searchService.createQuery(TestSearchEntity.class)
+                .retrieveIdsOnly()
+                .limit(1_000)
+                .build();
+        return searchService.execute(query)
+                .getCount();
     }
 
     @SuppressWarnings("unused")

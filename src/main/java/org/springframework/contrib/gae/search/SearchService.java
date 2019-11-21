@@ -258,5 +258,32 @@ public interface SearchService {
      * @param <E> Entity type.
      * @return Number of entries removed.
      */
-    <E> int clear(Class<E> entityClass);
+    default <E> int clear(Class<E> entityClass) {
+        return clear(entityClass, -1);
+    }
+
+    /**
+     * Clear a search index of all entries up to an optional maximum.
+     *
+     * @param entityClass Class of entity to clear index for.
+     * @param <E> Entity type.
+     * @param maxDocuments max number of documents to remove (e.g. to avoid API limits).
+     *                     If <=0 then there is no maximum.
+     *
+     * @return Number of entries removed.
+     */
+    <E> int clear(Class<E> entityClass, int maxDocuments);
+
+    /**
+     * Clear a search index of all entries up to an optional maximum. This allows deletion
+     * by the index name, which can be helpful for cleaning up indexes for classes that no
+     * longer exist any more.
+     *
+     * @param indexName The name of the index.
+     * @param maxDocuments max number of documents to remove (e.g. to avoid API limits).
+     *                     If <=0 then there is no maximum.
+     *
+     * @return Number of entries removed.
+     */
+    int clear(String indexName, int maxDocuments);
 }

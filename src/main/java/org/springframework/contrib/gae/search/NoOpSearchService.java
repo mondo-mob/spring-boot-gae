@@ -69,7 +69,13 @@ public class NoOpSearchService implements SearchService {
     }
 
     @Override
-    public <E> int clear(Class<E> entityClass) {
+    public <E> int clear(Class<E> entityClass, int maxDocuments) {
         return 0;
     }
+
+    @Override
+    public int clear(String indexName, int maxDocuments) {
+        return 0;
+    }
+
 }

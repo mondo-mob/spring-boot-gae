@@ -25,6 +25,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import static com.google.common.util.concurrent.Runnables.doNothing;
 
@@ -119,28 +120,52 @@ public class SearchServiceImpl implements SearchService {
     }
 
     @Override
-    public <E> int clear(Class<E> entityClass) {
-        Index index = getIndex(entityClass);
+    public <E> int clear(Class<E> entityClass, int maxDocuments) {
+        return clear(getIndex(entityClass), maxDocuments);
+    }
 
-        GetRequest request = GetRequest.newBuilder()
-                .setReturningIdsOnly(true)
-                .setLimit(200) //Delete only allows 200 records at a time.
-                .build();
+    @Override
+    public int clear(String indexName, int maxDocuments) {
+        return clear(getIndex(indexName), maxDocuments);
+    }
 
+    private int clear(Index index, int maxDocuments) {
         int count = 0;
-        for (List<Document> documents = getDocumentIds(index, request); !documents.isEmpty(); documents = getDocumentIds(index, request)) {
-            count += documents.size();
-            unindex(entityClass, documents.stream().map(Document::getId));
-        }
+
+        List<String> documentIds;
+        do {
+            documentIds = getDocumentIds(index, count, maxDocuments);
+            count += documentIds.size();
+            index.delete(documentIds);
+        } while (!documentIds.isEmpty() && (maxDocuments <= 0 || maxDocuments > count));
+
         return count;
     }
 
-    private List<Document> getDocumentIds(Index index, GetRequest request) {
-        return index.getRange(request).getResults();
+    private List<String> getDocumentIds(Index index, int currentCount, int maxDocuments) {
+        int defaultBatchSize = 200;
+        int batchSize = maxDocuments > 0 ? Math.min(maxDocuments - currentCount, defaultBatchSize) : defaultBatchSize;
+        GetRequest request = GetRequest.newBuilder()
+                .setReturningIdsOnly(true)
+                .setLimit(batchSize)
+                .build();
+
+        Iterable<Document> iterable = () -> index.getRange(request).iterator();
+        return StreamSupport.stream(iterable.spliterator(), false)
+                .map(Document::getId)
+                .collect(Collectors.toList());
     }
 
     private <E> Index getIndex(Class<E> entityClass) {
+        return getIndex(getIndexName(entityClass));
+    }
+
+    private <E> String getIndexName(Class<E> entityClass) {
+        return searchMetadata.getIndexName(entityClass);
+    }
+
+    private <E> Index getIndex(String indexName) {
         return SearchServiceFactory.getSearchService()
-                .getIndex(IndexSpec.newBuilder().setName(searchMetadata.getIndexName(entityClass)));
+                .getIndex(IndexSpec.newBuilder().setName(indexName));
     }
 }
