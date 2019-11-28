@@ -165,7 +165,6 @@ public interface SearchRepository<E, I extends Serializable> extends LoadReposit
 
             count += batch.size();
             ofy().clear(); // Clear the Objectify cache to free memory for next batch
-            LOG.info("Reindexed {} entities of type {}, {} of {}", batch.size(), getEntityType().getSimpleName(), count, keys.size());
         }
 
         return count;
