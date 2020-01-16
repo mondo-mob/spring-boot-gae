@@ -8,13 +8,17 @@ import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 import com.openpojo.business.BusinessIdentity;
 import com.openpojo.business.annotation.BusinessKey;
+import org.springframework.contrib.gae.objectify.Refs;
 
 import javax.annotation.Nullable;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Entity
 @SuppressWarnings("unused")
@@ -49,6 +53,10 @@ public class TestSearchEntity extends TestBaseSearchEntity {
     private ZonedDateTime zonedDateTimeAsDateField;
     @SearchIndex(type = IndexType.DATE)
     private LocalDate localDateField;
+    @SearchIndex
+    private List<Key<TestSearchEntity>> otherEntityKeys = new ArrayList<>();
+    @SearchIndex
+    private List<Ref<TestSearchEntity>> otherEntityRefs = new ArrayList<>();
 
     private String unindexedValue;
 
@@ -124,11 +132,11 @@ public class TestSearchEntity extends TestBaseSearchEntity {
     }
 
     public TestSearchEntity getOtherEntity() {
-        return otherEntity.get();
+        return Refs.deref(otherEntity);
     }
 
     public TestSearchEntity setOtherEntity(TestSearchEntity otherEntity) {
-        this.otherEntity = Ref.create(otherEntity);
+        this.otherEntity = Refs.ref(otherEntity);
         return this;
     }
 
@@ -212,6 +220,28 @@ public class TestSearchEntity extends TestBaseSearchEntity {
         return "unindexedMethodValue";
     }
 
+    public List<Key<TestSearchEntity>> getOtherEntityKeys() {
+        return otherEntityKeys;
+    }
+
+    public TestSearchEntity addOtherEntityKeys(Key<TestSearchEntity>... otherEntityKeys) {
+        this.otherEntityKeys.addAll(Arrays.asList(otherEntityKeys));
+        return this;
+    }
+
+    public List<TestSearchEntity> getOtherEntities() {
+        return otherEntityRefs.stream()
+                .map(Refs::deref)
+                .collect(Collectors.toList());
+    }
+
+    public TestSearchEntity addOtherEntities(TestSearchEntity... otherEntities) {
+        Stream.of(otherEntities)
+                .map(Refs::ref)
+                .forEach(this.otherEntityRefs::add);
+        return this;
+    }
+    
     @Override
     public boolean equals(Object o) {
         return BusinessIdentity.areEqual(this, o);

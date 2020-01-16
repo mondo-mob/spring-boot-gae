@@ -36,6 +36,8 @@ public class SearchServiceImplTest extends SearchTest {
                 .setUnindexedValue("unindexed")
                 .setOtherEntity(otherEntity)
                 .setOtherEntityKey(Key.create(otherEntity))
+                .addOtherEntityKeys(Key.create(otherEntity))
+                .addOtherEntities(otherEntity)
                 .setParentStringField("Parent string value");
 
         searchService.index(entity);
@@ -57,6 +59,9 @@ public class SearchServiceImplTest extends SearchTest {
         String keyAsString = Key.create(otherEntity).toWebSafeString();
         assertThat(result.getFields("otherEntity")).extracting("atom").contains(keyAsString);
         assertThat(result.getFields("otherEntityKey")).extracting("atom").contains(keyAsString);
+
+        assertThat(result.getFields("otherEntityRefs")).extracting("atom").containsExactly(keyAsString);
+        assertThat(result.getFields("otherEntityKeys")).extracting("atom").containsExactly(keyAsString);
     }
 
     @Test

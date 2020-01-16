@@ -97,7 +97,7 @@ public class MetadataUtilsTest {
     @Test
     public void getCollectionTypeListSet() throws Exception {
         thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("Unsupported type: java.util.List<java.util.Set<java.lang.String>>");
+        thrown.expectMessage("Unsupported type: java.util.Set<java.lang.String>");
         Field field = TestClass.class.getDeclaredField("listSet");
         assertThat(MetadataUtils.getCollectionType(field.getGenericType())).isEqualTo(Set.class);
     }
@@ -118,7 +118,7 @@ public class MetadataUtilsTest {
     @Test
     public void getCollectionType_willThrownException_whenNonCollectionType()  {
         thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("Unsupported type: class java.lang.String");
+        thrown.expectMessage("Unsupported collection type: class java.lang.String");
         assertThat(MetadataUtils.getCollectionType(String.class)).isEqualTo(String.class);
     }
 

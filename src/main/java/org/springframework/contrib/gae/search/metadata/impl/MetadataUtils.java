@@ -57,16 +57,15 @@ public class MetadataUtils {
         if (TypeUtils.isAssignable(type, Collection.class)) {
             if (type instanceof ParameterizedType) {
                 Type genericType = ((ParameterizedType) type).getActualTypeArguments()[0];
-
-                if (genericType instanceof Class) {
-                    return (Class<?>) genericType;
-                }
-            } else {
-                throw new IllegalArgumentException("Cannot infer index type for non-parameterized type: " + type);
+                return getRawType(genericType);
             }
-        } else if (TypeUtils.isArrayType(type)) {
+            throw new IllegalArgumentException("Cannot infer index type for non-parameterized type: " + type);
+        }
+
+        if (TypeUtils.isArrayType(type)) {
             return (Class<?>) TypeUtils.getArrayComponentType(type);
         }
-        throw new IllegalArgumentException("Unsupported type: " + type);
+
+        throw new IllegalArgumentException("Unsupported collection type: " + type);
     }
 }
