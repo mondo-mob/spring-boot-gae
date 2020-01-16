@@ -7,19 +7,22 @@ This will not be actively maintained going forward.
 
 **Please note that this library is in an early stage and we cannot guarantee non-breaking changes just yet between releases.**
 
-### Latest
+## Release history
+See the [Change Log](./CHANGELOG.md).
+
+## Dependency
 Maven
 ```
 <dependency>
   <groupId>com.threewks.spring</groupId>
   <artifactId>spring-boot-gae</artifactId>
-  <version>2.2.0</version>
+  <version>VERSION-GOES-HERE</version>
 </dependency>
 ```
 
 Gradle
 ```
-compile 'com.threewks.spring:spring-boot-gae:2.1.1'
+compile 'com.threewks.spring:spring-boot-gae:VERSION-GOES-HERE'
 ```
 
 ## Requirements
