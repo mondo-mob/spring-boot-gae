@@ -1,3 +1,6 @@
+## 3.0.2 (2020-01-16)
+Fix to allow `@SearchIndex` to support collection of `Ref` and `Key`.
+
 ## 3.0.1 (2019-11-28)
 Stop logging messages for each batch reindex. The caller can choose to do this, otherwise it's too chatty.
 
