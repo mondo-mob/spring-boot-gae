@@ -1,3 +1,6 @@
+## 3.1.0 (2020-02-24)
+`LoadRepository` has new method `forEachBatch` to iterate and process a `List` of keys as batches of entities. Similar to `forEachEntity` but with access to the batch.
+
 ## 3.0.2 (2020-01-16)
 Fix to allow `@SearchIndex` to support collection of `Ref` and `Key`.
 
