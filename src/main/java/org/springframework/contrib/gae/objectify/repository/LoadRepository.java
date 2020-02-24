@@ -249,11 +249,17 @@ public interface LoadRepository<E, I extends Serializable> extends ObjectifyAwar
      * @param consumer The operation to perform on each entity.
      */
     default void forEachEntity(List<Key<E>> keys, int batchSize, Consumer<E> consumer) {
-        Lists.partition(keys, batchSize).forEach(batchKeys -> ofy()
-                .load()
-                .keys(batchKeys)
-                .values()
-                .forEach(consumer));
+        forEachBatch(keys, batchSize, batch -> batch.forEach(consumer));
+    }
+
+    default void forEachBatch(List<Key<E>> keys, Consumer<Collection<E>> batchConsumer) {
+        forEachBatch(keys, BATCH_SIZE, batchConsumer);
+    }
+
+    default void forEachBatch(List<Key<E>> keys, int batchSize, Consumer<Collection<E>> batchConsumer) {
+        Lists.partition(keys, batchSize).stream()
+                .map(batchKeys -> ofy().load().keys(batchKeys).values())
+                .forEach(batchConsumer);
     }
 
 
