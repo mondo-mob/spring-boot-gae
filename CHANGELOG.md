@@ -1,3 +1,6 @@
+## 3.1.1 (2020-02-25)
+`AsyncDeleteRepository.deleteByKeyAsync()` was internally deleting using `.entities()` instead of `.keys()`. This did not cause an issue since the API is forgiving, but has been corrected anyway to use `.keys()`.
+
 ## 3.1.0 (2020-02-24)
 `LoadRepository` has new method `forEachBatch` to iterate and process a `List` of keys as batches of entities. Similar to `forEachEntity` but with access to the batch.
 
