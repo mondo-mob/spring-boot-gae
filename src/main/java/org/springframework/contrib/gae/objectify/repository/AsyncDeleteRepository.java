@@ -78,7 +78,7 @@ public interface AsyncDeleteRepository<E, I extends Serializable> extends Object
      */
     @Nonnull
     default Runnable deleteByKeyAsync(Collection<Key<E>> keys) {
-        Result<Void> deleteOperation = ObjectifyService.ofy().delete().entities(keys);
+        Result<Void> deleteOperation = ObjectifyService.ofy().delete().keys(keys);
         return deleteOperation::now;
     }
 
