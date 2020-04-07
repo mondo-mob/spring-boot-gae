@@ -29,7 +29,7 @@ jar {
 }
 
 description 'Spring Boot Google App Engine'
-group 'com.threewks.spring'
+group 'com.mondomob.spring'
 
 sourceCompatibility = 1.8
 
@@ -83,9 +83,9 @@ dependencies {
 
 def pomConfig = {
     scm {
-        connection 'https://github.com/3wks/spring-boot-gae.git'
-        developerConnection 'https://github.com/3wks/spring-boot-gae.git'
-        url 'https://github.com/3wks/spring-boot-gae.git'
+        connection 'https://github.com/mondo-mob/spring-boot-gae.git'
+        developerConnection 'https://github.com/mondo-mob/spring-boot-gae.git'
+        url 'https://github.com/mondo-mob/spring-boot-gae.git'
     }
 
     licenses {
@@ -93,24 +93,6 @@ def pomConfig = {
             name 'The MIT License (MIT)'
             url 'http://opensource.org/licenses/MIT'
             distribution 'repo'
-        }
-    }
-
-    developers {
-        developer {
-            id 'nicholas-armstrong'
-            name 'Nicholas Armstrong'
-            email 'nick@nicks-mail.com'
-        }
-        developer {
-            id 'mbyrne00'
-            name 'Matt Byrne'
-            email 'matt@3wks.com.au'
-        }
-        developer {
-            id 'kuhnza'
-            name 'Dave Kuhn'
-            email 'dave@3wks.com.au'
         }
     }
 }
@@ -151,7 +133,7 @@ publishing {
                 def root = asNode()
                 root.appendNode('name', project.name)
                 root.appendNode('description', project.description)
-                root.appendNode('url', 'https://github.com/3wks/spring-boot-gae')
+                root.appendNode('url', 'https://github.com/mondo-mob/spring-boot-gae')
                 root.appendNode('packaging', 'jar')
                 root.children().last() + pomConfig
             }
@@ -170,10 +152,10 @@ bintray {
         name = project.name
         desc = project.description
         repo = 'spring-google-appengine'
-        userOrg = '3wks'
+        userOrg = 'Mondo Mob'
         licenses = ['MIT']
         labels = ['spring', 'spring-boot', 'google', 'appengine', 'gae', 'gcp']
-        vcsUrl = 'https://github.com/3wks/spring-boot-gae.git'
+        vcsUrl = 'https://github.com/mondo-mob/spring-boot-gae.git'
         version {
             name = project.version
             desc = "${project.name} ${project.version}"
